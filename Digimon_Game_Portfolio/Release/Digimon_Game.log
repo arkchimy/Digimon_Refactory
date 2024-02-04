@@ -1,0 +1,197 @@
+﻿  Attacker.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(40,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(75,11): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(89,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(99,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(114,22): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(131,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(146,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(154,10): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(155,10): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(156,10): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(159,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Attacker.cpp(172,11): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Enemy.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Enemy.cpp(31,11): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Enemy.cpp(78,20): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Enemy.cpp(79,19): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Enemy.cpp(94,18): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Player.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(33,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(41,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(49,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(57,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(65,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(73,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(81,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(83,25): warning C4018: '<=': signed 또는 unsigned가 일치하지 않습니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(3382,56): warning C4244: '인수': '_Ty'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Ty=int
+          ]
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\Player.cpp(14): message : 컴파일되는 함수 템플릿 인스턴스화 'std::unique_ptr<Digimon,std::default_delete<Digimon>> std::make_unique<Digimon,std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>>,int,int,Sprites_Info&,int,0>(std::basic_string<wchar_t,std::char_traits<wchar_t>,std::allocator<wchar_t>> &&,int &&,int &&,Sprites_Info &,int &&)'에 대한 참조를 확인하세요.
+  Bullet.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(24,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(41,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(44,13): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(45,13): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(59,13): warning C4244: '=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(117,43): warning C4244: '+=': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(144,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(152,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(161,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(171,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xutility(149,77): warning C4244: '인수': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2006): message : 컴파일되는 함수 템플릿 인스턴스화 'void std::_Construct_in_place<_Ty,std::wstring&,float&,float&,float,int&>(_Ty &,std::wstring &,float &,float &,float &&,int &) noexcept(false)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=Sprite
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2725): message : 컴파일되는 함수 템플릿 인스턴스화 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<std::wstring&,float&,float&,float,int&>(std::wstring &,float &,float &,float &&,int &)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=Sprite
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\memory(2726): message : 컴파일되는 함수 템플릿 인스턴스화 'std::_Ref_count_obj2<_Ty>::_Ref_count_obj2<std::wstring&,float&,float&,float,int&>(std::wstring &,float &,float &,float &&,int &)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Ty=Sprite
+          ]
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Bullet.cpp(50): message : 컴파일되는 함수 템플릿 인스턴스화 'std::shared_ptr<Sprite> std::make_shared<Sprite,std::wstring&,float&,float&,float,int&>(std::wstring &,float &,float &,float &&,int &)'에 대한 참조를 확인하세요.
+  CastleGate.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+  Device.cpp
+  Digimon.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(27,11): warning C4244: '초기화 중': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(40,19): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(70,16): warning C4244: '초기화 중': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(83,26): warning C4305: '초기화 중': 'int'에서 'float'(으)로 잘립니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(98,23): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(139,20): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(140,19): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Digimon.cpp(154,18): warning C4244: '=': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+  Map_Texture.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+  Object.cpp
+  Shader.cpp
+  Scene.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Scene.cpp(30,1): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Scene.cpp(39,1): warning C4305: '인수': 'double'에서 'FLOAT'(으)로 잘립니다.
+  Scene_Manager.cpp
+  Sprite.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.h(32): warning C4091: 'typedef ': 변수를 선언하지 않으면 'Sprite::OBB_Desc' 왼쪽은 무시됩니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.cpp(73,31): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.cpp(74,28): warning C4244: '=': 'double'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.cpp(79,16): warning C4101: 'yScale' :참조되지 않은 지역 변수입니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Sprite.cpp(79,8): warning C4101: 'xScale' :참조되지 않은 지역 변수입니다.
+  Stage.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage.cpp(26,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage.cpp(30,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage.cpp(41,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage.cpp(46,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Stage_01.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Actors\ICombat.h(2,1): warning C4005: 'interface': 매크로 재정의
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.17763.0\um\combaseapi.h(169): message : 'interface'의 이전 정의를 참조하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(26,21): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(38,11): warning C4244: '초기화 중': 'double'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(39,18): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(75,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(79,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(100,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Stage_01.cpp(105,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Title_Scene.cpp
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Title_Scene.cpp(19,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Stages\Title_Scene.cpp(23,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  stdafx.cpp
+  DirectWrite.cpp
+  Keyboard.cpp
+  Time.cpp
+  컴파일하고 있습니다...
+  String.cpp
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(2541,23): warning C4244: '인수': '_Elem'에서 'const _Elem'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+          with
+          [
+              _Elem=wchar_t
+          ]
+          and
+          [
+              _Elem=char
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(2552): message : 컴파일되는 함수 템플릿 인스턴스화 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<_Iter>(_Iter,const _Iter,std::input_iterator_tag)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(2552): message : 컴파일되는 함수 템플릿 인스턴스화 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<_Iter>(_Iter,const _Iter,std::input_iterator_tag)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(2532): message : 컴파일되는 함수 템플릿 인스턴스화 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<_Iter>(const _Iter,const _Iter,std::forward_iterator_tag)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(2532): message : 컴파일되는 함수 템플릿 인스턴스화 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct<_Iter>(const _Iter,const _Iter,std::forward_iterator_tag)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(3260): message : 컴파일되는 함수 템플릿 인스턴스화 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<wchar_t*,0>(_Iter,_Iter,const _Alloc &)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *,
+              _Alloc=std::allocator<char>
+          ]
+C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\include\xstring(3260): message : 컴파일되는 함수 템플릿 인스턴스화 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<wchar_t*,0>(_Iter,_Iter,const _Alloc &)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Iter=wchar_t *,
+              _Alloc=std::allocator<char>
+          ]
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Utilities\String.cpp(14): message : 컴파일되는 함수 템플릿 인스턴스화 'std::basic_string<char,std::char_traits<char>,std::allocator<char>> &std::basic_string<char,std::char_traits<char>,std::allocator<char>>::assign<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(const _Iter,const _Iter)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>
+          ]
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Utilities\String.cpp(14): message : 컴파일되는 함수 템플릿 인스턴스화 'std::basic_string<char,std::char_traits<char>,std::allocator<char>> &std::basic_string<char,std::char_traits<char>,std::allocator<char>>::assign<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(const _Iter,const _Iter)'에 대한 참조를 확인하세요.
+          with
+          [
+              _Elem=wchar_t,
+              _Iter=std::_String_iterator<std::_String_val<std::_Simple_types<wchar_t>>>
+          ]
+effects11d.lib(EffectAPI.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '2' 값이 '0'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectAPI.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MDd_DynamicDebug' 값이 'MD_DynamicRelease'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectAPI.obj) : warning LNK4075: '/EDITANDCONTINUE'이(가) '/OPT:ICF' 사양으로 인해 무시됩니다.
+effects11d.lib(d3dxGlobal.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '2' 값이 '0'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(d3dxGlobal.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MDd_DynamicDebug' 값이 'MD_DynamicRelease'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectNonRuntime.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '2' 값이 '0'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectNonRuntime.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MDd_DynamicDebug' 값이 'MD_DynamicRelease'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectLoad.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '2' 값이 '0'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectLoad.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MDd_DynamicDebug' 값이 'MD_DynamicRelease'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectReflection.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '2' 값이 '0'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectReflection.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MDd_DynamicDebug' 값이 'MD_DynamicRelease'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectRuntime.obj) : error LNK2038: '_ITERATOR_DEBUG_LEVEL'에 대해 불일치가 검색되었습니다. '2' 값이 '0'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+effects11d.lib(EffectRuntime.obj) : error LNK2038: 'RuntimeLibrary'에 대해 불일치가 검색되었습니다. 'MDd_DynamicDebug' 값이 'MD_DynamicRelease'(Attacker.obj에 위치) 값과 일치하지 않습니다.
+LINK : warning LNK4098: 'MSVCRTD' defaultlib가 다른 라이브러리와 충돌합니다. /NODEFAULTLIB:library를 사용하십시오.
+C:\Git\DirectX\_example\_DirectX2D\Digimon_Game_atan\Release\Digimon_Game.exe : fatal error LNK1319: 12개의 불일치가 검색되었습니다.
