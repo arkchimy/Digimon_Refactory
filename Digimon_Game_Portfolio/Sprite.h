@@ -30,9 +30,12 @@ public:
 		float length_Up;
 		float length_rigth;
 	};
+	
 	// sprite 를 가진 객체에서 호출해야되기에 static을 붙임
 	static void Create_OBB(OBB_Desc& out, const D3DXMATRIX& world);
 	static bool OBB( shared_ptr<class Sprite> a,  shared_ptr<class Sprite> b);
+	static bool AABB(shared_ptr<class Sprite> a, shared_ptr<class Sprite> b);
+
 	static float SeperateAxis(D3DXVECTOR3& seperate, D3DXVECTOR3& e1, D3DXVECTOR3& e2);
 	static bool Check_OBB(OBB_Desc obbA, OBB_Desc obbB);
 

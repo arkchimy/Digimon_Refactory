@@ -82,7 +82,9 @@ void Sprite::Create_OBB(OBB_Desc& out, const D3DXMATRIX& world)
 }
 bool Sprite::OBB( shared_ptr<class Sprite> a,  shared_ptr<class Sprite> b)
 {
+	return AABB(a, b);
 	OBB_Desc obbA, obbB;
+	
 	float xScale, yScale;
 
 	Create_OBB(obbA, a->world);
@@ -92,6 +94,16 @@ bool Sprite::OBB( shared_ptr<class Sprite> a,  shared_ptr<class Sprite> b)
 	return Check_OBB(obbA, obbB);
 	
 }
+bool Sprite::AABB(shared_ptr<class Sprite> a, shared_ptr<class Sprite> b)
+{
+	// OBB의 속도 개선을 위해 단순히 거리로 체크하는 방식 구현해봄
+	D3DXVECTOR3 distance = a->Position() - b->Position();
+	float len = D3DXVec3Length(&distance);
+
+	return len <= 50.f ? true : false;
+
+}
+
 
 float Sprite::SeperateAxis(D3DXVECTOR3& seperate, D3DXVECTOR3& e1, D3DXVECTOR3& e2)
 {

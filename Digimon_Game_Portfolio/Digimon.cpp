@@ -107,9 +107,16 @@ void Digimon::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
 
 void Digimon::FindLookAtTarget()
 {
-	CheckTrue(R_Push); // 마우스가 눌린 상태면 PASS함
-	shared_ptr<Enemy> target = SearchTarget();
-	if (target == nullptr) 
+	// 타겟이 이미 정해졌고, 살아있다면 target 안바꾸기
+	if (target != nullptr)
+	{
+		if (target->IsDeathMode())
+			target = SearchTarget();
+	}
+	else
+		target = SearchTarget();
+
+	if (target == nullptr)
 	{   // 적이 없을 때  전투 중일떄와 클리어할떄를 구분지어야 할듯. Victory 와 Idle 결정 요소
 		Rotator({ 0,0,0 });
 		Fire_time = 0.f;
@@ -118,8 +125,9 @@ void Digimon::FindLookAtTarget()
 	else
 	{
 		D3DXVECTOR3 direction = target->Position() - Position();
-		float degree = D3DXToDegree(atan(direction.y, direction.x));
-		Rotator({ 0, 0, degree });
+		bullet_Degree = D3DXToDegree(atan(direction.y, direction.x));
+		// 프레임 효율을 위해 디지몬 회전은 폐기
+		Rotator({ 0, 0, bullet_Degree });
 
 		bullet_Dir = direction;
 	}
@@ -232,12 +240,11 @@ void Digimon::Fire()
 
 					bullets->Fire({ target_pos.x, target_pos.y + dir });
 				}
-				else if (!R_Push)
-				{	//마우스가 안 눌린상태
-					D3DXVec3Normalize(&bullet_Dir, &bullet_Dir);
-					bullets->Set_Dir({ bullet_Dir.x,bullet_Dir.y + 0.1f * dir / 30.f ,bullet_Dir.z });
-					bullets->Rotator(Rotator());
-				}
+				
+				D3DXVec3Normalize(&bullet_Dir, &bullet_Dir);
+				bullets->Set_Dir({ bullet_Dir.x,bullet_Dir.y + 0.1f * dir / 30.f ,bullet_Dir.z });
+				bullets->Rotator(Rotator());
+				
 
 
 			}
