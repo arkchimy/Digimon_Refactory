@@ -32,7 +32,7 @@ Animation::Animation(Sprite_Info info, PlayMode type)
 void Animation::Update()
 {
 	
-	playtime += play_rate * Time::Delta();
+	playtime += play_rate * ImGui::GetIO().DeltaTime;
 	index = floor(playtime);
 	Enemy* enemy = dynamic_cast<Enemy*>(Owner);
 	switch (mode)

@@ -11,12 +11,12 @@
 
 #define STAGE_CNT 1
 
-unique_ptr<class Stage> Scene_Manager::Current_Scene = nullptr;
+class Stage* Scene_Manager::Current_Scene = nullptr;
 shared_ptr<class Player> Scene_Manager::Player = nullptr;
 
 Scene_Manager::Scene_Manager()
 {
-	Current_Scene = make_unique<Title_Scene>();
+	Current_Scene = new Title_Scene();
 
 	Init_Stage();
 }
@@ -44,6 +44,7 @@ void Scene_Manager::Render()
 void Scene_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
 	Current_Scene->ViewProjection(V,P);
+
 }
 
 void Scene_Manager::Take_Damage(Bullet* causer)
@@ -60,7 +61,8 @@ void Scene_Manager::StandBy_Stage(int stage_num)
 {
 	if (stage_num) 
 	{
-		Current_Scene = make_unique<Stage_01>();
+		SAFE_DELETE(Current_Scene);
+		Current_Scene = new Stage_01();
 	}
 	Init_Stage();
 }

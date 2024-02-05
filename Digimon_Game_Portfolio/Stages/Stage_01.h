@@ -8,15 +8,16 @@ class Stage_01 :public Stage
 {
 public:
 	Stage_01();
-	~Stage_01();
+	virtual ~Stage_01();
 	virtual void Init_Stage(shared_ptr<class Player> player);
 	virtual void Battle_Stage();
 	void init_Wave();
 	void Boss_Appear();
 
-	void Update() override;
-	void Render() override;
-	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)override;
+	virtual void Update() override;
+	virtual void Render() override;
+
+	virtual void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)override;
 	virtual void Wave_Reward();
 	virtual void Wave_Clear() override;
 
@@ -28,6 +29,6 @@ private:
 	shared_ptr<class ABoss> boss;
 
 
-	bool bclear;
+	bool bclear =false;
 };
 

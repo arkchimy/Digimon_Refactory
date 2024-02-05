@@ -150,15 +150,15 @@ void Bullet::Update()
 		bvisible = false;
 		return;
 	}
-	//Position({ current_Pos.x + speed *  Time::Delta() , current_Pos.y,0 });
-	Position({ current_Pos.x + Dir.x * speed  * Time::Delta() , current_Pos.y + Dir.y * speed * Time::Delta(),0 });
+	//Position({ current_Pos.x + speed *  ImGui::GetIO().DeltaTime , current_Pos.y,0 });
+	Position({ current_Pos.x + Dir.x * speed  * ImGui::GetIO().DeltaTime , current_Pos.y + Dir.y * speed * ImGui::GetIO().DeltaTime,0 });
 }
 
 void Bullet::Render()
 {
 	CheckFalse(bvisible); //발사중 아니라면 리턴
 	sprites[current_idx]->Render();
-	current_idx += speed * 30 * Time::Delta();
+	current_idx += speed * 30 * ImGui::GetIO().DeltaTime;
 	current_idx %= sprites.size();
 	
 	
@@ -196,7 +196,7 @@ void Bullet::Render()
 		{
 			if ((front->Buff() & Buff_State::Dead) == Buff_State::Dead)
 				continue;
-			if (Sprite::OBB(sprites[current_idx], front->Get_Sprite()))
+			if (Sprite::AABB(sprites[current_idx]->Position(), front->Position()))
 			{	// 총알 type에 따라  다른 이벤트 구현
 
 				if (type & UINT(Bullet_Type::Normal))

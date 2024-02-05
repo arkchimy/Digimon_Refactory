@@ -37,7 +37,7 @@ void ABoss::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
 	{
 		State = Death; //아직 Death Sprite를 안넣음
 		buff_state = Buff_State::Dead;
-		animations[State]->Start();
+		//animations[State]->Start();
 	}
 	
 }
@@ -65,7 +65,7 @@ void ABoss::Fire()
 		//Spread Type   => Double Shot   Triple Shot
 		{
 			bullets->Team_ID(적군);
-			bullets->Position(sprites_vec[0][0]->Position());
+			//bullets->Position(sprites_vec[0][0]->Position());
 
 			int dir = 0;
 			if (i != 0)
@@ -85,7 +85,7 @@ bool ABoss::IsDeathMode()
 
 void ABoss::Update()
 {
-	animations[State]->Update();
+	//animations[State]->Update();
 	CheckTrue(buff_state >> Death); // 죽음
 
 	D3DXVECTOR3 current_Pos = Position();
@@ -95,7 +95,7 @@ void ABoss::Update()
 		current_Pos.y = -245.f + Scale().y / 2.f;
 	}
 
-	dir = { current_Pos.x + speed.x * Time::Delta() * Move_dir.x * knock_back, current_Pos.y + Time::Delta() * Move_dir.y * speed.y, 0.f };
+	dir = { current_Pos.x + speed.x * ImGui::GetIO().DeltaTime * Move_dir.x * knock_back, current_Pos.y + ImGui::GetIO().DeltaTime * Move_dir.y * speed.y, 0.f };
 
 	if (bBattle)
 		Position(dir);
@@ -118,8 +118,9 @@ void ABoss::Update()
 		knock_back = 1.f;
 	if (State == Action)
 	{
-		if (animations[State]->Current_Idx() == Fire_idx)
-			Fire();
+		State = Action;
+		/*if (animations[State]->Current_Idx() == Fire_idx)
+			Fire();*/
 	}
 	//animations[State]->Update();
 	//CheckTrue(buff_state >> Death); // 죽음
@@ -127,14 +128,14 @@ void ABoss::Update()
 	//D3DXVECTOR3 current_Pos = Position();
 	//D3DXVECTOR3 dir;
 	//Move_dir = { -1,0,0 };
-	//dir = { current_Pos.x + speed.x * Time::Delta() * Move_dir.x , 0, 0.f };
+	//dir = { current_Pos.x + speed.x * ImGui::GetIO().DeltaTime * Move_dir.x , 0, 0.f };
 
 	//if (bBattle && current_Pos.x >= 100 && State == Walk ) // 일정거리 이상 안 가까워짐
 	//	Position(dir);
 
 	//if (State == Walk)
 	//{
-	//	Fire_time += Time::Delta();
+	//	Fire_time += ImGui::GetIO().DeltaTime;
 	//	if (Fire_time >= Inter_Second && current_Pos.x <= 100)
 	//	{
 	//		Fire_time = 0.f;

@@ -17,7 +17,7 @@ public:
 	static vector<shared_ptr<class Enemy>> Get_Enemies();
 	static std::shared_ptr<class Player> Player;
 private:
-	static std::unique_ptr<class Stage> Current_Scene;
-	
+	static class Stage* Current_Scene;
+
 };
 

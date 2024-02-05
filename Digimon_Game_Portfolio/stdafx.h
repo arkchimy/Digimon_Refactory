@@ -1,8 +1,10 @@
 #pragma once
 
 #include <directxmath.h>
-
 #include <windows.h>
+#include <memory>
+#include <wrl.h>
+
 #include <assert.h>
 
 #include <algorithm>
@@ -13,7 +15,6 @@
 
 #include <functional>
 #include <chrono>
-#include <memory>
 
 #include <iostream>
 using namespace std;
@@ -100,6 +101,8 @@ using namespace std;
 
 extern bool State_Clear;
 
+extern float Sprite_Speed; // Sprite 애니메이션 속도
+
 extern D3DXVECTOR3 Edit_Pos;
 extern D3DXVECTOR3 Edit_Scale;
 extern D3DXVECTOR3 Edit_Rot;
@@ -107,9 +110,6 @@ extern D3DXVECTOR3 Castle_Pos;
 
 extern D3DXVECTOR2 Mouse_Pos;
 extern class CutScean* Skill_Cut;
-
-typedef vector<shared_ptr< class Map_Texture>> Layers;
-typedef vector<shared_ptr< class Map_Texture>> Grounds;
 
 ///////////////////////////////////////////////////////////////////////////
 // 경로 정리

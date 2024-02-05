@@ -8,6 +8,7 @@ public:
 	Sprite(wstring imgFile, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 
+	Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile = Texture_Shader);
 	Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer,wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	
 	virtual void CreateBuffer(wstring imgFile, wstring shaderFile) ;
@@ -38,6 +39,7 @@ public:
 	static void Create_OBB(OBB_Desc& out, const D3DXMATRIX& world);
 	static bool OBB( shared_ptr<class Sprite> a,  shared_ptr<class Sprite> b);
 	static bool AABB(shared_ptr<class Sprite> a, shared_ptr<class Sprite> b);
+	static bool AABB(const D3DXVECTOR3 pos1, const D3DXVECTOR3 pos2);
 
 	static float SeperateAxis(D3DXVECTOR3& seperate, D3DXVECTOR3& e1, D3DXVECTOR3& e2);
 	static bool Check_OBB(OBB_Desc obbA, OBB_Desc obbB);
