@@ -31,11 +31,15 @@ public:
 	D3DXVECTOR3 goal_pos;
 private:
 	D3DXVECTOR3 bullet_Dir;
+	float bullet_Degree;
 	D3DXVECTOR3 before_pos;
 	bool bMove = false;
 	bool bDrag = false;
 	int combine_cnt = 0;
 	wstring next_digimon;
+
+	shared_ptr<Enemy> target = nullptr;
+
 };
 
 
