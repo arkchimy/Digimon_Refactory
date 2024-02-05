@@ -29,9 +29,9 @@ void CutScean::Update()
 	D3DXVECTOR3 current_pos = Scene->Position();
 	//화면 중간에서는 조금 느리게.
 	if(current_pos.x  <= Scene->Scale().x * 0.3f && current_pos.x >= Scene->Scale().x * -0.3f)
-		current_pos.x = current_pos.x + Time::Delta() * Cut_Speed * 0.1f;
+		current_pos.x = current_pos.x + ImGui::GetIO().DeltaTime * Cut_Speed * 0.1f;
 	else
-		current_pos.x = current_pos.x + Time::Delta() * Cut_Speed;
+		current_pos.x = current_pos.x + ImGui::GetIO().DeltaTime * Cut_Speed;
 	Scene->Position(current_pos);
 	if (Width / 2.f <= current_pos.x + Scene->Scale().x * -0.5f)
 		Cut_End();

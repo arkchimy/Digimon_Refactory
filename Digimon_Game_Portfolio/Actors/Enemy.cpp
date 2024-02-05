@@ -38,12 +38,13 @@ void Enemy::Take_Damage(Bullet* causer,D3DXVECTOR3 dir)
 
 void Enemy::Update()
 {
-	animations[State]->Update();
+	//animations[State]->Update();
 	CheckTrue(buff_state >> Death); // 죽음
 	
 	D3DXVECTOR3 current_Pos = Position();
 	D3DXVECTOR3 temp_scale = Scale();
 	D3DXVECTOR3 dir;
+
 	if (current_Pos.y < -245.f + temp_scale.y * 0.5f)
 	{
 		current_Pos.y = -245.f + temp_scale.y / 2.f ;
@@ -53,7 +54,7 @@ void Enemy::Update()
 		current_Pos.y = Width / 2.f - temp_scale.y / 2.f - 2e-3f;
 	}
 
-	dir = { current_Pos.x + Edit_Pos2.x * Time::Delta() * Move_dir.x * knock_back, current_Pos.y + Time::Delta() * Move_dir.y * Edit_Pos2.y, 0.f };
+	dir = { current_Pos.x + Edit_Pos2.x * ImGui::GetIO().DeltaTime * Move_dir.x * knock_back, current_Pos.y + ImGui::GetIO().DeltaTime * Move_dir.y * Edit_Pos2.y, 0.f };
 	
 	if(bBattle)
 		Position(dir);
@@ -62,7 +63,7 @@ void Enemy::Update()
 	//
 	if (buff_state == Buff_State::Stun) 
 	{
-		Stun_Time -= Time::Delta();
+		Stun_Time -= ImGui::GetIO().DeltaTime;
 		//화면 밖으로 튕길경우
 		if (Position().y + Scale().y * 0.5f >= Height * 0.5f)
 		{	// 위쪽으로 끝지점에 도달할경우
@@ -106,13 +107,16 @@ void Enemy::Update()
 			Move_dir = { 1,0,0 };
 			Rotator({ 0,0,0 });
 		}
-		else Move_dir = { -1,0,0 };
+		else
+		{
+			Move_dir = { -1,0,0 };
+		}
 	}
 	if (State == Walk)
 		knock_back = 1.f;
 	if (State == Action)
 	{
-		if (animations[State]->Current_Idx() == Fire_idx)
+		if (idx == Fire_idx)
 			Fire();
 	}
 }
@@ -120,6 +124,7 @@ void Enemy::Update()
 void Enemy::Battle(bool val)
 {
 	bBattle = val;
+	State = Walk;
 }
 
 void Enemy::Stage_Clear()
@@ -161,7 +166,7 @@ void Enemy::Fire()
 		//Spread Type   => Double Shot   Triple Shot
 		{
 			bullets->Team_ID(적군);
-			bullets->Position(sprites_vec[0][0]->Position());
+			//bullets->Position(sprites_vec[0][0]->Position());
 			int dir = 0;
 			if (i != 0)
 				dir = 30 * i * (pow(-1, i));

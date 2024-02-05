@@ -34,8 +34,6 @@ void Player::Update()
 {
 	for (int i = 0; i < My_Digimon.size(); i++)
 	{
-		if (i == 1)
-			i = i;
 		My_Digimon[i]->Update();
 	}
 }

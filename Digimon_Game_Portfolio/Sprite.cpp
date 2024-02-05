@@ -23,12 +23,14 @@ Sprite::Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float
 
 }
 
+Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile)
+	:Sprite(ownerShader, ownerbuffer, imgFile,0,0,1,1,shaderFile)
+{
+
+}
+
 Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y,wstring shaderFile)
 {
-	
-	//shader = new Shader(shaderFile);
-
-	//Create Vertex Buffer
 	
 	srv = Sprite_Manager::Load(imgFile);
 	ownerShader.push_back(srv);
@@ -37,8 +39,6 @@ Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buff
 	CreateBuffer(imgFile, shaderFile);
 	ownerbuffer.push_back(vertexBuffer);
 	CreateBoundBuffer(Shaders + L"014_Bounding.fx");
-
-	//shader->AsShaderResource("Map")->SetResource(srv);
 
 }
 
@@ -122,6 +122,13 @@ bool Sprite::AABB(shared_ptr<class Sprite> a, shared_ptr<class Sprite> b)
 	return len <= 50.f ? true : false;
 
 }
+bool Sprite::AABB(const D3DXVECTOR3 a, const D3DXVECTOR3 b)
+{
+	D3DXVECTOR3 distance = a - b;
+	float len = D3DXVec3Length(&distance);
+
+	return len <= 50.f ? true : false;
+}
 
 
 float Sprite::SeperateAxis(D3DXVECTOR3& seperate, D3DXVECTOR3& e1, D3DXVECTOR3& e2)
@@ -204,7 +211,6 @@ void Sprite::CreateBoundBuffer(wstring shaderFile)
 
 void Sprite::CreateBuffer(wstring imgFile, wstring shaderFile)
 {
-	shader = new Shader(shaderFile);
 
 	//Create Vertex Buffer
 	{
@@ -221,55 +227,55 @@ void Sprite::CreateBuffer(wstring imgFile, wstring shaderFile)
 	}
 	
 	srv = Sprite_Manager::Load(imgFile);
-	shader->AsShaderResource("Map")->SetResource(srv);
 	
 }
 
 void Sprite::UpdateWorld()
 {
-	D3DXMATRIX W, S, R, T;
 
-	D3DXMatrixScaling(&S, scale.x, scale.y , scale.z);
-	D3DXMatrixRotationYawPitchRoll(&R, rotator.y, rotator.x, rotator.z);
-	D3DXMatrixTranslation(&T, position.x, position.y, position.z);
-	W = S * R * T;
-	//W = S * T;
-	world = W; // world  업데이트
-	shader->AsMatrix("World")->SetMatrix(W);
+	//D3DXMATRIX W, S, R, T;
 
-	if (rotator.y >= 3.14f)
-		W = S * T;
-	BoundShader->AsMatrix("World")->SetMatrix(W);
+	//D3DXMatrixScaling(&S, scale.x, scale.y , scale.z);
+	//D3DXMatrixRotationYawPitchRoll(&R, rotator.y, rotator.x, rotator.z);
+	//D3DXMatrixTranslation(&T, position.x, position.y, position.z);
+	//W = S * R * T;
+	////W = S * T;
+	//world = W; // world  업데이트
+	//shader->AsMatrix("World")->SetMatrix(W);
+
+	//if (rotator.y >= 3.14f)
+	//	W = S * T;
+	//BoundShader->AsMatrix("World")->SetMatrix(W);
 }
 void Sprite::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	shader->AsMatrix("View")->SetMatrix(V);
+	/*shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
 
 	BoundShader->AsMatrix("View")->SetMatrix(V);
-	BoundShader->AsMatrix("Projection")->SetMatrix(P);
+	BoundShader->AsMatrix("Projection")->SetMatrix(P);*/
 }
 
 
 void Sprite::Render()
 {
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
+	//UINT stride = sizeof(Vertex);
+	//UINT offset = 0;
 
-	DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	//DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
+	//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	shader->Draw(0, 0, 6);
+	//shader->Draw(0, 0, 6);
 
-	CheckFalse(bDrawBound);
+	//CheckFalse(bDrawBound);
 
-	stride = sizeof(BoundVertex);
-	offset = 0;
+	//stride = sizeof(BoundVertex);
+	//offset = 0;
 
-	DeviceContext->IASetVertexBuffers(0, 1, &BoundBuffer, &stride, &offset);
-	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
+	//DeviceContext->IASetVertexBuffers(0, 1, &BoundBuffer, &stride, &offset);
+	//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
-	BoundShader->Draw(0, 0, 5);
+	//BoundShader->Draw(0, 0, 5);
 
 	
 }

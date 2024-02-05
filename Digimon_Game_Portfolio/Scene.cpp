@@ -64,7 +64,7 @@ void Update()
 	if (!bStop)
 	{
 		stage->Update();
-		stage->ViewProjection(V, P);
+		//stage->ViewProjection(V, P);
 
 		//modack->Update();
 		Bullet_Manager::Update();
@@ -123,13 +123,17 @@ void ImGui_Event()
 	ImGui::SliderFloat2("Edit_Scale", Edit_Scale, -Width, Width);
 	ImGui::SliderFloat3("Edit_Rot", Edit_Rot, -180, 180);
 	ImGui::SliderFloat("Edit_Speed", &Edit_Speed, 1, 180);
-	
+	Sprite_Speed
 	ImGui::SliderFloat("Castle_interver", &Castle_interver,0.f,500.f);
 	*/
 	
+
+	ImGui::SliderFloat("Sprite_Speed", &Sprite_Speed, 1, 20);
+
 	if (ImGui::Button("Standby_Stage"))
 	{
 		Scene_Manager::StandBy_Stage(1);
+		stage->ViewProjection(V, P);
 	}
 	if (ImGui::Button("Battle_Start"))
 	{

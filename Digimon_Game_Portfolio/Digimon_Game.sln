@@ -5,17 +5,20 @@ VisualStudioVersion = 16.0.34031.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Digimon_Game", "Digimon_Game.vcxproj", "{74DDA932-B5B9-4831-A63C-C13663BE207C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{BB30FA9C-B958-4E30-AD6B-ACF0415BB352}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{F361EFF1-2BD6-4506-BD5C-FBE166803DF6}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\_Shaders\014_Bounding.fx = ..\..\_Shaders\014_Bounding.fx
-		..\..\_Shaders\01_Decal.fx = ..\..\_Shaders\01_Decal.fx
-		..\..\_Shaders\04_Effect.fx = ..\..\_Shaders\04_Effect.fx
-		..\..\_Shaders\05_WVP.fx = ..\..\_Shaders\05_WVP.fx
-		..\..\_Shaders\06_Rect.fx = ..\..\_Shaders\06_Rect.fx
-		..\..\_Shaders\07_Texture.fx = ..\..\_Shaders\07_Texture.fx
-		..\..\_Shaders\08_Sprite.fx = ..\..\_Shaders\08_Sprite.fx
-		..\..\_Shaders\09_SampleLinear.fx = ..\..\_Shaders\09_SampleLinear.fx
-		..\..\_Shaders\10_Bound.fx = ..\..\_Shaders\10_Bound.fx
+		..\_Shaders\014_Bounding.fx = ..\_Shaders\014_Bounding.fx
+		..\_Shaders\01_Decal.fx = ..\_Shaders\01_Decal.fx
+		..\_Shaders\02_Card.fx = ..\_Shaders\02_Card.fx
+		..\_Shaders\04_Effect.fx = ..\_Shaders\04_Effect.fx
+		..\_Shaders\05_WVP.fx = ..\_Shaders\05_WVP.fx
+		..\_Shaders\06_Rect.fx = ..\_Shaders\06_Rect.fx
+		..\_Shaders\07_Texture.fx = ..\_Shaders\07_Texture.fx
+		..\_Shaders\08_Sprite.fx = ..\_Shaders\08_Sprite.fx
+		..\_Shaders\09_SampleLinear.fx = ..\_Shaders\09_SampleLinear.fx
+		..\_Shaders\10_Bound.fx = ..\_Shaders\10_Bound.fx
+		..\_Shaders\Light_PS.hlsl = ..\_Shaders\Light_PS.hlsl
+		..\_Shaders\Light_VS.hlsl = ..\_Shaders\Light_VS.hlsl
 	EndProjectSection
 EndProject
 Global

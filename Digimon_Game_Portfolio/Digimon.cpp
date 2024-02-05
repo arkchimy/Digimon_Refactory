@@ -60,41 +60,41 @@ void Digimon::Update()
 			Rotator({ 0,0,0 });
 			bMove = false;
 			State = IDLE;
-			animations[State]->Start();
+			//animations[State]->Start();
 			
 			return;
 		}
-		Position({ current.x + dir.x * move_speed * Time::Delta(), current.y + dir.y * move_speed * Time::Delta(), 0 });
-		animations[State]->Update();
+		Position({ current.x + dir.x * move_speed * ImGui::GetIO().DeltaTime, current.y + dir.y * move_speed * ImGui::GetIO().DeltaTime, 0 });
+		//animations[State]->Update();
 		return;
 	}
-	animations[State]->Update();
+	//animations[State]->Update();
 	decal->Update();
 
 	FindLookAtTarget(); 
 
 	if (State == IDLE)
 	{
-		Fire_time += Time::Delta();
+		Fire_time += ImGui::GetIO().DeltaTime;
 		if (Fire_time >= Inter_Second)
 		{
 			Fire_time = 0.f;
-			index = 0; //  상태 전환으로 인한 인덱스 초기화
+			idx = 0; //  상태 전환으로 인한 인덱스 초기화
 			if (bBattle == 배틀시작)
 			{
 				State = Action;
-				animations[State]->Start();
+				//animations[State]->Start();
 			}
 		}
 	}
 	else if (State == Action)
 	{
-		if (animations[State]->Current_Idx() == Fire_idx)
+		if (idx == Fire_idx)
 			Fire();
 	}
 	else if (State == Skill)
 	{
-		if (animations[State]->Current_Idx() == Skill_idx)
+		if (idx == Skill_idx)
 			Fire();
 	}
 }
@@ -174,7 +174,7 @@ void Digimon::Battle(bool val)
 void Digimon::Stage_Clear()
 {
 	State = Victory;
-	animations[State]->Start();
+	//animations[State]->Start();
 }
 
 void Digimon::Fire()
@@ -205,7 +205,7 @@ void Digimon::Fire()
 			//Spread Type   => Double Shot   Triple Shot
 			{
 				bullets->Team_ID(아군);
-				bullets->Position(sprites_vec[0][0]->Position());
+				//bullets->Position(sprites_vec[0][0]->Position());
 
 				int dir = 0;
 
@@ -228,7 +228,7 @@ void Digimon::Fire()
 			//Spread Type   => Double Shot   Triple Shot
 			{
 				bullets->Team_ID(아군);
-				bullets->Position(sprites_vec[0][0]->Position());
+				//bullets->Position(sprites_vec[0][0]->Position());
 
 				int dir = 0;
 				if (i != 0)
@@ -256,7 +256,7 @@ void Digimon::Fire()
 
 void Digimon::Animation_Start(int idx)
 {
-	animations[idx]->Start();
+	//animations[idx]->Start();
 	Skill_Cut->Cut_Start(cut_SceanFile);
 	
 }
@@ -264,7 +264,7 @@ void Digimon::Animation_Start(int idx)
 void Digimon::MoveTo(D3DXVECTOR3 goal)
 {
 	State = Walk;
-	animations[State]->Start();
+	//animations[State]->Start();
 	goal_pos = goal;
 	bMove = true;
 }
@@ -298,13 +298,13 @@ bool Digimon::ClickEvent(D3DXVECTOR2 mouse, shared_ptr<class Digimon> drag_digim
 	//같은 레벨인지도 체크하기
 	if (x_chk && y_chk) 
 	{
-		animations[Action]->PlaySpeed(4.0f);
+		//animations[Action]->PlaySpeed(4.0f);
 		if(Inter_Second > 0.5f)
 			Inter_Second -= 0.5f;
-		animations[Skill]->PlaySpeed(4.0f);
+		//animations[Skill]->PlaySpeed(4.0f);
 		Effect_Manager::Level_Up(pos);
 		State = PowerUP;
-		animations[State]->Start();
+		//animations[State]->Start();
 		combine_cnt++;
 		return true;
 	}

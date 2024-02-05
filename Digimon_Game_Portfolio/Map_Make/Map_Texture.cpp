@@ -5,7 +5,7 @@
 Map_Texture::Map_Texture(wstring imgFile, wstring shaderFile)
 {
 	Map = make_unique<Sprite>(imgFile, shaderFile);
-	Swap_Map = make_unique<Sprite>(imgFile, shaderFile); // chain 스왑 용도
+	Swap_Map = make_unique<Sprite>(imgFile, shaderFile);
 
 	Map_Pos = { 0,0,0 };
 
@@ -44,7 +44,7 @@ void Map_Texture::Scale(D3DXVECTOR3 val)
 void Map_Texture::Animation(D3DXVECTOR3 speed)
 {
 	Map_Pos = Map->Position();
-	Map->Position(Map_Pos.x + speed.x * Time::Delta(), Map_Pos.y + speed.y * Time::Delta(), Map_Pos.z + speed.z * Time::Delta());
+	Map->Position(Map_Pos.x + speed.x * ImGui::GetIO().DeltaTime, Map_Pos.y + speed.y * ImGui::GetIO().DeltaTime, Map_Pos.z + speed.z * ImGui::GetIO().DeltaTime);
 
 	Map_Pos = Map->Position();
 	Move_BackPosition(Map_Pos);

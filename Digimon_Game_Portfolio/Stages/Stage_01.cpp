@@ -23,7 +23,11 @@ int wave_info[Wave_SIZE] =
 	20,
 };
 
+vector<wstring> files = {
+	Layer_Folder + L"Dungeon_01" + L"/" + Layer + to_wstring(0) + L".png"
+};
 Stage_01::Stage_01()
+	:Stage(files)
 {
 	Gate = new CastleGate();
 }
@@ -44,16 +48,7 @@ void Stage_01::Init_Stage(shared_ptr<class Player> player)
 			Enemy_pool.push(make_shared<Enemy>(Digimon_Folder + L"레나몬.png", Renamon_UV, Renamon, 성장기));
 	}
 	Player = player;
-	//BackGround Layer
-	{
-		layers.resize(1);
-		for (int i = 0; i < layers.size(); i++)
-		{
-			layers[i] = make_shared<Map_Texture>(Layer_Folder + L"Dungeon_01"  + L"/" + Layer + to_wstring(i) + L".png");
-			layers[i]->Position(D3DXVECTOR3(0, 0.f, 0.f));
-			layers[i]->Scale(D3DXVECTOR3(1024, 800, 1));
-		}
-	}
+	
 	init_Wave();
 	Player->Slot_Set(Gate->Slot_Position());
 	Player->Ready();
@@ -109,7 +104,7 @@ void Stage_01::Boss_Appear()
 }
 void Stage_01::Update()
 {
-	cout << Enemy_vec.size() << '\n';
+	
 	Gate->Update();
 	Player->Update();
 
@@ -159,14 +154,19 @@ void Stage_01::Update()
 
 void Stage_01::Render()
 {
-	for (int i = 0; i < layers.size(); i++)
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+
+	for (int i = 0; i < shader_vec.size(); i++)
 	{
-		layers[i]->Render();
+		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i]);
+
+		DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[i], &stride, &offset);
+		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		shader_vec[i]->Draw(0, 0, 6);
 	}
-	for (int i = 0; i < ground.size(); i++)
-	{
-		ground[i]->Render();
-	}
+
 	Gate->Render();
 	Player->Render();
 	
@@ -183,17 +183,13 @@ void Stage_01::Render()
 
 void Stage_01::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	// Map
-	for (int i = 0; i < layers.size(); i++)
+	
+	for (int i = 0; i < shader_vec.size(); i++)
 	{
-
-		layers[i]->ViewProjection(V, P);
+		shader_vec[i]->AsMatrix("View")->SetMatrix(V);
+		shader_vec[i]->AsMatrix("Projection")->SetMatrix(P);
 	}
-	for (int i = 0; i < ground.size(); i++)
-	{
-		ground[i]->ViewProjection(V, P);
 
-	}
 	Gate->ViewProjection(V, P);
 	Player->ViewProjection(V, P);
 
@@ -204,8 +200,10 @@ void Stage_01::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 		Enemy_pool.push(front);
 		front->ViewProjection(V,P);
 	}
+
 	Card_Manager::ViewProjection(V, P);
 	CheckTrue(boss_que.empty());
+
 	for (int i = 0; i < BossQue_SIZE; i++)
 	{
 		auto front  = boss_que.front();

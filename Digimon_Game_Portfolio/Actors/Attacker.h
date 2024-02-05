@@ -21,29 +21,30 @@ class Attacker : public ICombat
 public:
 
 	Attacker(wstring imgfile, float width, float height, Sprites_Info info, int level);
-	Attacker(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info,int level);
+	Attacker(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level);
 	virtual ~Attacker();
-	void init_info(wstring imgfile, float width, float height, Sprites_Info info, int level);
-	void init_info(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level);
+
+	void Init_info(const Sprites_Info& info);
+	void CreateShaderAndBuffer(wstring imgfile, float width, float height, Sprites_Info info, int level);
+	void CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level);
 
 	virtual void FindLookAtTarget() = 0;
-	virtual void Take_Damage(class Bullet* causer, D3DXVECTOR3 dir) ;
+	virtual void Take_Damage(class Bullet* causer, D3DXVECTOR3 dir);
 
 	virtual void Update();
 	virtual void Render();
 	virtual void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 	virtual void UpdateWorld();
-	
 
+
+	/* Setter */
 	virtual void Position(D3DXVECTOR3 val);
-	D3DXVECTOR3 Position();
 	virtual void Scale(D3DXVECTOR3 val);
-	D3DXVECTOR3 Scale();
-	virtual void Rotator(D3DXVECTOR3 val);
-	D3DXVECTOR3 Rotator();
-
-	shared_ptr<class Sprite> Get_Sprite();
-
+	virtual void Rotator(D3DXVECTOR3 val); // 라이안 변환후 갱신
+	/* Getter */
+	FORCEINLINE D3DXVECTOR3 Position() { return position; }
+	FORCEINLINE D3DXVECTOR3 Scale() { return scale; }
+	FORCEINLINE D3DXVECTOR3 Rotator() { return rotator; }
 
 	virtual bool IsDeathMode() override;
 	virtual Buff_State Buff() { return buff_state; }
@@ -52,20 +53,21 @@ public:
 	void Set_WalkMode() { State = Walk; }
 	void Set_StunMode();
 	void Set_SkillMode() { State = Skill; }
-	
+
 	void Decal_Visible(bool val);
 public:
 	bool bBattle = false;
 	wstring cut_SceanFile;
 protected:
+
 	UINT State;
 	Buff_State buff_state = Buff_State::None;
 	//Animation
-	vector<vector<shared_ptr<class Sprite>>> sprites_vec;
-	vector<unique_ptr<class Animation>> animations;
+	//vector<vector<shared_ptr<class Sprite>>> sprites_vec;
+	//vector<unique_ptr<class Animation>> animations;
 	unique_ptr<class Decal> decal;
-	
-	
+
+
 	// =========== Sprite Info ============
 
 	float Inter_Second = 1.5f;
@@ -85,7 +87,7 @@ protected:
 	unsigned int Skill_Type : 3;
 
 
-	
+
 	int Normal_Bullet_Cnt = 1;
 	int Skill_Bullet_Cnt = 1;
 	//=================================
@@ -95,31 +97,25 @@ protected:
 	float knock_back = 1.f;
 	float Stun_Time = 0.f;
 	D3DXVECTOR3 Move_dir;
-	// ===============Shader  테스트===============
+	// ===============Shader  테스트 성공 ===========
 	Shader* shader;
 	ID3D11Buffer* vertexBuffer;
 
 	Vertex vertices[6];
-	vector<ID3D11ShaderResourceView*> srv_vec;
-	vector<ID3D11Buffer*> buffer_vec;
+	vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	vector<vector<ID3D11Buffer*>> buffer_vec;
 
 	float indexing = 0.f;
-	void CreateBufferAndInit(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y);
+	int idx = indexing;
+
 
 	D3DXMATRIX world;
 
 
 
-	D3DXVECTOR3 scale = { 300,300,1 };
-	D3DXVECTOR3 rotator = {0,0,0};
+	D3DXVECTOR3 scale = { 100,100,1 };
+	D3DXVECTOR3 rotator = { 0,0,0 };
 	D3DXVECTOR3 position = { 275.0,-185,0 };
-};
+	//=============== Animation 삭제 ===============
 
-class Digimon_Sprite
-{
-	friend Attacker;
-
-	static void Load(wstring imgfile, float width, float height, vector<vector<shared_ptr<class Sprite>>>& output);
-
-	static map<wstring, vector<vector<shared_ptr<class Sprite>>>> m;
 };
