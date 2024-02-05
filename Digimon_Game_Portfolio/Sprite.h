@@ -7,6 +7,9 @@ public:
 	Sprite(wstring imgFile, wstring shaderFile = Texture_Shader);
 	Sprite(wstring imgFile, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
+
+	Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer,wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
+	
 	virtual void CreateBuffer(wstring imgFile, wstring shaderFile) ;
 
 

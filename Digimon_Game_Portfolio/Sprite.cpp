@@ -23,6 +23,25 @@ Sprite::Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float
 
 }
 
+Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y,wstring shaderFile)
+{
+	
+	//shader = new Shader(shaderFile);
+
+	//Create Vertex Buffer
+	
+	srv = Sprite_Manager::Load(imgFile);
+	ownerShader.push_back(srv);
+
+	Init_Sprite(imgFile, start_X, start_Y, End_X, End_Y);
+	CreateBuffer(imgFile, shaderFile);
+	ownerbuffer.push_back(vertexBuffer);
+	CreateBoundBuffer(Shaders + L"014_Bounding.fx");
+
+	//shader->AsShaderResource("Map")->SetResource(srv);
+
+}
+
 
 void Sprite::Init_Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y)
 {

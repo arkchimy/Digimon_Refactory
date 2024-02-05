@@ -5,6 +5,8 @@
 #define 관통형타입 3
 #define 레이저타입 4
 
+
+
 enum Buff_State
 {
 	None = 0,
@@ -93,4 +95,31 @@ protected:
 	float knock_back = 1.f;
 	float Stun_Time = 0.f;
 	D3DXVECTOR3 Move_dir;
+	// ===============Shader  테스트===============
+	Shader* shader;
+	ID3D11Buffer* vertexBuffer;
+
+	Vertex vertices[6];
+	vector<ID3D11ShaderResourceView*> srv_vec;
+	vector<ID3D11Buffer*> buffer_vec;
+
+	float indexing = 0.f;
+	void CreateBufferAndInit(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y);
+
+	D3DXMATRIX world;
+
+
+
+	D3DXVECTOR3 scale = { 300,300,1 };
+	D3DXVECTOR3 rotator = {0,0,0};
+	D3DXVECTOR3 position = { 275.0,-185,0 };
+};
+
+class Digimon_Sprite
+{
+	friend Attacker;
+
+	static void Load(wstring imgfile, float width, float height, vector<vector<shared_ptr<class Sprite>>>& output);
+
+	static map<wstring, vector<vector<shared_ptr<class Sprite>>>> m;
 };
