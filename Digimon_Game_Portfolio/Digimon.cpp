@@ -40,8 +40,7 @@ Digimon::~Digimon()
 
 void Digimon::Update()
 {
-	cout << State << '\n';
-
+	animations[State]->Update();
 	if (bDrag)
 	{
 		D3DXVECTOR2 hit_point;
@@ -52,7 +51,7 @@ void Digimon::Update()
 	}
 	if (bMove)
 	{
-		State = Walk;
+		Set_Mode(Walk);
 		D3DXVECTOR3 current = Position();
 		D3DXVECTOR3 vec = goal_pos - current;
 		D3DXVECTOR3 dir = goal_pos - current;
@@ -63,16 +62,13 @@ void Digimon::Update()
 			Position(goal_pos);
 			Rotator({ 0,0,0 });
 			bMove = false;
-			State = IDLE;
-			//animations[State]->Start();
-			
+			Set_Mode(IDLE);
 			return;
 		}
 		Position({ current.x + dir.x * move_speed * ImGui::GetIO().DeltaTime, current.y + dir.y * move_speed * ImGui::GetIO().DeltaTime, 0 });
-		//animations[State]->Update();
+		animations[State]->Update();
 		return;
 	}
-	//animations[State]->Update();
 	decal->Update();
 
 	FindLookAtTarget(); 
@@ -83,16 +79,16 @@ void Digimon::Update()
 		if (Fire_time >= Inter_Second)
 		{
 			Fire_time = 0.f;
-			idx = 0; //  상태 전환으로 인한 인덱스 초기화
+			
 			if (bBattle == 배틀시작)
 			{
-				State = Action;
-				//animations[State]->Start();
+				Set_Mode(Action);
 			}
 		}
 	}
 	else if (State == Action)
 	{
+		idx = animations[State]->Current_Idx();
 		if (idx == Fire_idx)
 			Fire();
 	}
@@ -130,7 +126,7 @@ void Digimon::FindLookAtTarget()
 	{
 		D3DXVECTOR3 direction = target->Position() - Position();
 		bullet_Degree = D3DXToDegree(atan(direction.y, direction.x));
-		// 프레임 효율을 위해 디지몬 회전은 폐기
+		// 중복 계산 제거를 위해 총알은 디지몬의 회전적용
 		Rotator({ 0, 0, bullet_Degree });
 
 		bullet_Dir = direction;
@@ -172,13 +168,12 @@ void Digimon::Battle(bool val)
 {
 	bBattle = val;
 	CheckFalse(val);
-	State = IDLE;
+	Set_Mode(IDLE);
 }
 
 void Digimon::Stage_Clear()
 {
-	State = Victory;
-	//animations[State]->Start();
+	Set_Mode(Victory);
 }
 
 void Digimon::Fire()
@@ -252,21 +247,19 @@ void Digimon::Fire()
 			}
 		}
 	}
-	
-	State = IDLE;
+	Set_Mode(IDLE);
 }
 
 void Digimon::Animation_Start(int idx)
 {
-	//animations[idx]->Start();
+	Set_Mode(Skill);
 	Skill_Cut->Cut_Start(cut_SceanFile);
 	
 }
 
 void Digimon::MoveTo(D3DXVECTOR3 goal)
 {
-	State = Walk;
-	//animations[State]->Start();
+	Set_Mode(Walk);
 	goal_pos = goal;
 	bMove = true;
 }
@@ -305,8 +298,8 @@ bool Digimon::ClickEvent(D3DXVECTOR2 mouse, shared_ptr<class Digimon> drag_digim
 			Inter_Second -= 0.5f;
 		//animations[Skill]->PlaySpeed(4.0f);
 		Effect_Manager::Level_Up(pos);
-		State = PowerUP;
-		//animations[State]->Start();
+		Set_Mode(PowerUP);
+
 		combine_cnt++;
 		return true;
 	}

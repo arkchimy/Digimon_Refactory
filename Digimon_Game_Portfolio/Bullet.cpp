@@ -608,39 +608,40 @@ shared_ptr<Animation> Effect_Manager::Load(wstring imgfile)
 
 void Effect_Manager::Render()
 {
-	for (auto iter = m.begin(); iter != m.end(); iter++) 
-	{
-		queue<shared_ptr<class Animation>> temp = iter->second;
-		for(int i =0; i < temp.size(); i++)
-		{
-			auto front = temp.front();
-			temp.pop();
-			temp.push(front);
-			if(front->Visible()) // 활성화 됬다면
-				front->Render();
-		}
-	}
-	if(level_up->Visible())
-		level_up->Render();
+	//for (auto iter = m.begin(); iter != m.end(); iter++) 
+	//{
+	//	queue<shared_ptr<class Animation>> temp = iter->second;
+	//	for(int i =0; i < temp.size(); i++)
+	//	{
+	//		auto front = temp.front();
+	//		temp.pop();
+	//		temp.push(front);
+	//		if(front->Visible()) // 활성화 됬다면
+	//			front->Render();
+	//	}
+	//}
+	//if(level_up->Visible())
+	//	level_up->Render();
 	
 }
 
 void Effect_Manager::Update()
 {
-	for (auto iter = m.begin(); iter != m.end(); iter++)
-	{
-		queue<shared_ptr<class Animation>> temp = iter->second;
-		for (int i = 0; i < temp.size(); i++)
-		{
-			auto front = temp.front();
-			temp.pop();
-			temp.push(front);
-			if (front->Visible()) // 활성화 됬다면
-				front->Update();
-		}
-	}
-	if (level_up->Visible()) // 활성화 됬다면
-		level_up->Update();
+
+	//for (auto iter = m.begin(); iter != m.end(); iter++)
+	//{
+	//	queue<shared_ptr<class Animation>> temp = iter->second;
+	//	for (int i = 0; i < temp.size(); i++)
+	//	{
+	//		auto front = temp.front();
+	//		temp.pop();
+	//		temp.push(front);
+	//		if (front->Visible()) // 활성화 됬다면
+	//			front->Update();
+	//	}
+	//}
+	//if (level_up->Visible()) // 활성화 됬다면
+	//	level_up->Update();
 }
 
 void Effect_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)

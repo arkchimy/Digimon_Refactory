@@ -13,16 +13,16 @@ D3DXVECTOR3 Decal_Circel_Scale = { 10,10,1.f };
 Attacker::Attacker(wstring imgfile, float width, float height, Sprites_Info info, int level)
 {
 	Init_info(info);
-	CreateShaderAndBuffer(imgfile,width,height,info,level);
+	CreateShaderAndBuffer(imgfile, width, height, info, level);
 
-	
+	CreateAnimation();
 }
 
-Attacker::Attacker(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info,  int level)
+Attacker::Attacker(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level)
 {
 	Init_info(info);
 	CreateShaderAndBuffer(imgfile, uvs, info, level);
-
+	CreateAnimation();
 }
 
 Attacker::~Attacker()
@@ -32,7 +32,7 @@ Attacker::~Attacker()
 void Attacker::CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level)
 {
 	shader = new Shader(Texture_Shader);
-	
+
 	// Spirte에서 Buffer 와 Srv 초기화  
 	{
 		float start_w = 0.f, start_h = 0.f;
@@ -49,12 +49,28 @@ void Attacker::CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, S
 			}
 		}
 	}
-
-	State = Walk;
-
 	UpdateWorld();
+	
 
+}
 
+void Attacker::CreateAnimation()
+{
+	animations.resize(Sprite_Type);
+
+	animations[IDLE] = make_unique<Animation>(shader, srv_vec[IDLE], buffer_vec[IDLE], PlayMode::Loop);
+	animations[Walk] = make_unique<Animation>(shader, srv_vec[Walk], buffer_vec[Walk], PlayMode::Loop);
+	animations[Action] = make_unique<Animation>(shader, srv_vec[Action], buffer_vec[Action], PlayMode::End);
+	animations[Skill] = make_unique<Animation>(shader, srv_vec[Skill], buffer_vec[Skill], PlayMode::End);
+	animations[Hit] = make_unique<Animation>(shader, srv_vec[Hit], buffer_vec[Hit], PlayMode::End);
+	animations[Victory] = make_unique<Animation>(shader, srv_vec[Victory], buffer_vec[Victory], PlayMode::Loop);
+	animations[Death] = make_unique<Animation>(shader, srv_vec[Death], buffer_vec[Death], PlayMode::End_Stop);
+	animations[PowerUP] = make_unique<Animation>(shader, srv_vec[Victory], buffer_vec[Victory], PlayMode::End);
+
+	for (int i = 0; i < animations.size(); i++)
+		animations[i]->Set_Owner(this);
+
+	Set_Mode(Walk);
 }
 
 void Attacker::Init_info(const Sprites_Info& info)
@@ -107,14 +123,13 @@ void Attacker::CreateShaderAndBuffer(wstring imgfile, float width, float height,
 		}
 	}
 
-	State = Walk;
 	UpdateWorld();
 
 }
 
 
 
-void Attacker::Take_Damage( Bullet* causer,D3DXVECTOR3 dir)
+void Attacker::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
 {
 	UINT type = causer->Bullet_Type();
 	Move_dir = dir;
@@ -129,38 +144,25 @@ void Attacker::Take_Damage( Bullet* causer,D3DXVECTOR3 dir)
 	}
 	if (hp <= 0)
 	{
-		State = Death; //아직 Death Sprite를 안넣음
 		buff_state = Buff_State::Dead;
-		//animations[State]->Start();
+		Set_Mode(Death);
 	}
 	else
 	{
-		State = Hit;
-		//animations[State]->Start();
+		Set_Mode(Hit);
 	}
 }
 
 void Attacker::Update()
 {
+	animations[State]->Update();
 	decal->Update();
 	decal->Scale(Decal_Circel_Scale);
 }
 
 void Attacker::Render()
 {
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-
-	indexing += ImGui::GetIO().DeltaTime * Sprite_Speed;
-	idx = indexing;
-	idx %= srv_vec[State].size();
-
-	shader->AsShaderResource("Map")->SetResource(srv_vec[State][idx]);
-
-	DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[State][idx], &stride, &offset);
-	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	shader->Draw(0, 0, 6);
+	animations[State]->Render();
 }
 
 void Attacker::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
@@ -213,7 +215,7 @@ bool Attacker::IsDeathMode()
 
 void Attacker::Set_IdleMode()
 {
-	State = IDLE;  
+	Set_Mode(IDLE);
 }
 
 void Attacker::Set_StunMode()
