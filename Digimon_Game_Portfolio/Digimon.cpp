@@ -40,6 +40,8 @@ Digimon::~Digimon()
 
 void Digimon::Update()
 {
+	cout << State << '\n';
+
 	if (bDrag)
 	{
 		D3DXVECTOR2 hit_point;
@@ -230,7 +232,7 @@ void Digimon::Fire()
 			//Spread Type   => Double Shot   Triple Shot
 			{
 				bullets->Team_ID(¾Æ±º);
-				//bullets->Position(sprites_vec[0][0]->Position());
+				bullets->Position(position);
 
 				int dir = 0;
 				if (i != 0)
@@ -246,8 +248,6 @@ void Digimon::Fire()
 				D3DXVec3Normalize(&bullet_Dir, &bullet_Dir);
 				bullets->Set_Dir({ bullet_Dir.x,bullet_Dir.y + 0.1f * dir / 30.f ,bullet_Dir.z });
 				bullets->Rotator(Rotator());
-				
-
 
 			}
 		}

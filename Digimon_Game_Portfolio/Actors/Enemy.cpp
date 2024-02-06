@@ -110,6 +110,7 @@ void Enemy::Update()
 		else
 		{
 			Move_dir = { -1,0,0 };
+			Rotator({ 0,180,0 });
 		}
 	}
 	if (State == Walk)

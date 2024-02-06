@@ -99,7 +99,7 @@ void Attacker::CreateShaderAndBuffer(wstring imgfile, float width, float height,
 	for (int cnt = 0; cnt < Sprite_Type; cnt++)
 	{
 		start_w = 0.f;
-		start_w = height * cnt;
+		start_h = height * cnt;
 		for (int i = 0; i < srv_vec[cnt].capacity(); i++)
 		{
 			shared_ptr<Sprite> temp = make_shared<Sprite>(srv_vec[cnt], buffer_vec[cnt], imgfile, start_w, start_h, start_w + width, start_h + height);
@@ -153,18 +153,14 @@ void Attacker::Render()
 
 	indexing += ImGui::GetIO().DeltaTime * Sprite_Speed;
 	idx = indexing;
-	idx %= srv_vec.size();
+	idx %= srv_vec[State].size();
 
 	shader->AsShaderResource("Map")->SetResource(srv_vec[State][idx]);
-
 
 	DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[State][idx], &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	shader->Draw(0, 0, 6);
-
-
-	
 }
 
 void Attacker::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
@@ -183,11 +179,8 @@ void Attacker::UpdateWorld()
 	D3DXMatrixRotationYawPitchRoll(&R, rotator.y, rotator.x, rotator.z);
 	D3DXMatrixTranslation(&T, position.x, position.y, position.z);
 	W = S * R * T;
-	//W = S * T;
 	world = W; // world  업데이트
-	
-	if (rotator.y >= 3.14f)
-		W = S * T;
+
 	shader->AsMatrix("World")->SetMatrix(W);
 }
 
