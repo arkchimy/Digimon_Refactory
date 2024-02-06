@@ -29,27 +29,34 @@ Animation::Animation(Sprite_Info info, PlayMode type)
 
 }
 
-void Animation::Update()
+Animation::Animation(Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode)
+	:m_Shader(shader),m_srv_vec(srv_vec), m_buffer_vec(buffer_vec),mode(mode), play_rate(9.f)
 {
 	
+}
+
+void Animation::Update()
+{
+	CheckFalse(bvisible);
+
 	playtime += play_rate * ImGui::GetIO().DeltaTime;
 	index = floor(playtime);
 	Enemy* enemy = dynamic_cast<Enemy*>(Owner);
 	switch (mode)
 	{
 	case PlayMode::Loop:
-		if (index >= sprites_vec.size()) 
+		if (index >= m_srv_vec.size())
 		{
 			index = 0;
 			playtime = 0.f;
 		}
 		break;
 	case PlayMode::End:
-		if (index >= sprites_vec.size())
+		if (index >= m_srv_vec.size())
 		{
 			if (Owner == nullptr)// Owner가 없는경우
 			{
-				index = sprites_vec.size() - 1; //마지막 상태 유지
+				index = m_srv_vec.size() - 1; //마지막 상태 유지
 				bvisible = false;
 			}
 			else // Owner가 있는경우
@@ -65,9 +72,9 @@ void Animation::Update()
 		break;
 	case PlayMode::End_Stop:
 		
-		if (index >= sprites_vec.size()) 
+		if (index >= m_srv_vec.size())
 		{
-			index = sprites_vec.size() - 1;
+			index = m_srv_vec.size() - 1;
 
 			if (enemy != nullptr)
 			{
@@ -85,9 +92,20 @@ void Animation::Update()
 
 void Animation::Render()
 {
-	if (index >= sprites_vec.size())
-		index = sprites_vec.size() - 1;
-	sprites_vec[index]->Render();
+
+	if (index >= m_srv_vec.size())
+		index = m_srv_vec.size() - 1;
+
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+
+	m_Shader->AsShaderResource("Map")->SetResource(m_srv_vec[index]);
+
+	DeviceContext->IASetVertexBuffers(0, 1, &m_buffer_vec[index], &stride, &offset);
+	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_Shader->Draw(0, 0, 6);
+	
 }
 
 void Animation::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)

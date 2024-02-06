@@ -8,6 +8,7 @@ class Animation
 public:
 	Animation(vector<shared_ptr<class Sprite>> , PlayMode mode = PlayMode::Loop);
 	Animation(Sprite_Info info, PlayMode mode = PlayMode::Loop);
+
 	void Update();
 	void Render();
 	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
@@ -31,9 +32,22 @@ private:
 	vector<shared_ptr<class Sprite>> sprites_vec;
 	float playtime;
 	int index;
-	float play_rate;
+	float play_rate = 1.f;
 	bool bvisible = false; // Effect_를 사용하는 용도
 
 	class Attacker* Owner = nullptr;
+
+	//  리팩토링
+public:
+	Animation(class Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode = PlayMode::Loop);
+	
+private:
+
+
+	class Shader* m_Shader;
+	vector<ID3D11ShaderResourceView*> m_srv_vec;
+	vector<ID3D11Buffer*> m_buffer_vec;
+protected:
+	vector<unique_ptr<class Animation>> animations;
 };
 

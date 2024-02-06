@@ -1,5 +1,6 @@
 #pragma once
 #include "Actors/ICombat.h"
+#include "Animation.h"
 #define 분산형타입 1
 #define 연사형타입 2
 #define 관통형타입 3
@@ -27,6 +28,9 @@ public:
 	void Init_info(const Sprites_Info& info);
 	void CreateShaderAndBuffer(wstring imgfile, float width, float height, Sprites_Info info, int level);
 	void CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level);
+
+	void CreateAnimation(); // Animation객체 
+
 
 	virtual void FindLookAtTarget() = 0;
 	virtual void Take_Damage(class Bullet* causer, D3DXVECTOR3 dir);
@@ -109,11 +113,11 @@ protected:
 
 	D3DXMATRIX world;
 
-
-
 	D3DXVECTOR3 scale = { 100,100,1 };
 	D3DXVECTOR3 rotator = { 0,0,0 };
 	D3DXVECTOR3 position = { 275.0,-185,0 };
-	//=============== Animation 삭제 ===============
-
+	//=============== Animation 살리기 ===============
+	protected:
+		vector<unique_ptr<class Animation>> animations;
+		FORCEINLINE void Set_Mode(UINT mode) { State = mode; animations[State]->Start(); } // 자동으로 애니메이션 호출
 };
