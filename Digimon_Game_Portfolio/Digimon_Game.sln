@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{F3
 		..\_Shaders\08_Sprite.fx = ..\_Shaders\08_Sprite.fx
 		..\_Shaders\09_SampleLinear.fx = ..\_Shaders\09_SampleLinear.fx
 		..\_Shaders\10_Bound.fx = ..\_Shaders\10_Bound.fx
+		..\_Shaders\10_TileSampling.fx = ..\_Shaders\10_TileSampling.fx
 		..\_Shaders\Light_PS.hlsl = ..\_Shaders\Light_PS.hlsl
 		..\_Shaders\Light_VS.hlsl = ..\_Shaders\Light_VS.hlsl
 	EndProjectSection

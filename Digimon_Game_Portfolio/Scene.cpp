@@ -128,7 +128,7 @@ void ImGui_Event()
 	*/
 	
 
-	ImGui::SliderFloat("Sprite_Speed", &Sprite_Speed, 1, 20);
+	ImGui::SliderFloat("TileSample_Lv", &TileSample_Lv.r, 1, 10);
 
 	if (ImGui::Button("Standby_Stage"))
 	{

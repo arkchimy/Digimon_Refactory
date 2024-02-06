@@ -16,17 +16,25 @@ wstring Title_ground0 = Layer_Folder + L"Stage_00" + L"/" + Ground + to_wstring(
 
 Stage::Stage()
 {
-	vector<wstring> layerfile;
-	layerfile.reserve(3);
-	layerfile.push_back(Title_bg0);
-	layerfile.push_back(Title_bg1);
-	layerfile.push_back(Title_ground0);
-	CreateShaderAndBuffer(layerfile);
+	vector<wstring> imagefiles;
+	imagefiles.reserve(3);
+	imagefiles.push_back(Title_bg0);
+	imagefiles.push_back(Title_bg1);
+	imagefiles.push_back(Title_ground0);
+
+	vector<wstring> shaderfiles =
+	{
+		Texture_Shader,
+		Texture_Shader,
+		Texture_Shader,
+	};
+
+	CreateShaderAndBuffer(imagefiles, shaderfiles);
 }
 
-Stage::Stage(vector<wstring> layerfile)
+Stage::Stage(vector<wstring> imagefiles, vector<wstring> shaderfiles)
 {
-	CreateShaderAndBuffer(layerfile);
+	CreateShaderAndBuffer(imagefiles, shaderfiles);
 }
 
 Stage::~Stage()
@@ -35,20 +43,19 @@ Stage::~Stage()
 }
 
 
-void Stage::CreateShaderAndBuffer(vector<wstring> layerfile)
+void Stage::CreateShaderAndBuffer(vector<wstring> imagefiles, vector<wstring> shaderfiles)
 {
 
-	shader_vec.reserve(layerfile.size());
-	position.reserve(layerfile.size());
-	scale.reserve(layerfile.size());
-	rotator.reserve(layerfile.size());
+	shader_vec.reserve(imagefiles.size());
+	position.reserve(imagefiles.size());
+	scale.reserve(imagefiles.size());
+	rotator.reserve(imagefiles.size());
 
-	for (auto file : layerfile)
+	for (int i=0; i < imagefiles.size(); i++)
 	{
-		make_unique<Sprite>(srv_vec, buffer_vec, file, Texture_Shader);
+		make_unique<Sprite>(srv_vec, buffer_vec, imagefiles[i], shaderfiles[i]);
 
-		
-		shader_vec.push_back(make_unique<Shader>(Texture_Shader));
+		shader_vec.push_back(make_unique<Shader>(shaderfiles[i]));
 		position.push_back({ 0,0,0 });
 		scale.push_back({ Width,Height,1 });
 		rotator.push_back({ 0,0,0 });
