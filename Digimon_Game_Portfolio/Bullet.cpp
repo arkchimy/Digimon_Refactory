@@ -8,54 +8,58 @@
 Bullet::Bullet()
 	:type(1), team_ID(0)
 {
-	bvisible = false;
+	Bullet(1);
 }
 
 Bullet::Bullet(UINT bullet_type)
 	: type(bullet_type), team_ID(0)
 {
 	bvisible = false;
+	m_Shader = new Shader(Texture_Shader);
 }
 
 
 Bullet::~Bullet()
 {
+	SAFE_DELETE(m_Shader);
 }
 
-void Bullet::Init_Info(wstring ImgFile, float cnt,float bullet_speed,float start)
-{
-	speed = bullet_speed;
-	current_idx = 0;
-	idx_size = cnt;
-	sprites.resize(idx_size);
-	float start_w =0, start_h = start;
-	int unit = 80;
-
-	
-	for (int i = 0; i < idx_size; i++)
-	{
-		sprites[i] = make_shared<Sprite>(ImgFile, start_w, start_h, start_w + unit, start_h + unit);
-		start_w += unit;
-	}
-	
-}
+//void Bullet::Init_Info(wstring ImgFile, float cnt,float bullet_speed,float start)
+//{
+//	speed = bullet_speed;
+//	current_idx = 0;
+//	idx_size = cnt;
+//	sprites.resize(idx_size);
+//	float start_w =0, start_h = start;
+//	int unit = 80;
+//
+//	
+//	for (int i = 0; i < idx_size; i++)
+//	{
+//		sprites[i] = make_shared<Sprite>(srv_vec, buffer,ImgFile, start_w, start_h, start_w + unit, start_h + unit);
+//		start_w += unit;
+//	}
+//	
+//}
 void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File, float knock_power)
 {
 	this->knock_back = knock_power;
-	speed = bullet_speed;
-	current_idx = 0;
-	idx_size = info.Sprite_cnt;
-	sprites.resize(idx_size);
+	m_Speed = bullet_speed;
+
+	current_idx = 0; // 표시할 idx
+	m_SpriteSize = info.Sprite_cnt;
+
 	Effect_File = effect_File;
+
 
 	float start_w = 0, start_h = 0;
 	int unit_w = info.Width;
 	int unit_h = info.Height;
 
 
-	for (int i = 0; i < idx_size; i++)
+	for (int i = 0; i < m_SpriteSize; i++)
 	{
-		sprites[i] = make_shared<Sprite>(info.ImgFile, start_w, start_h, start_w + unit_w, unit_h);
+		make_shared<Sprite>(srv_vec,buffer_vec,info.ImgFile, start_w, start_h, start_w + unit_w, unit_h);
 		start_w += unit_w;
 	}
 
@@ -65,47 +69,54 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File
 void Bullet::Init_Info(Sprite_Info info, float bullet_speed, vector<D3DXVECTOR4> pos_vec, wstring effect_File, float knock_power)
 {
 	this->knock_back = knock_power;
-	speed = bullet_speed;
+	m_Speed = bullet_speed;
 	current_idx = 0;
-	sprites.resize(info.Sprite_cnt);
+	m_SpriteSize = info.Sprite_cnt;
+
 	Effect_File = effect_File;
-	for (int i = 0; i < sprites.size(); i++)
-	{
-		sprites[i] = make_shared<Sprite>(info.ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
-	}
-}
-void Bullet::Init_Info(wstring ImgFile,  float cnt,  float bullet_speed, float width, float height, float knock_power)
-{
-	this->knock_back = knock_power;
-	speed = bullet_speed;
-	current_idx = 0;
-	idx_size = cnt;
-	sprites.resize(idx_size);
-	float start_w = 0, start_h = 0;
-	int unit_w = width;
-	int unit_h = height;
 
-
-	for (int i = 0; i < idx_size; i++)
+	for (int i = 0; i < m_SpriteSize; i++)
 	{
-		sprites[i] = make_shared<Sprite>(ImgFile, start_w, start_h, start_w + unit_w, unit_h);
-		start_w += unit_w;
+		make_shared<Sprite>(srv_vec, buffer_vec, info.ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
 	}
 
 }
-void Bullet::Init_Info(wstring ImgFile, float cnt, float bullet_speed,vector<D3DXVECTOR4> pos_vec ,float knock_power)
-{
-	this->knock_back = knock_power;
-	speed = bullet_speed;
-	current_idx = 0;
-	idx_size = cnt;
-	sprites.resize(idx_size);
-	
-	for (int i = 0; i < idx_size; i++)
-	{
-		sprites[i] = make_shared<Sprite>(ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
-	}
+//void Bullet::Init_Info(wstring ImgFile,  float cnt,  float bullet_speed, float width, float height, float knock_power)
+//{
+//	this->knock_back = knock_power;
+//	speed = bullet_speed;
+//	current_idx = 0;
+//	idx_size = cnt;
+//	sprites.resize(idx_size);
+//	float start_w = 0, start_h = 0;
+//	int unit_w = width;
+//	int unit_h = height;
+//
+//
+//	for (int i = 0; i < idx_size; i++)
+//	{
+//		sprites[i] = make_shared<Sprite>(ImgFile, start_w, start_h, start_w + unit_w, unit_h);
+//		start_w += unit_w;
+//	}
+//
+//}
+//void Bullet::Init_Info(wstring ImgFile, float cnt, float bullet_speed,vector<D3DXVECTOR4> pos_vec ,float knock_power)
+//{
+//	this->knock_back = knock_power;
+//	speed = bullet_speed;
+//	current_idx = 0;
+//	idx_size = cnt;
+//	sprites.resize(idx_size);
+//	
+//	for (int i = 0; i < idx_size; i++)
+//	{
+//		sprites[i] = make_shared<Sprite>(ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
+//	}
+//
+//}
 
+void Bullet::CreateShaderAndBuffer()
+{
 }
 
 
@@ -113,36 +124,35 @@ void Bullet::Fire(D3DXVECTOR2 targetpos)
 {
 	explosion_Pos = { targetpos.x ,targetpos.y,0};
 	// 마우스 따라가는 Rotator
-		{
-			D3DXVECTOR3 current_pos = sprites[current_idx]->Position();
-			D3DXVECTOR3 target_pos = { targetpos.x,targetpos.y,0 };
-			Dir.x = targetpos.x - current_pos.x;
-			Dir.y = targetpos.y - current_pos.y;
-			Dir.z = 0;
-
-			D3DXVec3Normalize(&target_pos, &target_pos);
+	{
+		D3DXVECTOR3 current_pos = m_Position;
+		D3DXVECTOR3 target_pos = { targetpos.x,targetpos.y,0 };
+		m_Dir.x = targetpos.x - current_pos.x;
+		m_Dir.y = targetpos.y - current_pos.y;
+		m_Dir.z = 0;
 
 
-			float result = atan2(Dir.y, Dir.x);
-			//result = D3DXToRadian(result);
-			Rotator({ 0,0,result });
-			D3DXVec3Normalize(&Dir, &Dir);
+		D3DXVec3Normalize(&target_pos, &target_pos);
+		D3DXVec3Normalize(&m_Dir, &m_Dir);
 
-			Dir.x *= speed;
-			Dir.y *= speed;
+		m_Dir.x *= m_Speed;
+		m_Dir.y *= m_Speed;
 
-			bvisible = true;
-			Targetted_Actor.clear();
-		}
+		bvisible = true;
+
+		// 중복 Hit 방지
+		Targetted_Actor.clear();
+	}
 
 }
 
 void Bullet::Update()
 {
 	CheckFalse(bvisible); //발사중 아니라면 리턴
-	D3DXVECTOR3 current_Pos = sprites[current_idx]->Position();
+	D3DXVECTOR3 current_Pos = m_Position;
 
-	bool X_move = Width / 2.f <= current_Pos.x - sprites[current_idx]->Scale().x/2.f || current_Pos.x <= -Width/2.f;
+	// 화면에 잡히는 범위를 벗어나면 visible 해제
+	bool X_move = Width / 2.f <= current_Pos.x  || current_Pos.x <= -Width/2.f;
 	bool Y_move = Height / 2.f <= current_Pos.y || current_Pos.y <= -Height / 2.f;
 
 	if (X_move || Y_move) 
@@ -151,23 +161,36 @@ void Bullet::Update()
 		return;
 	}
 	//Position({ current_Pos.x + speed *  ImGui::GetIO().DeltaTime , current_Pos.y,0 });
-	Position({ current_Pos.x + Dir.x * speed  * ImGui::GetIO().DeltaTime , current_Pos.y + Dir.y * speed * ImGui::GetIO().DeltaTime,0 });
+	m_Position = { current_Pos.x + m_Dir.x * m_Speed * ImGui::GetIO().DeltaTime, current_Pos.y + m_Dir.y * m_Speed * ImGui::GetIO().DeltaTime, 0 };
+	UpdateWorld();
 }
 
 void Bullet::Render()
 {
 	CheckFalse(bvisible); //발사중 아니라면 리턴
-	sprites[current_idx]->Render();
-	current_idx += speed * 30 * ImGui::GetIO().DeltaTime;
-	current_idx %= sprites.size();
-	
-	
+
+	UINT stride = sizeof(Vertex);
+	UINT offset = 0;
+
+	m_localTime += ImGui::GetIO().DeltaTime ;
+	current_idx = m_localTime;
+	current_idx %= m_SpriteSize;
+
+	m_Shader->AsShaderResource("Map")->SetResource(srv_vec[current_idx]);
+
+	DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[current_idx], &stride, &offset);
+	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	m_Shader->Draw(0, 0, 6);
+
 	if (team_ID == 0)
 	{
+
+		// 모든 적들과 위치 비교
 		vector<shared_ptr<class Enemy>> enemies = Scene_Manager::Get_Enemies();
 		if (type & UINT(Bullet_Type::explosion))
 		{	// 밀치기 구현하기
-			D3DXVECTOR3 target_vec = (explosion_Pos - sprites[current_idx]->Position());
+			D3DXVECTOR3 target_vec = (explosion_Pos - m_Position);
 			float distance = abs(D3DXVec3Length(&target_vec));
 			if (distance <= 10.f) // 목표지점과 가까워지면
 			{
@@ -196,7 +219,7 @@ void Bullet::Render()
 		{
 			if ((front->Buff() & Buff_State::Dead) == Buff_State::Dead)
 				continue;
-			if (Sprite::AABB(sprites[current_idx]->Position(), front->Position()))
+			if (Sprite::AABB(m_Position, front->Position()))
 			{	// 총알 type에 따라  다른 이벤트 구현
 
 				if (type & UINT(Bullet_Type::Normal))
@@ -217,7 +240,7 @@ void Bullet::Render()
 				if (!(type & UINT(Bullet_Type::explosion)))
 				{
 					shared_ptr<Animation> effect = Effect_Manager::Load(Effect_File);
-					effect->Position(sprites[current_idx]->Position());
+					effect->Position(m_Position);
 					effect->Start();
 				}
 			}
@@ -227,7 +250,7 @@ void Bullet::Render()
 	}
 	else if (team_ID == 적군)
 	{
-		D3DXVECTOR3 current_Pos = sprites[current_idx]->Position();
+		D3DXVECTOR3 current_Pos = m_Position;
 		if (current_Pos.x  <= -440.f )
 		{
 			if (type & UINT(Bullet_Type::Normal))
@@ -238,7 +261,7 @@ void Bullet::Render()
 			if (!(type & UINT(Bullet_Type::explosion)))
 			{
 				shared_ptr<Animation> effect = Effect_Manager::Load(Effect_File);
-				effect->Position(sprites[current_idx]->Position());
+				effect->Position(m_Position);
 				effect->Start();
 			}
 		}
@@ -247,40 +270,37 @@ void Bullet::Render()
 
 void Bullet::UpdateWorld()
 {
-	sprites[current_idx]->UpdateWorld();
+	D3DXMATRIX W, S, R, T;
 
+	D3DXMatrixScaling(&S, m_Scale.x, m_Scale.y, m_Scale.z);
+	D3DXMatrixRotationYawPitchRoll(&R, m_Rotator.y, m_Rotator.x, m_Rotator.z);
+	D3DXMatrixTranslation(&T, m_Position.x, m_Position.y, m_Position.z);
+
+	W = S * R * T;
+
+	m_Shader->AsMatrix("World")->SetMatrix(W);
 }
 
 void Bullet::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	for (int i = 0; i < sprites.size(); i++)
-	{
-		sprites[i]->ViewProjection(V, P);
-	}
+	m_Shader->AsMatrix("View")->SetMatrix(V);
+	m_Shader->AsMatrix("Projection")->SetMatrix(P);
+
 }
 
 void Bullet::Scale(D3DXVECTOR3 val)
 {
-	for (int i = 0; i < sprites.size(); i++)
-	{
-		sprites[i]->Scale(val);
-	}
+	m_Scale = val;
 }
 
 void Bullet::Position(D3DXVECTOR3 val)
 {
-	for (int i = 0; i < sprites.size(); i++)
-	{
-		sprites[i]->Position(val);
-	}
+	m_Position = val;
 }
 
 void Bullet::Rotator(D3DXVECTOR3 val)
 {
-	for (int i = 0; i < sprites.size(); i++)
-	{
-		sprites[i]->Rotator(val);
-	}
+	m_Rotator = val;
 }
 
 

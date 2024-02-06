@@ -62,9 +62,7 @@ protected:
 
 	UINT State;
 	Buff_State buff_state = Buff_State::None;
-	//Animation
-	//vector<vector<shared_ptr<class Sprite>>> sprites_vec;
-	//vector<unique_ptr<class Animation>> animations;
+
 	unique_ptr<class Decal> decal;
 
 

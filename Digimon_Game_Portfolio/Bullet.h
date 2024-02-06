@@ -17,13 +17,15 @@ public:
 	~Bullet();
 
 
-	void Init_Info(wstring ImgFile, float cnt, float bullet_speed, float start);
+	//void Init_Info(wstring ImgFile, float cnt, float bullet_speed, float start);
 	void Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File, float knock_power = -1.f);
 	void Init_Info(Sprite_Info info, float bullet_speed, vector<D3DXVECTOR4> pos_vec, wstring effect_File, float knock_power = -1.f);
 
-	void Init_Info(wstring ImgFile, float cnt, float bullet_speed, float width , float height, float knock_power = -1.f);
-	void Init_Info(wstring ImgFile, float cnt, float bullet_speed, vector<D3DXVECTOR4> pos_vec, float knock_power = -1.f);
+	//void Init_Info(wstring ImgFile, float cnt, float bullet_speed, float width , float height, float knock_power = -1.f);
+	//void Init_Info(wstring ImgFile, float cnt, float bullet_speed, vector<D3DXVECTOR4> pos_vec, float knock_power = -1.f);
 	
+	void CreateShaderAndBuffer();
+
 	void Fire(D3DXVECTOR2 targetpos);
 	void Update(); //  bullet Speed 필요
 	void Render();
@@ -35,7 +37,7 @@ public:
 	void Scale(D3DXVECTOR3 val);    // 스케일 조정
 	void Position(D3DXVECTOR3 val); // 처음에 발사체 pos 에서 나가기
 	void Rotator(D3DXVECTOR3 val);
-	void Set_Dir(D3DXVECTOR3 val) { bvisible = true;  Dir = val * speed; }
+	void Set_Dir(D3DXVECTOR3 val) { bvisible = true;  m_Dir = val * m_Speed; }
 
 	bool Visible() { return bvisible; }
 	void Team_ID(UINT val) { team_ID = val; }
@@ -48,26 +50,40 @@ public:
 	// 목적지 도착했는지.
 
 private:
-	vector<shared_ptr<class Sprite>> sprites;
-	wstring Effect_File;
-	D3DXVECTOR3 explosion_Pos;
-	D3DXVECTOR3 Dir;
-	
-	float power  = 1.f;
-	float speed;
+	//vector<shared_ptr<class Sprite>> sprites;
 
+	// Hit 관련
+	wstring Effect_File;
+	float power = 1.f;
 	float radius = 300.f; // 폭발 반경에 쓰임.
-	
-	int current_idx = 0;
-	int idx_size = 0; 
-	bool bvisible;
 	float knock_back;
 
-	const UINT type;
+	// 중복 Hit방지
 	vector<shared_ptr<class Enemy>> Targetted_Actor;
-	
-	
 
+	// 이동 관련
+	D3DXVECTOR3 explosion_Pos;// 폭발하는 위치
+	D3DXVECTOR3 m_Dir;// 총알의 진행방향
+	float m_Speed;
+
+	// 애니메이션
+	int current_idx = 0;
+	int m_SpriteSize = 0; 
+	float m_localTime = 0.f; // delta time 을 누적함
+	// State 
+	bool bvisible;
+	const UINT type;
+	
+	//   리팩토링
+
+	D3DXVECTOR3 m_Position;
+	D3DXVECTOR3 m_Scale;
+	D3DXVECTOR3 m_Rotator;
+
+	class Shader* m_Shader;
+	vector<ID3D11Buffer*> buffer_vec;
+	vector<ID3D11ShaderResourceView*> srv_vec;
+	
 };
 
 class Bullet_Manager
