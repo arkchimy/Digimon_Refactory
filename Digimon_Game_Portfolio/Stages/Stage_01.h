@@ -4,6 +4,9 @@
 #define Wave_SIZE 7
 #define Enemy_PoolSize 20
 #define REWARD_SIZE 2
+
+
+
 class Stage_01 :public Stage
 {
 public:
@@ -27,6 +30,12 @@ private:
 	vector<shared_ptr<class Reward_Card>> reward;
 	queue<shared_ptr<class ABoss>> boss_que;
 	shared_ptr<class ABoss> boss;
+
+
+	// sampler Å×½ºÆ®
+	ID3D11SamplerState* m_samplerState;
+
+	void CreateSamplerState();
 
 
 	bool bclear =false;

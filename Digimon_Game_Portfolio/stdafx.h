@@ -124,6 +124,8 @@ const wstring Shaders = L"../_Shaders/";
 const wstring Map_Texture_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Player_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Texture_Shader = L"../_Shaders/07_Texture.fx";
+const wstring TileSampling_Shader = L"../_Shaders/10_TileSampling.fx";
+
 const wstring Decal_Shader = L"../_Shaders/01_Decal.fx";
 const wstring Card_Shader = L"../_Shaders/02_Card.fx";
 
@@ -379,3 +381,6 @@ static vector<D3DXVECTOR4> Galgomon_UV
 	//PowerUP
 	{0,200,50,250},
 };
+
+
+extern D3DXCOLOR TileSample_Lv;

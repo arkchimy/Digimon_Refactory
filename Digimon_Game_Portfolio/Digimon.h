@@ -40,6 +40,10 @@ private:
 
 	shared_ptr<Enemy> target = nullptr;
 
+
+
+
+
 };
 
 

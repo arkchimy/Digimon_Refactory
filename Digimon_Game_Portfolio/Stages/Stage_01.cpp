@@ -23,13 +23,20 @@ int wave_info[Wave_SIZE] =
 	20,
 };
 
-vector<wstring> files = {
+D3DXCOLOR TileSample_Lv = {1,0,0,0};
+
+vector<wstring> imagegefiles = {
 	Layer_Folder + L"Dungeon_01" + L"/" + Layer + to_wstring(0) + L".png"
 };
+vector<wstring> shaderfiles = {
+	TileSampling_Shader
+};
 Stage_01::Stage_01()
-	:Stage(files)
+	:Stage(imagegefiles, shaderfiles)
 {
 	Gate = new CastleGate();
+
+	CreateSamplerState();
 }
 
 Stage_01::~Stage_01()
@@ -160,6 +167,8 @@ void Stage_01::Render()
 	for (int i = 0; i < shader_vec.size(); i++)
 	{
 		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i]);
+		shader_vec[i]->AsSampler("Sampler")->SetSampler(0, m_samplerState);
+		shader_vec[i]->AsVector("xSplit")->SetFloatVector(TileSample_Lv);
 
 		DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[i], &stride, &offset);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -295,5 +304,20 @@ void Stage_01::Add_Digimon(shared_ptr<Digimon> data)
 	data->Rotator({ 0, 180, 0 });
 	Player->Battle(배틀시작);
 	Wave_Clear();
+
+}
+void Stage_01::CreateSamplerState()
+{
+	D3D11_SAMPLER_DESC samplerDesc;
+	ZeroMemory(&samplerDesc, sizeof(samplerDesc));
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP; // 3차원인듯
+	samplerDesc.ComparisonFunc = D3D11_COMPARISON_NEVER;
+	samplerDesc.MinLOD = 0;
+	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+
+	Device->CreateSamplerState(&samplerDesc, &m_samplerState);
 
 }

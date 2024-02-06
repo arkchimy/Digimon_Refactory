@@ -4,7 +4,7 @@ class Stage
 {
 public:
 	Stage();
-	Stage(vector<wstring> layerfile);
+	Stage(vector<wstring> imagefiles,vector<wstring> shaderfiles);
 	virtual ~Stage();
 
 	virtual void Init_Stage(shared_ptr<class Player> player) = 0;
@@ -12,7 +12,7 @@ public:
 	virtual void Render();
 
 
-	void CreateShaderAndBuffer(vector<wstring> layerfile);
+	void CreateShaderAndBuffer(vector<wstring> layerfile, vector<wstring> shaderfiles);
 	//void CreateShaderAndBuffer();
 	virtual void Battle_Stage() {};
 	void Battle(bool val);
