@@ -162,5 +162,6 @@ void Player::ClickUp_Event()
 void Player::Add_Digimon(shared_ptr<Digimon> input)
 {
 	My_Digimon.push_back(input);
+
 }
 

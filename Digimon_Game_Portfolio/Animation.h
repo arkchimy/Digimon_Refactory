@@ -49,5 +49,11 @@ private:
 	vector<ID3D11Buffer*> m_buffer_vec;
 protected:
 	vector<unique_ptr<class Animation>> animations;
+
+
+	D3DXVECTOR3 m_position = { 0,0,0 };
+	D3DXVECTOR3 m_rotator = { 0,0,0 };
+	D3DXVECTOR3 m_scale = { 1,1,1 };
+	
 };
 

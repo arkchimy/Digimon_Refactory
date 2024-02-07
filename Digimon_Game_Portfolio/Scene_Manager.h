@@ -8,6 +8,8 @@ public:
 	static void Start_Stage();
 	static void StandBy_Stage(int stage_num);
 	static void Stage_Complete(bool val);
+	static void ClickEvent();
+
 
 	void Update();
 	void Render();

@@ -3,8 +3,6 @@
 #define Enemy_Cnt 5
 #define Wave_SIZE 7
 #define Enemy_PoolSize 20
-#define REWARD_SIZE 2
-
 
 
 class Stage_01 :public Stage
@@ -17,6 +15,8 @@ public:
 	void init_Wave();
 	void Boss_Appear();
 
+	virtual void ClickEvent() override;
+
 	virtual void Update() override;
 	virtual void Render() override;
 
@@ -26,8 +26,9 @@ public:
 
 	virtual void Add_Digimon(shared_ptr<class Digimon> data) override;
 
+
 private:
-	vector<shared_ptr<class Reward_Card>> reward;
+	//vector<shared_ptr<class Reward_Card>> reward;
 	queue<shared_ptr<class ABoss>> boss_que;
 	shared_ptr<class ABoss> boss;
 
@@ -39,5 +40,8 @@ private:
 
 
 	bool bclear =false;
+
+	// ∏Æ∆—≈‰∏µ 
+	vector<unique_ptr<class Reward_Card>> reward;
 };
 

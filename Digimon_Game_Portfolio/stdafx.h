@@ -70,7 +70,7 @@ using namespace std;
 #define Poolsize 35 // queue_size of Objectpool
 #define BulletPool 12
 #define Bullet_FileCnt 7
-
+#define CardPoolSize 2 // 카드 선택지에 최대 2개가 나옴.
 
 #define 기본SpritPos 700
 #define 스킬SpritPos 800
@@ -125,11 +125,11 @@ const wstring Map_Texture_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Player_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Texture_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Effect_Shader = L"../_Shaders/04_Effect.fx";
+const wstring Card_Shader = L"../_Shaders/02_Card.fx";
 
 const wstring TileSampling_Shader = L"../_Shaders/10_TileSampling.fx";
 
 const wstring Decal_Shader = L"../_Shaders/01_Decal.fx";
-const wstring Card_Shader = L"../_Shaders/02_Card.fx";
 
 const wstring Decal_Folder = L"./_Textures/Decal/";
 const wstring Layer_Folder = L"./_Textures/layers/";

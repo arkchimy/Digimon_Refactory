@@ -117,49 +117,42 @@ void Animation::Render()
 
 void Animation::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	for (shared_ptr<class Sprite> sprite: sprites_vec)
-	{
-		sprite->ViewProjection(V, P);
-	}
+	//m_Shader->a
 }
 
 void Animation::UpdateWorld()
 {
-	if (index >= sprites_vec.size())
-		index = sprites_vec.size() - 1;
-	sprites_vec[index]->UpdateWorld();
+	D3DXMATRIX W, S, R, T;
+
+	D3DXMatrixScaling(&S, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixRotationYawPitchRoll(&R, m_rotator.y, m_rotator.x, m_rotator.z);
+	D3DXMatrixTranslation(&T, m_position.x, m_position.y, m_position.z);
+	W = S * R * T;
+	m_Shader->AsMatrix("World")->SetMatrix(W);
 }
 
 void Animation::Position(D3DXVECTOR3 val)
 {
 	CheckNull(m_Shader);
-	D3DXMATRIX W, S, T;
 
-	D3DXMatrixScaling(&S, 150, 150, 1);
-	D3DXMatrixTranslation(&T, val.x, val.y, val.z);
-	W = S * T;
-	m_Shader->AsMatrix("World")->SetMatrix(W);
+	m_position = val;
+	UpdateWorld();
 }
 
 void Animation::Scale(D3DXVECTOR3 val)
 {
-	for (shared_ptr<class Sprite> sprite : sprites_vec)
-	{
-		sprite->Scale(val);
-	}
+	CheckNull(m_Shader);
+
+	m_scale = val;
 	UpdateWorld();
 }
 
 D3DXVECTOR3 Animation::Position()
 {
-	if (index >= sprites_vec.size())
-		index = sprites_vec.size() - 1;
-	return sprites_vec[index]->Position();
+	return m_position;
 }
 
 D3DXVECTOR3 Animation::Scale()
 {
-	if (index >= sprites_vec.size())
-		index = sprites_vec.size() - 1;
-	return sprites_vec[index]->Scale();
+	return m_scale;
 }

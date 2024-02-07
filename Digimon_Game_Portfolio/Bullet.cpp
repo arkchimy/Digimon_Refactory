@@ -620,60 +620,12 @@ void Effect_Manager::Create(int idx)
 	// shader 당 animation하다 담당
 	for (int i = 0; i < Poolsize; i++)
 	{
-		shader_vec.emplace_back(new Shader(Effect_Shader));
+		shader_vec.emplace_back(new Shader(Effect_Shader));//14ms , 10ms
 		animations.emplace_back(make_shared<Animation>(shader_vec[i], srv_vec[i% effect_Size], buffer_vec[i % effect_Size], PlayMode::End));
+		animations[i]->Scale({ 150,150,1 });
 	}
 
-	/*queue<shared_ptr<Animation>> test;
-	int i = 0;
-	for (; i < idx; i++)
-	{
-		shared_ptr<Animation> temp = make_shared<Animation>(
-			Sprite_Info
-			{
-				Effect_Folder + L"Hit_0.png",
-				5,
-				192.f,
-				192.f,
-			},
-			PlayMode::End
-			);
-		test.push(temp);
-		temp->Scale({ 100,100,1 });
-	}
-	m[Effect_Folder + L"Hit_0.png"] = test;
-	queue<shared_ptr<Animation>> test2;
-	for (; i < idx * 2; i++)
-	{
-		shared_ptr<Animation> temp = make_shared<Animation>(
-			Sprite_Info
-			{
-				Effect_Folder + L"Explosion_0.png",
-				5,
-				25.f,
-				25.f,
-			},
-			PlayMode::End
-			);
-		test2.push(temp);
-		temp->Scale({ 150,150,1 });
-	}
-	m[Effect_Folder + L"Explosion_0.png"] = test2;
-
-
-	shared_ptr<Animation> temp = make_shared<Animation>(
-		Sprite_Info
-		{
-			Effect_Folder + L"Level_Up.png",
-			4,
-			16.f,
-			16.f,
-		},
-		PlayMode::End
-		);
-	temp->Scale({ 150,150,1 });
-
-	level_up = temp;*/
+	
 }
 
 shared_ptr<Animation> Effect_Manager::Load(wstring imgfile)
@@ -683,8 +635,9 @@ shared_ptr<Animation> Effect_Manager::Load(wstring imgfile)
 		if (effectfile[i].ImgFile.compare(imgfile) == 0) 
 		{
 			// 범위 초과 방지
-			shader_idx %= shader_vec.size();
 			shader_idx++;
+			shader_idx %= shader_vec.size();
+			
 			// srv 와 buffer 업데이트
 			animations[shader_idx]->UpdateSrvAndBuffer(srv_vec[i], buffer_vec[i]);
 			return animations[shader_idx];
