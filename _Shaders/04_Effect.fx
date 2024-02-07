@@ -1,22 +1,26 @@
-float4 Color = float4(1,1,1,1);
-//-----------------------------------------------------------------------------
-// Structures
-//-----------------------------------------------------------------------------
-matrix World;
-matrix View;
-matrix Projection;
-//shader 는 모든걸 float
 
+cbuffer CB_PerFrame
+{
+    matrix View;
+    matrix Projection;
+};
+
+matrix World;
+//float4x4 == matrix
+
+//-----------------------------------------------------------------------------
+//Structures
+//-----------------------------------------------------------------------------
 struct VertexInput
 {
     float4 Position : POSITION0;
-    float3 Color : COLOR0;
+    float2 Uv : UV0;
 };
 
 struct VertexOutput
 {
     float4 Position : SV_POSITION0;
-    float3 Color : COLOR0;
+    float2 Uv : UV0;
 };
 
 //-----------------------------------------------------------------------------
@@ -24,34 +28,66 @@ struct VertexOutput
 //-----------------------------------------------------------------------------
 VertexOutput VS(VertexInput input)
 {
-    /*
-    * IA -> VS -1 -1 에서 => WVP
-    * 정점을 WVP 변환을 한다.
-    */
     VertexOutput output;
     output.Position = mul(input.Position, World);
     output.Position = mul(output.Position, View);
     output.Position = mul(output.Position, Projection);
 
-    output.Color = input.Color;
+    output.Uv = input.Uv;
 
     return output;
-    /*VertexOutput output;
-    output.Position = input.Position;
-    output.Color = input.Color;
-
-    return output;*/
 }
+
+Texture2D Map;
+SamplerState Sampler;
 
 //-----------------------------------------------------------------------------
 // Pixel Shader
 //-----------------------------------------------------------------------------
 float4 PS(VertexOutput input) : SV_TARGET0
 {
-   // return float4(input.Color, 1);
-    return Color;
+    float4 color = Map.Sample(Sampler, input.Uv);
+    //color.a = 0.7f; 우연히 발견  어둡기 조절 이거로하면될듯
+    return color;
+
 }
 
+//-----------------------------------------------------------------------------
+// Blend State
+//-----------------------------------------------------------------------------
+
+RasterizerState Cull
+{
+    CullMode = None;
+    DepthClipEnable = false;
+};
+
+BlendState AlphaBlend
+{
+    AlphaToCoverageEnable = true;
+
+    BlendEnable[0] = true;
+    DestBlend[0] = INV_SRC_ALPHA;
+    SrcBlend[0] = SRC_ALPHA;
+    BlendOp[0] = Add;
+
+    SrcBlendAlpha[0] = One;
+    DestBlendAlpha[0] = One;
+    RenderTargetWriteMask[0] = 0x0F;
+};
+BlendState AlphaBlend2
+{
+    //AlphaToCoverageEnable = true;
+
+    BlendEnable[0] = true;
+    DestBlend[0] = INV_SRC_ALPHA;
+    SrcBlend[0] = SRC_ALPHA;
+    BlendOp[0] = Add;
+
+    SrcBlendAlpha[0] = One;
+    DestBlendAlpha[0] = One;
+    RenderTargetWriteMask[0] = 0x0F;
+};
 //-----------------------------------------------------------------------------
 // Techniques
 //-----------------------------------------------------------------------------
@@ -61,5 +97,9 @@ technique11 T0
     {
         SetVertexShader(CompileShader(vs_5_0, VS()));
         SetPixelShader(CompileShader(ps_5_0, PS()));
+
+        SetRasterizerState(Cull);
+        SetBlendState(AlphaBlend, float4(0, 0, 0, 0), 0xFFFFFFFF);
     }
+   
 }

@@ -16,13 +16,8 @@ public:
 	Bullet(UINT bullet_type);
 	~Bullet();
 
-
-	//void Init_Info(wstring ImgFile, float cnt, float bullet_speed, float start);
 	void Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File, float knock_power = -1.f);
 	void Init_Info(Sprite_Info info, float bullet_speed, vector<D3DXVECTOR4> pos_vec, wstring effect_File, float knock_power = -1.f);
-
-	//void Init_Info(wstring ImgFile, float cnt, float bullet_speed, float width , float height, float knock_power = -1.f);
-	//void Init_Info(wstring ImgFile, float cnt, float bullet_speed, vector<D3DXVECTOR4> pos_vec, float knock_power = -1.f);
 	
 	void CreateShaderAndBuffer();
 
@@ -113,17 +108,26 @@ class Effect_Manager
 
 public:
 	static void Create(int idx);
-	//static vector<shared_ptr<Bullet>> Load(int cnt);
 	static shared_ptr<class Animation> Load(wstring imgfile);
 
 	static void Render();
 	static void Update();
 	static void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 	static void Level_Up(D3DXVECTOR3 pos);
+	/*  리팩토링  */
+
 private:
 
-	static map<wstring, queue<shared_ptr<class Animation>>> m;
-	static shared_ptr<class Animation> level_up;
+	//static map<wstring, queue<shared_ptr<class Animation>>> m;
+	//static shared_ptr<class Animation> level_up;
 	
+	static vector<Shader*> shader_vec;
+	static int shader_idx; // 배열로 순차탐색 구현
+
+	static vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	static vector<vector<ID3D11Buffer*>> buffer_vec;
+
+	static vector<shared_ptr<Animation>> animations;
+
 };
 

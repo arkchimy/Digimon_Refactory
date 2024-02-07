@@ -40,11 +40,11 @@ private:
 	//  ∏Æ∆—≈‰∏µ
 public:
 	Animation(class Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode = PlayMode::Loop);
-	
+	void UpdateSrvAndBuffer(vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec);
 private:
 
 
-	class Shader* m_Shader;
+	class Shader* m_Shader =  nullptr;
 	vector<ID3D11ShaderResourceView*> m_srv_vec;
 	vector<ID3D11Buffer*> m_buffer_vec;
 protected:

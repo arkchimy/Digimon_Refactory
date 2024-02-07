@@ -35,6 +35,12 @@ Animation::Animation(Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, 
 	
 }
 
+void Animation::UpdateSrvAndBuffer(vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec)
+{
+	m_srv_vec = srv_vec;
+	m_buffer_vec = buffer_vec;
+}
+
 void Animation::Update()
 {
 	CheckFalse(bvisible);
@@ -92,6 +98,7 @@ void Animation::Update()
 
 void Animation::Render()
 {
+	CheckFalse(bvisible);
 
 	if (index >= m_srv_vec.size())
 		index = m_srv_vec.size() - 1;
@@ -125,11 +132,13 @@ void Animation::UpdateWorld()
 
 void Animation::Position(D3DXVECTOR3 val)
 {
-	for (shared_ptr<class Sprite> sprite : sprites_vec)
-	{
-		sprite->Position(val);
-	}
-	UpdateWorld();
+	CheckNull(m_Shader);
+	D3DXMATRIX W, S, T;
+
+	D3DXMatrixScaling(&S, 150, 150, 1);
+	D3DXMatrixTranslation(&T, val.x, val.y, val.z);
+	W = S * T;
+	m_Shader->AsMatrix("World")->SetMatrix(W);
 }
 
 void Animation::Scale(D3DXVECTOR3 val)

@@ -59,7 +59,7 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File
 
 	for (int i = 0; i < m_SpriteSize; i++)
 	{
-		make_shared<Sprite>(srv_vec,buffer_vec,info.ImgFile, start_w, start_h, start_w + unit_w, unit_h);
+		make_shared<Sprite>(srv_vec, buffer_vec, info.ImgFile, start_w, start_h, start_w + unit_w, unit_h);
 		start_w += unit_w;
 	}
 
@@ -122,7 +122,7 @@ void Bullet::CreateShaderAndBuffer()
 
 void Bullet::Fire(D3DXVECTOR2 targetpos)
 {
-	explosion_Pos = { targetpos.x ,targetpos.y,0};
+	explosion_Pos = { targetpos.x ,targetpos.y,0 };
 	// 마우스 따라가는 Rotator
 	{
 		D3DXVECTOR3 current_pos = m_Position;
@@ -152,10 +152,10 @@ void Bullet::Update()
 	D3DXVECTOR3 current_Pos = m_Position;
 
 	// 화면에 잡히는 범위를 벗어나면 visible 해제
-	bool X_move = Width / 2.f <= current_Pos.x  || current_Pos.x <= -Width/2.f;
+	bool X_move = Width / 2.f <= current_Pos.x || current_Pos.x <= -Width / 2.f;
 	bool Y_move = Height / 2.f <= current_Pos.y || current_Pos.y <= -Height / 2.f;
 
-	if (X_move || Y_move) 
+	if (X_move || Y_move)
 	{
 		bvisible = false;
 		return;
@@ -172,7 +172,7 @@ void Bullet::Render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
-	m_localTime += ImGui::GetIO().DeltaTime ;
+	m_localTime += ImGui::GetIO().DeltaTime;
 	current_idx = m_localTime;
 	current_idx %= m_SpriteSize;
 
@@ -245,13 +245,13 @@ void Bullet::Render()
 				}
 			}
 		}
-		
-		
+
+
 	}
 	else if (team_ID == 적군)
 	{
 		D3DXVECTOR3 current_Pos = m_Position;
-		if (current_Pos.x  <= -440.f )
+		if (current_Pos.x <= -440.f)
 		{
 			if (type & UINT(Bullet_Type::Normal))
 			{	// 아무속성이 없다면 hit 시 사라짐
@@ -385,9 +385,9 @@ void Bullet_Manager::Create(int idx)
 				53,									// Width
 				19									// Height
 			},
-			
+
 			30.f,		//Speed	
-			
+
 			Effect_Folder + L"Hit_0.png"
 		);
 		temp->Scale({ 53,19,1.f });
@@ -417,13 +417,13 @@ void Bullet_Manager::Create(int idx)
 			);
 
 		temp->Scale({ 10,10,1.f });
-	
+
 	}
 	m[Digimon_Folder + L"레나몬_스킬브레스.png"] = test4;
 
 
 	queue<shared_ptr<Bullet>> test5;
-	bullets_vec.resize(idx* Bullet_FileCnt);
+	bullets_vec.resize(idx * Bullet_FileCnt);
 	for (; i < idx * 5; i++)
 	{
 		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::Normal));
@@ -454,7 +454,7 @@ void Bullet_Manager::Create(int idx)
 	m[Digimon_Folder + L"테리어몬_브레스.png"] = test5;
 
 	queue<shared_ptr<Bullet>> test6;
-	bullets_vec.resize(idx* Bullet_FileCnt);
+	bullets_vec.resize(idx * Bullet_FileCnt);
 	for (; i < idx * 6; i++)
 	{
 		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::through));
@@ -485,7 +485,7 @@ void Bullet_Manager::Create(int idx)
 
 
 	queue<shared_ptr<Bullet>> test7;
-	bullets_vec.resize(idx* Bullet_FileCnt);
+	bullets_vec.resize(idx * Bullet_FileCnt);
 	for (; i < idx * 7; i++)
 	{
 		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::Normal));
@@ -501,14 +501,14 @@ void Bullet_Manager::Create(int idx)
 					8									// Height
 			},
 			35.f,		//Speed	
-			
+
 			Effect_Folder + L"Hit_0.png"
-			);
+		);
 		temp->Scale({ 8,8,1.f });
 	}
 	m[Digimon_Folder + L"가르고몬_브레스.png"] = test7;
 
-	
+
 
 }
 
@@ -535,17 +535,96 @@ void Bullet_Manager::Update()
 void Bullet_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
 	for (int i = 0; i < BulletPool * Bullet_FileCnt; i++)
-		bullets_vec[i]->ViewProjection(V,P);
+		bullets_vec[i]->ViewProjection(V, P);
 }
 
 /*
 *  Effect_Class
 */
-map<wstring, queue <shared_ptr<Animation>>> Effect_Manager::m;
-shared_ptr<Animation> Effect_Manager::level_up;
+
+//
+//map<wstring, queue <shared_ptr<Animation>>> Effect_Manager::m;
+//shared_ptr<Animation> Effect_Manager::level_up;
+
+
+/// <summary>
+/// 리팩토링 
+/// </summary>
+
+vector<Sprite_Info> effectfile
+{	// 이펙트 루트 지정
+	{
+		Effect_Folder + L"Hit_0.png",
+		5,
+		192.f,
+		192.f,
+	},
+	{
+		Effect_Folder + L"Explosion_0.png",
+		5,
+		25.f,
+		25.f,
+	},
+	// 레벨업은 따로 해야함.
+	{
+		Effect_Folder + L"Level_Up.png",
+		4,
+		16.f,
+		16.f,
+	},
+};
+vector<Shader*> Effect_Manager::shader_vec;
+vector<vector<ID3D11ShaderResourceView*>> Effect_Manager::srv_vec;
+vector<vector<ID3D11Buffer*>> Effect_Manager::buffer_vec;
+
+vector<shared_ptr<Animation>> Effect_Manager::animations;
+int Effect_Manager::shader_idx = 0;
+/// /////////////////
+
 void Effect_Manager::Create(int idx)
 {
-	queue<shared_ptr<Animation>> test;
+	// 애니메이션은 5개로 고정하고
+	// shader는 Poolsize 만큼 가진다.
+	// 그러면 buffer와 srv는 리소스당 5개를 갖게되고
+	// shader는 effectfile의 변경에따라 buffer와 srv를 갱신하고 플레이한다.
+
+
+	float start_w, start_h, width, height;
+
+
+	int effect_Size = effectfile.size();
+
+	srv_vec.resize(effect_Size);
+	buffer_vec.resize(effect_Size);
+	
+
+	for (int k = 0; k < effect_Size; k++)
+	{
+		//push_back과 속도 비교해보기
+		//shader_vec.push_back(new Shader(Effect_Shader));
+
+		start_w = 0;
+		start_h = 0;
+		width = effectfile[k].Width;
+		height = effectfile[k].Height;
+
+		for (int i = 0; i < effectfile[k].Sprite_cnt; i++)
+		{
+			make_shared<Sprite>(srv_vec[k], buffer_vec[k], effectfile[k].ImgFile, start_w, start_h, start_w + width, start_h + height, Effect_Shader);
+			start_w += width;
+		}
+		
+	}
+	shader_vec.reserve(Poolsize);
+	animations.reserve(Poolsize);
+	// shader 당 animation하다 담당
+	for (int i = 0; i < Poolsize; i++)
+	{
+		shader_vec.emplace_back(new Shader(Effect_Shader));
+		animations.emplace_back(make_shared<Animation>(shader_vec[i], srv_vec[i% effect_Size], buffer_vec[i % effect_Size], PlayMode::End));
+	}
+
+	/*queue<shared_ptr<Animation>> test;
 	int i = 0;
 	for (; i < idx; i++)
 	{
@@ -560,7 +639,7 @@ void Effect_Manager::Create(int idx)
 			PlayMode::End
 			);
 		test.push(temp);
-		temp->Scale({100,100,1});
+		temp->Scale({ 100,100,1 });
 	}
 	m[Effect_Folder + L"Hit_0.png"] = test;
 	queue<shared_ptr<Animation>> test2;
@@ -593,60 +672,52 @@ void Effect_Manager::Create(int idx)
 		PlayMode::End
 		);
 	temp->Scale({ 150,150,1 });
-	
-	level_up = temp;
+
+	level_up = temp;*/
 }
 
 shared_ptr<Animation> Effect_Manager::Load(wstring imgfile)
 {
-	queue<shared_ptr<class Animation>> temp = m[imgfile];
-	shared_ptr<Animation> result = temp.front();
-	temp.pop();
-	temp.push(result);
-	return result;
+	for (int i = 0; i < effectfile.size(); i++)
+	{
+		if (effectfile[i].ImgFile.compare(imgfile) == 0) 
+		{
+			// 범위 초과 방지
+			shader_idx %= shader_vec.size();
+			shader_idx++;
+			// srv 와 buffer 업데이트
+			animations[shader_idx]->UpdateSrvAndBuffer(srv_vec[i], buffer_vec[i]);
+			return animations[shader_idx];
+		}
+	}
+	cout << "애니메이션 Compare 실패" <<endl;
+	return animations[0];
 }
 
 void Effect_Manager::Render()
 {
-	//for (auto iter = m.begin(); iter != m.end(); iter++) 
-	//{
-	//	queue<shared_ptr<class Animation>> temp = iter->second;
-	//	for(int i =0; i < temp.size(); i++)
-	//	{
-	//		auto front = temp.front();
-	//		temp.pop();
-	//		temp.push(front);
-	//		if(front->Visible()) // 활성화 됬다면
-	//			front->Render();
-	//	}
-	//}
-	//if(level_up->Visible())
-	//	level_up->Render();
-	
+	//애니메이션에서 render하기
+	for (auto animation : animations)
+		animation->Render();
+
 }
 
 void Effect_Manager::Update()
 {
+	for (auto animation : animations)
+		animation->Update();
 
-	//for (auto iter = m.begin(); iter != m.end(); iter++)
-	//{
-	//	queue<shared_ptr<class Animation>> temp = iter->second;
-	//	for (int i = 0; i < temp.size(); i++)
-	//	{
-	//		auto front = temp.front();
-	//		temp.pop();
-	//		temp.push(front);
-	//		if (front->Visible()) // 활성화 됬다면
-	//			front->Update();
-	//	}
-	//}
-	//if (level_up->Visible()) // 활성화 됬다면
-	//	level_up->Update();
 }
 
 void Effect_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	for (auto iter = m.begin(); iter != m.end(); iter++)
+	for (Shader* shader : shader_vec)
+	{
+		shader->AsMatrix("View")->SetMatrix(V);
+		shader->AsMatrix("Projection")->SetMatrix(P);
+	}
+
+	/*for (auto iter = m.begin(); iter != m.end(); iter++)
 	{
 		queue<shared_ptr<class Animation>> temp = iter->second;
 		for (int i = 0; i < temp.size(); i++)
@@ -654,14 +725,16 @@ void Effect_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 			auto front = temp.front();
 			temp.pop();
 			temp.push(front);
-			front->ViewProjection(V,P);
+			front->ViewProjection(V, P);
 		}
 	}
-	level_up->ViewProjection(V, P);
+	level_up->ViewProjection(V, P);*/
 }
 
 void Effect_Manager::Level_Up(D3DXVECTOR3 pos)
 {
-	level_up->Position(pos);
-	level_up->Start();
+	cout << "아직 미구현" << endl;
+	/*level_up->Position(pos);
+	level_up->Start();*/
 }
+
