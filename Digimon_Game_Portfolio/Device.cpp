@@ -3,6 +3,7 @@
 #include "Actors/Player.h"
 #include "Reward_Card.h"
 
+#include "Scene_Manager.h"
 
 //int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
 //{
@@ -367,7 +368,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			player->Decal_Visible(3, false);
 			NumKey_3 = false;
 		}
-		Card_Manager::Use_Card();
+		//Card_Manager::Use_Card();
+		Scene_Manager::ClickEvent();
 		player->ClickEvent();
 		return 0;
 

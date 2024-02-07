@@ -72,3 +72,8 @@ void Scene_Manager::Stage_Complete(bool val)
 	
 }
 
+void Scene_Manager::ClickEvent()
+{
+	Current_Scene->ClickEvent();
+}
+

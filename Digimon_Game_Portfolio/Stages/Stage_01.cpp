@@ -36,6 +36,13 @@ Stage_01::Stage_01()
 {
 	Gate = new CastleGate();
 
+	reward.reserve(CardPoolSize);
+	for (int i = 0; i < CardPoolSize; i++) 
+	{
+		reward.push_back(make_unique<Reward_Card>());
+		
+	}
+	
 	CreateSamplerState();
 }
 
@@ -62,9 +69,9 @@ void Stage_01::Init_Stage(shared_ptr<class Player> player)
 
 	boss_que.push(make_shared<ABoss>(Digimon_Folder + L"길몬.png", 40, 40, Guilmon, 보스));
 
-	reward.resize(REWARD_SIZE);
-	for(int i =0; i < REWARD_SIZE;i++)
-		reward[i] = nullptr;
+	//reward.resize(CardPoolSize);
+	//for(int i =0; i < CardPoolSize;i++)
+	//	reward[i] = nullptr;
 	Card_Manager::Create(Player->Player_Cards());
 
 }
@@ -109,20 +116,40 @@ void Stage_01::Boss_Appear()
 	}
 	
 }
+void Stage_01::ClickEvent()
+{
+	for (int i = 0; i < CardPoolSize; i++)
+	{
+		if (reward[i]->MouseOver())
+		{
+			Add_Digimon(reward[i]->CardDigimon());
+			reward[i]->Use_Card();
+			
+			for(int k =0; k < CardPoolSize; k++)
+				reward[k]->Visible(false);
+			break;
+		}
+	}
+}
 void Stage_01::Update()
 {
 	
 	Gate->Update();
 	Player->Update();
 
-	if (reward[0] != nullptr)
+	for (int i =0; i < reward.size(); i++)
 	{
-		for (auto data : reward) // Card
-			data->Update();
-		for (auto data : Enemy_vec) // Enemy Actor
-			data->Update();
-		return;
+		reward[i]->Update();
 	}
+	//if (reward[0] != nullptr)
+	//{
+	//	for (auto data : reward) // Card
+	//		data->Update();
+	//	for (auto data : Enemy_vec) // Enemy Actor
+	//		data->Update();
+	//	return;
+	//}
+
 	for (auto data : Enemy_vec)
 	{
 		data->Update();
@@ -180,12 +207,17 @@ void Stage_01::Render()
 	Player->Render();
 	
 	for (auto data : Enemy_vec)
+	{
 		data->Render();
+	}
 
+	for (int i = 0; i < reward.size(); i++)
+	{
+		reward[i]->Render();
+	}
 
-	CheckNull(reward[0]);
-	for (auto data : reward)
-		data->Render();
+	//for (auto data : reward)
+	//	data->Render();
 }
 
 
@@ -232,9 +264,7 @@ void Stage_01::Wave_Reward()
 {
 	for (int i = 0; i < reward.size(); i++) 
 	{
-		reward[i] = Card_Manager::Load();
-		reward[i]->Set_Owner(this);
-		reward[i]->Visible(true);
+		reward[i]->Load();
 		reward[i]->Position(reward_pos[i]);
 	}
 	Player->Battle(배틀종료);
@@ -251,7 +281,7 @@ void Stage_01::Wave_Clear()
 	{
 		reward[i]->Visible(false);
 		reward[i]->Position({2000,2000,0});
-		reward[i] = nullptr;
+		
 	}
 	
 	int cnt = wave_info[wave] - wave_info[wave - 1];

@@ -30,6 +30,8 @@ public:
 	vector<shared_ptr<class Enemy>> Enemy_vec;
 	queue<shared_ptr<class Enemy>> Enemy_pool;
 
+	// ∏Æ∆—≈‰∏µ
+	virtual void ClickEvent() {};
 protected:
 	class CastleGate* Gate;
 
