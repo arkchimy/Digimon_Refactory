@@ -124,6 +124,8 @@ const wstring Shaders = L"../_Shaders/";
 const wstring Map_Texture_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Player_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Texture_Shader = L"../_Shaders/07_Texture.fx";
+const wstring Effect_Shader = L"../_Shaders/04_Effect.fx";
+
 const wstring TileSampling_Shader = L"../_Shaders/10_TileSampling.fx";
 
 const wstring Decal_Shader = L"../_Shaders/01_Decal.fx";

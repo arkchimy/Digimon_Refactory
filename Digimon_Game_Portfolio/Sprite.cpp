@@ -29,11 +29,11 @@ Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buff
 
 }
 
-Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y,wstring shaderFile)
+Sprite::Sprite(vector<ID3D11ShaderResourceView*>& owner_srv, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y,wstring shaderFile)
 {
 	
 	srv = Sprite_Manager::Load(imgFile);
-	ownerShader.push_back(srv);
+	owner_srv.push_back(srv);
 
 	Init_Sprite(imgFile, start_X, start_Y, End_X, End_Y);
 	CreateBuffer(imgFile, shaderFile);

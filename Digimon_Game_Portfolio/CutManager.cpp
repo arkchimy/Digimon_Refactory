@@ -11,8 +11,8 @@ CutScean::CutScean()
 	Fire_bg.emplace_back(make_shared<Sprite>(Digimon_Folder + L"Skill_BG.png", 5, 530,520,780));
 
 	Scene_bg = make_unique<Animation>(Fire_bg);
-	Scene_bg->Position({ 0,0,0 });
-	Scene_bg->Scale({ Width, 300, 1 });
+	/*Scene_bg->Position({ 0,0,0 });
+	Scene_bg->Scale({ Width, 300, 1 });*/
 }
 
 CutScean::~CutScean()
