@@ -16,7 +16,8 @@ CastleGate::CastleGate()
 
 	shader = make_unique<Shader>(Texture_Shader);
 	
-	make_unique<Sprite>(srv, buffer, Layer_Folder + L"Dungeon_01" + L"/" + Ground + to_wstring(0) + L".png");
+	srv = Sprite_Manager::Load(Layer_Folder + L"Dungeon_01" + L"/" + Ground + to_wstring(0) + L".png");
+	make_unique<Sprite>(buffer, Layer_Folder + L"Dungeon_01" + L"/" + Ground + to_wstring(0) + L".png");
 	// Ground
 	{
 		scale = D3DXVECTOR3(850, 800, 1);
@@ -43,7 +44,7 @@ void CastleGate::Render()
 	UINT offset = 0;
 
 	
-	shader->AsShaderResource("Map")->SetResource(srv[0]);
+	shader->AsShaderResource("Map")->SetResource(srv);
 
 	DeviceContext->IASetVertexBuffers(0, 1, &buffer[0], &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);

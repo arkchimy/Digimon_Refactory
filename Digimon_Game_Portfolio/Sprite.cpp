@@ -23,19 +23,16 @@ Sprite::Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float
 
 }
 
-Sprite::Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile)
-	:Sprite(ownerShader, ownerbuffer, imgFile,0,0,1,1,shaderFile)
-{
 
+Sprite::Sprite(vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile)
+	:Sprite(ownerbuffer, imgFile, 0, 0, 1, 1, shaderFile)
+{
 }
 
-Sprite::Sprite(vector<ID3D11ShaderResourceView*>& owner_srv, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y,wstring shaderFile)
+Sprite::Sprite(vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile)
 {
-	
-	srv = Sprite_Manager::Load(imgFile);
-	owner_srv.push_back(srv);
-
 	Init_Sprite(imgFile, start_X, start_Y, End_X, End_Y);
+
 	CreateBuffer(imgFile, shaderFile);
 	ownerbuffer.push_back(vertexBuffer);
 	CreateBoundBuffer(Shaders + L"014_Bounding.fx");
@@ -226,63 +223,15 @@ void Sprite::CreateBuffer(wstring imgFile, wstring shaderFile)
 		assert(SUCCEEDED(hr));
 	}
 	
-	srv = Sprite_Manager::Load(imgFile);
-	
-}
-
-void Sprite::UpdateWorld()
-{
-
-	//D3DXMATRIX W, S, R, T;
-
-	//D3DXMatrixScaling(&S, scale.x, scale.y , scale.z);
-	//D3DXMatrixRotationYawPitchRoll(&R, rotator.y, rotator.x, rotator.z);
-	//D3DXMatrixTranslation(&T, position.x, position.y, position.z);
-	//W = S * R * T;
-	////W = S * T;
-	//world = W; // world  업데이트
-	//shader->AsMatrix("World")->SetMatrix(W);
-
-	//if (rotator.y >= 3.14f)
-	//	W = S * T;
-	//BoundShader->AsMatrix("World")->SetMatrix(W);
-}
-void Sprite::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
-{
-	/*shader->AsMatrix("View")->SetMatrix(V);
-	shader->AsMatrix("Projection")->SetMatrix(P);
-
-	BoundShader->AsMatrix("View")->SetMatrix(V);
-	BoundShader->AsMatrix("Projection")->SetMatrix(P);*/
 }
 
 
-void Sprite::Render()
-{
-	//UINT stride = sizeof(Vertex);
-	//UINT offset = 0;
-
-	//DeviceContext->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//shader->Draw(0, 0, 6);
-
-	//CheckFalse(bDrawBound);
-
-	//stride = sizeof(BoundVertex);
-	//offset = 0;
-
-	//DeviceContext->IASetVertexBuffers(0, 1, &BoundBuffer, &stride, &offset);
-	//DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP);
-
-	//BoundShader->Draw(0, 0, 5);
-
-	
-}
 
 
 
 map<wstring, Sprite_Manager::Sprite_Desc> Sprite_Manager::m;
+map < wstring, vector<ID3D11Buffer*>> Sprite_Manager::m_buffer;
+map < wstring, vector<vector<ID3D11Buffer*>>> Sprite_Manager::m_buffer_vec;
 
 ID3D11ShaderResourceView* Sprite_Manager::Load(wstring imgFile)
 {
@@ -302,6 +251,43 @@ ID3D11ShaderResourceView* Sprite_Manager::Load(wstring imgFile)
 	}
 	return m[imgFile].srv;
 }
+vector<ID3D11Buffer*> Sprite_Manager::LoadBuffer(wstring imgfile)
+{
+	UINT cnt = m_buffer.count(imgfile);
+	if (cnt != 0)
+		return m_buffer[imgfile];
+
+	return vector<ID3D11Buffer*>(); 
+}
+
+vector<vector<ID3D11Buffer*>> Sprite_Manager::LoadBufferVector(wstring imgfile)
+{
+	UINT cnt = m_buffer_vec.count(imgfile);
+	if (cnt != 0)
+		return m_buffer_vec[imgfile];
+
+	return vector<vector<ID3D11Buffer*>>();
+}
+
+void Sprite_Manager::StoreBuffer(wstring imgfile, vector<ID3D11Buffer*> buffer_vec)
+{
+	UINT cnt = m_buffer.count(imgfile);
+	if (cnt == 0)
+	{
+		m_buffer[imgfile] = buffer_vec;
+	}
+}
+
+void Sprite_Manager::StoreBufferVector(wstring imgfile, vector<vector<ID3D11Buffer*>> buffer_vec)
+{
+	UINT cnt = m_buffer_vec.count(imgfile);
+	if (cnt == 0)
+	{
+		m_buffer_vec[imgfile] = buffer_vec;
+	}
+}
+
+
 
 void Sprite_Manager::ReMove(wstring imgFile)
 {
@@ -313,3 +299,5 @@ void Sprite_Manager::ReMove(wstring imgFile)
 		SAFE_RELEASE(m[imgFile].srv);
 	}
 }
+
+

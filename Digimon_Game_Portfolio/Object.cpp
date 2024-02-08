@@ -11,6 +11,7 @@ void Object::Position(D3DXVECTOR3 vec)
 
 void Object::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
+	CheckNull(shader);
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
 }

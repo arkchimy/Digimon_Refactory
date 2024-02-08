@@ -50,10 +50,12 @@ void Stage::CreateShaderAndBuffer(vector<wstring> imagefiles, vector<wstring> sh
 	position.reserve(imagefiles.size());
 	scale.reserve(imagefiles.size());
 	rotator.reserve(imagefiles.size());
-
+	srv_vec.resize(imagefiles.size());
+	
 	for (int i=0; i < imagefiles.size(); i++)
 	{
-		make_unique<Sprite>(srv_vec, buffer_vec, imagefiles[i], shaderfiles[i]);
+		srv_vec[i] = Sprite_Manager::Load(imagefiles[i]);
+		make_unique<Sprite>( buffer_vec, imagefiles[i], shaderfiles[i]);
 
 		shader_vec.push_back(make_unique<Shader>(shaderfiles[i]));
 		position.push_back({ 0,0,0 });

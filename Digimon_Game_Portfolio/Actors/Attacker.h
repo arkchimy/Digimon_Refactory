@@ -30,6 +30,7 @@ public:
 	void CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level);
 
 	void CreateAnimation(); // Animation객체 
+	void UpdateSrvAndBuffer();
 
 
 	virtual void FindLookAtTarget() = 0;
@@ -104,9 +105,12 @@ protected:
 	ID3D11Buffer* vertexBuffer;
 
 	Vertex vertices[6];
-	vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	//vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	ID3D11ShaderResourceView* m_srv;
 	vector<vector<ID3D11Buffer*>> buffer_vec;
 
+
+	//
 	float indexing = 0.f;
 	int idx = indexing;
 
@@ -120,4 +124,7 @@ protected:
 	protected:
 		vector<unique_ptr<class Animation>> animations;
 		FORCEINLINE void Set_Mode(UINT mode) { State = mode; animations[State]->Start(); } // 자동으로 애니메이션 호출
+
+
+	
 };

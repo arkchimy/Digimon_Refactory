@@ -189,7 +189,7 @@ queue<shared_ptr<Reward_Card>>Card_Manager::q;
 
 //  ∏Æ∆—≈‰∏µ
 vector<Shader*> Card_Manager::shader_vec;
-vector<vector<ID3D11ShaderResourceView*>> Card_Manager::srv_vec;
+vector<ID3D11ShaderResourceView*> Card_Manager::srv_vec;
 vector<vector<ID3D11Buffer*>> Card_Manager::buffer_vec;
 
 vector<shared_ptr<Animation>> Card_Manager::animations;
@@ -208,9 +208,18 @@ void Card_Manager::Create(vector<wstring> data)
 	srv_vec.resize(cardTypeCnt);
 	buffer_vec.resize(cardTypeCnt);
 
-	for (int k = 0; k < data.size(); k++)
+	for (int k = 0; k < cardTypeCnt; k++)
 	{
-		make_shared<Sprite>(srv_vec[k], buffer_vec[k], data[k], Card_Shader);
+		srv_vec[k] = Sprite_Manager::Load(data[k]);
+		vector<vector<ID3D11Buffer*>> temp  = Sprite_Manager::LoadBufferVector(data[k]);
+		if (temp.size() == 0)
+		{
+			make_shared<Sprite>(buffer_vec[k], data[k], Card_Shader);
+			Sprite_Manager::StoreBuffer(data[k], buffer_vec[k]);
+		}
+		else
+			buffer_vec = temp;
+
 	}
 
 	shader_vec.reserve(CardPoolSize);

@@ -29,50 +29,6 @@ Attacker::~Attacker()
 {
 }
 
-void Attacker::CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level)
-{
-	shader = new Shader(Texture_Shader);
-
-	// Spirte에서 Buffer 와 Srv 초기화  
-	{
-		float start_w = 0.f, start_h = 0.f;
-
-		for (int state_mode = 0; state_mode < Sprite_Type; state_mode++)
-		{
-			start_w = uvs[state_mode].x;
-			start_h = uvs[state_mode].y;
-
-			for (int i = 0; i < srv_vec[state_mode].capacity(); i++)
-			{
-				shared_ptr<Sprite> temp = make_shared<Sprite>(srv_vec[state_mode], buffer_vec[state_mode], imgfile, start_w, start_h, start_w + uvs[state_mode].z, uvs[state_mode].w);
-				start_w += uvs[state_mode].z;
-			}
-		}
-	}
-	UpdateWorld();
-	
-
-}
-
-void Attacker::CreateAnimation()
-{
-	animations.resize(Sprite_Type);
-
-	animations[IDLE] = make_unique<Animation>(shader, srv_vec[IDLE], buffer_vec[IDLE], PlayMode::Loop);
-	animations[Walk] = make_unique<Animation>(shader, srv_vec[Walk], buffer_vec[Walk], PlayMode::Loop);
-	animations[Action] = make_unique<Animation>(shader, srv_vec[Action], buffer_vec[Action], PlayMode::End);
-	animations[Skill] = make_unique<Animation>(shader, srv_vec[Skill], buffer_vec[Skill], PlayMode::End);
-	animations[Hit] = make_unique<Animation>(shader, srv_vec[Hit], buffer_vec[Hit], PlayMode::End);
-	animations[Victory] = make_unique<Animation>(shader, srv_vec[Victory], buffer_vec[Victory], PlayMode::Loop);
-	animations[Death] = make_unique<Animation>(shader, srv_vec[Death], buffer_vec[Death], PlayMode::End_Stop);
-	animations[PowerUP] = make_unique<Animation>(shader, srv_vec[Victory], buffer_vec[Victory], PlayMode::End);
-
-	for (int i = 0; i < animations.size(); i++)
-		animations[i]->Set_Owner(this);
-
-	Set_Mode(Walk);
-}
-
 void Attacker::Init_info(const Sprites_Info& info)
 {
 	Normal_Sprite_File = info.Normal_Sprite_File;
@@ -91,17 +47,46 @@ void Attacker::Init_info(const Sprites_Info& info)
 	decal = make_unique<Decal>();
 	cut_SceanFile = info.Skill_CutScene;
 
-	srv_vec.resize(Sprite_Type);
 	buffer_vec.resize(Sprite_Type);
+	buffer_vec[IDLE].reserve(info.idle_size);
+	buffer_vec[Walk].reserve(info.Walk_size);
+	buffer_vec[Action].reserve(info.Action_size);
+	buffer_vec[Skill].reserve(info.Skill_size);
+	buffer_vec[Hit].reserve(info.Hit_size);
+	buffer_vec[Victory].reserve(info.victory_size);
+	buffer_vec[Death].reserve(info.Death_size);
+	buffer_vec[PowerUP].reserve(info.victory_size);
+}
 
-	srv_vec[IDLE].reserve(info.idle_size);
-	srv_vec[Walk].reserve(info.Walk_size);
-	srv_vec[Action].reserve(info.Action_size);
-	srv_vec[Skill].reserve(info.Skill_size);
-	srv_vec[Hit].reserve(info.Hit_size);
-	srv_vec[Victory].reserve(info.victory_size);
-	srv_vec[Death].reserve(info.Death_size);
-	srv_vec[PowerUP].reserve(info.victory_size);
+void Attacker::CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level)
+{
+	shader = new Shader(Texture_Shader);
+	m_srv = Sprite_Manager::Load(imgfile);
+
+	vector<vector<ID3D11Buffer*>> temp = Sprite_Manager::LoadBufferVector(imgfile);
+	// buffer_vec 초기화에 실패한다면 
+	if(temp.size() == 0 ) // Spirte에서 Buffer 와 Srv 초기화  
+	{
+		float start_w = 0.f, start_h = 0.f;
+
+		for (int state_mode = 0; state_mode < Sprite_Type; state_mode++)
+		{
+			start_w = uvs[state_mode].x;
+			start_h = uvs[state_mode].y;
+
+			for (int i = 0; i < buffer_vec[state_mode].capacity(); i++)
+			{
+				shared_ptr<Sprite> temp = make_shared<Sprite>(buffer_vec[state_mode], imgfile, start_w, start_h, start_w + uvs[state_mode].z, uvs[state_mode].w);
+				start_w += uvs[state_mode].z;
+			}
+		}
+		// buffer store에 저장
+		Sprite_Manager::StoreBufferVector(imgfile,buffer_vec);
+	}
+	else
+		buffer_vec = temp;
+	
+	UpdateWorld();
 
 }
 
@@ -110,22 +95,57 @@ void Attacker::CreateShaderAndBuffer(wstring imgfile, float width, float height,
 
 
 	shader = new Shader(Texture_Shader);
+	m_srv = Sprite_Manager::Load(imgfile);
 
-	float start_w = 0.f, start_h = 0.f;
-	for (int cnt = 0; cnt < Sprite_Type; cnt++)
+	vector<vector<ID3D11Buffer*>> temp  = Sprite_Manager::LoadBufferVector(imgfile);
+	if (temp.size() == 0) // Spirte에서 Buffer 와 Srv 초기화  
 	{
-		start_w = 0.f;
-		start_h = height * cnt;
-		for (int i = 0; i < srv_vec[cnt].capacity(); i++)
+		float start_w = 0.f, start_h = 0.f;
+		for (int cnt = 0; cnt < Sprite_Type; cnt++)
 		{
-			shared_ptr<Sprite> temp = make_shared<Sprite>(srv_vec[cnt], buffer_vec[cnt], imgfile, start_w, start_h, start_w + width, start_h + height);
-			start_w += width;
+			start_w = 0.f;
+			start_h = height * cnt;
+			for (int i = 0; i < buffer_vec[cnt].capacity(); i++)
+			{
+				shared_ptr<Sprite> temp = make_shared<Sprite>(buffer_vec[cnt], imgfile, start_w, start_h, start_w + width, start_h + height);
+				start_w += width;
+			}
 		}
+		Sprite_Manager::StoreBufferVector(imgfile, buffer_vec);
 	}
+	else
+		buffer_vec = temp;
 
 	UpdateWorld();
 
 }
+
+void Attacker::CreateAnimation()
+{
+	animations.resize(Sprite_Type);
+
+	animations[IDLE] = make_unique<Animation>(shader, m_srv, buffer_vec[IDLE], PlayMode::Loop);
+	animations[Walk] = make_unique<Animation>(shader, m_srv, buffer_vec[Walk], PlayMode::Loop);
+	animations[Action] = make_unique<Animation>(shader, m_srv, buffer_vec[Action], PlayMode::End);
+	animations[Skill] = make_unique<Animation>(shader, m_srv, buffer_vec[Skill], PlayMode::End);
+	animations[Hit] = make_unique<Animation>(shader, m_srv, buffer_vec[Hit], PlayMode::End);
+	animations[Victory] = make_unique<Animation>(shader, m_srv, buffer_vec[Victory], PlayMode::Loop);
+	animations[Death] = make_unique<Animation>(shader, m_srv, buffer_vec[Death], PlayMode::End_Stop);
+	animations[PowerUP] = make_unique<Animation>(shader, m_srv, buffer_vec[Victory], PlayMode::End);
+
+
+	for (int i = 0; i < animations.size(); i++)
+		animations[i]->Set_Owner(this);
+
+	Set_Mode(Walk);
+}
+
+void Attacker::UpdateSrvAndBuffer()
+{
+}
+
+
+
 
 
 
