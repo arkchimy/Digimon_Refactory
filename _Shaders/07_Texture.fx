@@ -47,7 +47,7 @@ SamplerState Sampler;
 float4 PS(VertexOutput input) : SV_TARGET0
 {
     float4 color = Map.Sample(Sampler, input.Uv);
-    //color.a = 0.7f; 우연히 발견  어둡기 조절 이거로하면될듯
+    //color.a = 0.7f;  어둡기 조절 이거로하면될듯
     return color;
 
 }

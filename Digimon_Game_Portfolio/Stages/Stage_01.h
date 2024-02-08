@@ -40,8 +40,13 @@ private:
 
 
 	bool bclear =false;
-
-	// ∏Æ∆—≈‰∏µ 
+	//∏Æ∆—≈‰∏µ
 	vector<unique_ptr<class Reward_Card>> reward;
+
+
+
+	//∏Æ∆—≈‰∏µ
+
+
 };
 

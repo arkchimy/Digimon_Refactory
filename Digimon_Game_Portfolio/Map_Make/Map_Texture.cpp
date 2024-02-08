@@ -23,8 +23,8 @@ void Map_Texture::Update()
 
 void Map_Texture::Render()
 {
-	Map->Render();
-	Swap_Map->Render();
+	//Map->Render();
+	//Swap_Map->Render();
 }
 
 void Map_Texture::Position(D3DXVECTOR3 val)

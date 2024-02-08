@@ -59,7 +59,7 @@ public:
 	static vector<shared_ptr<class Animation>> animations;
 
 
-	static vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	static vector<ID3D11ShaderResourceView*> srv_vec;
 	static vector<vector<ID3D11Buffer*>> buffer_vec;
 
 	static shared_ptr<class Animation> Load(int& cardID);

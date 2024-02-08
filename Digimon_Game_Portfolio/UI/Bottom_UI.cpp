@@ -26,9 +26,9 @@ void Bottom_UI::Update()
 
 void Bottom_UI::Render()
 {
-	sprite->Render();
+	//sprite->Render();
 	CheckFalse(bvictory);
-	victory->Render();
+	//victory->Render();
 }
 
 void Bottom_UI::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)

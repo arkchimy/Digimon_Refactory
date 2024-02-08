@@ -27,7 +27,7 @@ protected:
 	D3DXVECTOR3 rotator;
 
 	unique_ptr<class Shader> shader;
-	vector<ID3D11ShaderResourceView*> srv;
+	ID3D11ShaderResourceView* srv;
 	vector<ID3D11Buffer*> buffer;
 
 	class unique_ptr<class Sprite> Castle;

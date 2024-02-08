@@ -7,19 +7,16 @@ public:
 	Sprite(wstring imgFile, wstring shaderFile = Texture_Shader);
 	Sprite(wstring imgFile, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
-
-
-	Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile = Texture_Shader);
-	Sprite(vector<ID3D11ShaderResourceView*>& ownerShader, vector<ID3D11Buffer*>& ownerbuffer,wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	
+	Sprite(vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile = Texture_Shader);
+	Sprite(vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
+
 	virtual void CreateBuffer(wstring imgFile, wstring shaderFile) ;
 
 
-	void UpdateWorld();
-	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
-	void Render();
-
-	//virtual Hit CheckRayCollision(Ray& ray) { return Hit(); }// ray 이벤트 미완성
+	//void UpdateWorld();
+	//void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+	//void Render();
 
 	
 	void Init_Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y); // startX ,startY EndX, EndY
@@ -69,8 +66,15 @@ class Sprite_Manager
 	friend class Sprite;
 public:
 	static ID3D11ShaderResourceView* Load(wstring img);
-	static void ReMove(wstring img);
+	static vector<ID3D11Buffer*> LoadBuffer(wstring img);
+	static vector<vector<ID3D11Buffer*>> LoadBufferVector(wstring img);
+	
+	static void StoreBuffer(wstring imgfile, vector<ID3D11Buffer*> buffer_vec); //총알같이 State가 없을떄
+	static void StoreBufferVector(wstring imgfile, vector<vector<ID3D11Buffer*>> buffer_vec);
+	
 
+	static void ReMove(wstring img);
+	
 	struct Sprite_Desc
 	{
 	public:
@@ -78,4 +82,6 @@ public:
 		ID3D11ShaderResourceView* srv = nullptr;
 	};
 	static map<wstring, Sprite_Desc> m;
+	static map<wstring, vector<ID3D11Buffer*>> m_buffer;
+	static map<wstring, vector<vector<ID3D11Buffer*>>> m_buffer_vec;
 };

@@ -24,23 +24,6 @@ Bullet::~Bullet()
 	SAFE_DELETE(m_Shader);
 }
 
-//void Bullet::Init_Info(wstring ImgFile, float cnt,float bullet_speed,float start)
-//{
-//	speed = bullet_speed;
-//	current_idx = 0;
-//	idx_size = cnt;
-//	sprites.resize(idx_size);
-//	float start_w =0, start_h = start;
-//	int unit = 80;
-//
-//	
-//	for (int i = 0; i < idx_size; i++)
-//	{
-//		sprites[i] = make_shared<Sprite>(srv_vec, buffer,ImgFile, start_w, start_h, start_w + unit, start_h + unit);
-//		start_w += unit;
-//	}
-//	
-//}
 void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File, float knock_power)
 {
 	this->knock_back = knock_power;
@@ -56,12 +39,20 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File
 	int unit_w = info.Width;
 	int unit_h = info.Height;
 
+	m_srv = Sprite_Manager::Load(info.ImgFile);
 
-	for (int i = 0; i < m_SpriteSize; i++)
+	vector<ID3D11Buffer*> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
+	if (temp.size() == 0)
 	{
-		make_shared<Sprite>(srv_vec, buffer_vec, info.ImgFile, start_w, start_h, start_w + unit_w, unit_h);
-		start_w += unit_w;
+		for (int i = 0; i < m_SpriteSize; i++)
+		{
+			make_shared<Sprite>(buffer_vec, info.ImgFile, start_w, start_h, start_w + unit_w, unit_h);
+			start_w += unit_w;
+		}
+		Sprite_Manager::StoreBuffer(info.ImgFile, buffer_vec);
 	}
+	else
+		buffer_vec = temp;
 
 
 
@@ -75,45 +66,22 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, vector<D3DXVECTOR4>
 
 	Effect_File = effect_File;
 
-	for (int i = 0; i < m_SpriteSize; i++)
+	m_srv = Sprite_Manager::Load(info.ImgFile);
+
+	vector<ID3D11Buffer*> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
+	if (temp.size() == 0)
 	{
-		make_shared<Sprite>(srv_vec, buffer_vec, info.ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
+		for (int i = 0; i < m_SpriteSize; i++)
+		{
+			make_shared<Sprite>(buffer_vec, info.ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
+		}
+		Sprite_Manager::StoreBuffer(info.ImgFile, buffer_vec);
 	}
+	else
+		buffer_vec = temp;
 
 }
-//void Bullet::Init_Info(wstring ImgFile,  float cnt,  float bullet_speed, float width, float height, float knock_power)
-//{
-//	this->knock_back = knock_power;
-//	speed = bullet_speed;
-//	current_idx = 0;
-//	idx_size = cnt;
-//	sprites.resize(idx_size);
-//	float start_w = 0, start_h = 0;
-//	int unit_w = width;
-//	int unit_h = height;
-//
-//
-//	for (int i = 0; i < idx_size; i++)
-//	{
-//		sprites[i] = make_shared<Sprite>(ImgFile, start_w, start_h, start_w + unit_w, unit_h);
-//		start_w += unit_w;
-//	}
-//
-//}
-//void Bullet::Init_Info(wstring ImgFile, float cnt, float bullet_speed,vector<D3DXVECTOR4> pos_vec ,float knock_power)
-//{
-//	this->knock_back = knock_power;
-//	speed = bullet_speed;
-//	current_idx = 0;
-//	idx_size = cnt;
-//	sprites.resize(idx_size);
-//	
-//	for (int i = 0; i < idx_size; i++)
-//	{
-//		sprites[i] = make_shared<Sprite>(ImgFile, pos_vec[i].x, pos_vec[i].y, pos_vec[i].z, pos_vec[i].w);
-//	}
-//
-//}
+
 
 void Bullet::CreateShaderAndBuffer()
 {
@@ -176,7 +144,7 @@ void Bullet::Render()
 	current_idx = m_localTime;
 	current_idx %= m_SpriteSize;
 
-	m_Shader->AsShaderResource("Map")->SetResource(srv_vec[current_idx]);
+	m_Shader->AsShaderResource("Map")->SetResource(m_srv);
 
 	DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[current_idx], &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -574,7 +542,10 @@ vector<Sprite_Info> effectfile
 	},
 };
 vector<Shader*> Effect_Manager::shader_vec;
-vector<vector<ID3D11ShaderResourceView*>> Effect_Manager::srv_vec;
+//vector<vector<ID3D11ShaderResourceView*>> Effect_Manager::srv_vec;
+
+vector<ID3D11ShaderResourceView*> Effect_Manager::srv_vec;
+
 vector<vector<ID3D11Buffer*>> Effect_Manager::buffer_vec;
 
 vector<shared_ptr<Animation>> Effect_Manager::animations;
@@ -596,7 +567,7 @@ void Effect_Manager::Create(int idx)
 
 	srv_vec.resize(effect_Size);
 	buffer_vec.resize(effect_Size);
-	
+
 
 	for (int k = 0; k < effect_Size; k++)
 	{
@@ -608,12 +579,21 @@ void Effect_Manager::Create(int idx)
 		width = effectfile[k].Width;
 		height = effectfile[k].Height;
 
-		for (int i = 0; i < effectfile[k].Sprite_cnt; i++)
+		srv_vec[k] = Sprite_Manager::Load(effectfile[k].ImgFile);
+		buffer_vec[k] = Sprite_Manager::LoadBuffer(effectfile[k].ImgFile);
+		// buffer_vec 가  LoadBuffer에 실패하여 초기화가 안됬다면
+		if (buffer_vec[k].size() == 0)
 		{
-			make_shared<Sprite>(srv_vec[k], buffer_vec[k], effectfile[k].ImgFile, start_w, start_h, start_w + width, start_h + height, Effect_Shader);
-			start_w += width;
+			for (int i = 0; i < effectfile[k].Sprite_cnt; i++)
+			{
+				//Sprite 생성자 인자 고치기
+				make_shared<Sprite>(buffer_vec[k], effectfile[k].ImgFile, start_w, start_h, start_w + width, start_h + height, Effect_Shader);
+				start_w += width;
+			}
+			// buffer 정보 저장
+			Sprite_Manager::StoreBuffer(effectfile[k].ImgFile, buffer_vec[k]);
 		}
-		
+
 	}
 	shader_vec.reserve(Poolsize);
 	animations.reserve(Poolsize);
@@ -621,29 +601,29 @@ void Effect_Manager::Create(int idx)
 	for (int i = 0; i < Poolsize; i++)
 	{
 		shader_vec.emplace_back(new Shader(Effect_Shader));//14ms , 10ms
-		animations.emplace_back(make_shared<Animation>(shader_vec[i], srv_vec[i% effect_Size], buffer_vec[i % effect_Size], PlayMode::End));
+		animations.emplace_back(make_shared<Animation>(shader_vec[i], srv_vec[i % effect_Size], buffer_vec[i % effect_Size], PlayMode::End));
 		animations[i]->Scale({ 150,150,1 });
 	}
 
-	
+
 }
 
 shared_ptr<Animation> Effect_Manager::Load(wstring imgfile)
 {
 	for (int i = 0; i < effectfile.size(); i++)
 	{
-		if (effectfile[i].ImgFile.compare(imgfile) == 0) 
+		if (effectfile[i].ImgFile.compare(imgfile) == 0)
 		{
 			// 범위 초과 방지
 			shader_idx++;
 			shader_idx %= shader_vec.size();
-			
+
 			// srv 와 buffer 업데이트
 			animations[shader_idx]->UpdateSrvAndBuffer(srv_vec[i], buffer_vec[i]);
 			return animations[shader_idx];
 		}
 	}
-	cout << "애니메이션 Compare 실패" <<endl;
+	cout << "애니메이션 Compare 실패" << endl;
 	return animations[0];
 }
 

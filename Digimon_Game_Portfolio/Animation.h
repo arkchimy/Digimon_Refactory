@@ -39,13 +39,15 @@ private:
 
 	//  ∏Æ∆—≈‰∏µ
 public:
-	Animation(class Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode = PlayMode::Loop);
-	void UpdateSrvAndBuffer(vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec);
+	//Animation(class Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode = PlayMode::Loop);
+	Animation(class Shader* shader, ID3D11ShaderResourceView* srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode = PlayMode::Loop);
+	//void UpdateSrvAndBuffer(vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec);
+	void UpdateSrvAndBuffer(ID3D11ShaderResourceView* srv, vector<ID3D11Buffer*> buffer_vec);
 private:
 
 
 	class Shader* m_Shader =  nullptr;
-	vector<ID3D11ShaderResourceView*> m_srv_vec;
+	//vector<ID3D11ShaderResourceView*> m_srv_vec;
 	vector<ID3D11Buffer*> m_buffer_vec;
 protected:
 	vector<unique_ptr<class Animation>> animations;
@@ -54,6 +56,10 @@ protected:
 	D3DXVECTOR3 m_position = { 0,0,0 };
 	D3DXVECTOR3 m_rotator = { 0,0,0 };
 	D3DXVECTOR3 m_scale = { 1,1,1 };
+
+
+	//∏Æ∆—≈‰∏µ
 	
+	ID3D11ShaderResourceView* m_srv;
 };
 

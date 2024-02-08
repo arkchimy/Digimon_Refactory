@@ -77,7 +77,7 @@ private:
 
 	class Shader* m_Shader;
 	vector<ID3D11Buffer*> buffer_vec;
-	vector<ID3D11ShaderResourceView*> srv_vec;
+	ID3D11ShaderResourceView* m_srv;
 	
 };
 
@@ -124,7 +124,8 @@ private:
 	static vector<Shader*> shader_vec;
 	static int shader_idx; // 배열로 순차탐색 구현
 
-	static vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	//static vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+	static vector<ID3D11ShaderResourceView*> srv_vec;
 	static vector<vector<ID3D11Buffer*>> buffer_vec;
 
 	static vector<shared_ptr<Animation>> animations;
