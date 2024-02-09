@@ -33,6 +33,8 @@ public:
 	void Position(D3DXVECTOR3 val); // 처음에 발사체 pos 에서 나가기
 	void Rotator(D3DXVECTOR3 val);
 	void Set_Dir(D3DXVECTOR3 val) { bvisible = true;  m_Dir = val * m_Speed; }
+	void Init_BulletType(const UINT& type);
+
 
 	bool Visible() { return bvisible; }
 	void Team_ID(UINT val) { team_ID = val; }
@@ -45,8 +47,6 @@ public:
 	// 목적지 도착했는지.
 
 private:
-	//vector<shared_ptr<class Sprite>> sprites;
-
 	// Hit 관련
 	wstring Effect_File;
 	float power = 1.f;
@@ -67,7 +67,7 @@ private:
 	float m_localTime = 0.f; // delta time 을 누적함
 	// State 
 	bool bvisible;
-	const UINT type;
+	UINT type;
 	
 	//   리팩토링
 
@@ -83,29 +83,24 @@ private:
 
 class Bullet_Manager
 {
-	//Single torn
-	friend class Bullet;
-
+	//오브젝트 풀링
 public:
-	static void Create(int idx);
-	//static vector<shared_ptr<Bullet>> Load(int cnt);
-	static shared_ptr<Bullet> Load(wstring imgfile);
-
 	static void Render();
 	static void Update();
+
+	static void Create(int pool);
 	static void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+	static shared_ptr<Bullet> Load(wstring imgfile);
 
 private:
-	static queue<shared_ptr<Bullet>> bullets;
-	static vector<shared_ptr<Bullet>> bullets_vec; // 모든 Bullet
-	static map<wstring, queue<shared_ptr<Bullet>>> m;
+	static vector<shared_ptr<Bullet>> m;
+	static int idx;
+
 };
 
 class Effect_Manager
 {
-	//Single torn
-	friend class Bullet;
-
+	//오브젝트 풀링
 public:
 	static void Create(int idx);
 	static shared_ptr<class Animation> Load(wstring imgfile);
@@ -117,14 +112,10 @@ public:
 	/*  리팩토링  */
 
 private:
-
-	//static map<wstring, queue<shared_ptr<class Animation>>> m;
-	//static shared_ptr<class Animation> level_up;
 	
 	static vector<Shader*> shader_vec;
 	static int shader_idx; // 배열로 순차탐색 구현
 
-	//static vector<vector<ID3D11ShaderResourceView*>> srv_vec;
 	static vector<ID3D11ShaderResourceView*> srv_vec;
 	static vector<vector<ID3D11Buffer*>> buffer_vec;
 

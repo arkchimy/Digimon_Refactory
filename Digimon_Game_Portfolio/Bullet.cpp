@@ -278,27 +278,39 @@ void Bullet::Rotator(D3DXVECTOR3 val)
 	UpdateWorld();
 }
 
+void Bullet::Init_BulletType(const UINT& type)
+{
+	this->type = type;
+}
+
 
 
 /// <summary>
 ///////////////////////////////////////////// Bullet_Manager
 /// </summary>
-queue<shared_ptr<Bullet>> Bullet_Manager::bullets;
-vector<shared_ptr<Bullet>> Bullet_Manager::bullets_vec;
-map<wstring, queue <shared_ptr<Bullet>>> Bullet_Manager::m;
 
-void Bullet_Manager::Create(int idx)
+
+vector<shared_ptr<Bullet>> Bullet_Manager::m;
+int Bullet_Manager::idx;
+
+void Bullet_Manager::Create(int poolsize)
 {
-	queue<shared_ptr<Bullet>> test;
-	bullets_vec.resize(idx * Bullet_FileCnt);
-	int i = 0;
-	for (; i < idx; i++)
+	m.reserve(poolsize);
+	for (int i = 0; i < poolsize; i++)
 	{
 		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::Normal));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test.push(temp);
-		temp->Init_Info(
+		m.push_back(temp);
+	}
+}
+
+shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
+{
+
+	idx++;
+	idx %= m.size();
+	if (imgfile.compare(Digimon_Folder + L"길몬_브레스.png") == 0)
+	{
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 					Digimon_Folder + L"길몬_브레스.png",//File
@@ -309,18 +321,13 @@ void Bullet_Manager::Create(int idx)
 			35.f,										//Speed
 			Effect_Folder + L"Hit_0.png"
 		);
-		temp->Scale({ 30,30,1.f });
+		m[idx]->Init_BulletType(UINT(Bullet_Type::Normal));
+		m[idx]->Scale({ 30,30,1.f });
 	}
-	m[Digimon_Folder + L"길몬_브레스.png"] = test;
-
-	queue<shared_ptr<Bullet>> test2;
-	for (; i < idx * 2; i++)
+	if (imgfile.compare(Digimon_Folder + L"길몬_스킬브레스.png") == 0)
 	{
-		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::explosion));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test2.push(temp);
-		temp->Init_Info(
+
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 				Digimon_Folder + L"길몬_스킬브레스.png",  //File
@@ -340,19 +347,12 @@ void Bullet_Manager::Create(int idx)
 			},
 			Effect_Folder + L"Explosion_0.png"
 			);
-		temp->Scale({ 60,30,1.f });
+		m[idx]->Init_BulletType(UINT(Bullet_Type::explosion));
+		m[idx]->Scale({ 60,30,1.f });
 	}
-	m[Digimon_Folder + L"길몬_스킬브레스.png"] = test2;
-
-	queue<shared_ptr<Bullet>> test3;
-	bullets_vec.resize(idx * Bullet_FileCnt);
-	for (; i < idx * 3; i++)
+	if (imgfile.compare(Digimon_Folder + L"레나몬_브레스.png") == 0)
 	{
-		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::Normal));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test3.push(temp);
-		temp->Init_Info(
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 				Digimon_Folder + L"레나몬_브레스.png",  //File
@@ -365,18 +365,12 @@ void Bullet_Manager::Create(int idx)
 
 			Effect_Folder + L"Hit_0.png"
 		);
-		temp->Scale({ 53,19,1.f });
+		m[idx]->Init_BulletType(UINT(Bullet_Type::Normal));
+		m[idx]->Scale({ 53,19,1.f });
 	}
-	m[Digimon_Folder + L"레나몬_브레스.png"] = test3;
-
-	queue<shared_ptr<Bullet>> test4;
-	for (; i < idx * 4; i++)
+	if (imgfile.compare(Digimon_Folder + L"레나몬_스킬브레스.png") == 0)
 	{
-		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::through));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test4.push(temp);
-		temp->Init_Info(
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 					Digimon_Folder + L"레나몬_스킬브레스.png",//File
@@ -390,22 +384,13 @@ void Bullet_Manager::Create(int idx)
 			},
 			Effect_Folder + L"Hit_0.png"
 			);
-
-		temp->Scale({ 10,10,1.f });
-
+		m[idx]->Init_BulletType(UINT(Bullet_Type::Normal));
+		m[idx]->Scale({ 10,10,1.f });
 	}
-	m[Digimon_Folder + L"레나몬_스킬브레스.png"] = test4;
 
-
-	queue<shared_ptr<Bullet>> test5;
-	bullets_vec.resize(idx * Bullet_FileCnt);
-	for (; i < idx * 5; i++)
+	if (imgfile.compare(Digimon_Folder + L"테리어몬_브레스.png") == 0)
 	{
-		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::Normal));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test5.push(temp);
-		temp->Init_Info(
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 					Digimon_Folder + L"테리어몬_브레스.png",//File
@@ -424,19 +409,12 @@ void Bullet_Manager::Create(int idx)
 			},
 			Effect_Folder + L"Hit_0.png"
 			);
-		temp->Scale({ 20,20,1.f });
+		m[idx]->Scale({ 20,20,1.f });
+		m[idx]->Init_BulletType(UINT(Bullet_Type::through));
 	}
-	m[Digimon_Folder + L"테리어몬_브레스.png"] = test5;
-
-	queue<shared_ptr<Bullet>> test6;
-	bullets_vec.resize(idx * Bullet_FileCnt);
-	for (; i < idx * 6; i++)
+	if (imgfile.compare(Digimon_Folder + L"테리어몬_스킬브레스.png") == 0)
 	{
-		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::through));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test6.push(temp);
-		temp->Init_Info(
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 					Digimon_Folder + L"테리어몬_스킬브레스.png",//File
@@ -454,20 +432,12 @@ void Bullet_Manager::Create(int idx)
 			},
 			Effect_Folder + L"Hit_0.png"
 			);
-		temp->Scale({ 80,80,1.f });
+		m[idx]->Scale({ 80,80,1.f });
+		m[idx]->Init_BulletType(UINT(Bullet_Type::through));
 	}
-	m[Digimon_Folder + L"테리어몬_스킬브레스.png"] = test6;
-
-
-	queue<shared_ptr<Bullet>> test7;
-	bullets_vec.resize(idx * Bullet_FileCnt);
-	for (; i < idx * 7; i++)
+	if (imgfile.compare(Digimon_Folder + L"가르고몬_브레스.png") == 0)
 	{
-		shared_ptr temp = make_shared<Bullet>(UINT(Bullet_Type::Normal));
-		//bullets.push(temp);
-		bullets_vec[i] = (temp);
-		test7.push(temp);
-		temp->Init_Info(
+		m[idx]->Init_Info(
 			Sprite_Info
 			{
 					Digimon_Folder + L"가르고몬_브레스.png",//File
@@ -479,53 +449,34 @@ void Bullet_Manager::Create(int idx)
 
 			Effect_Folder + L"Hit_0.png"
 		);
-		temp->Scale({ 8,8,1.f });
+		m[idx]->Init_BulletType(UINT(Bullet_Type::Normal));
+		m[idx]->Scale({ 8,8,1.f });
 	}
-	m[Digimon_Folder + L"가르고몬_브레스.png"] = test7;
 
-
-
-}
-
-shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
-{
-	shared_ptr<Bullet> bullet = m[imgfile].front();
-	m[imgfile].pop();
-	m[imgfile].push(bullet);
-	return bullet;
+	return m[idx];
 }
 
 void Bullet_Manager::Render()
 {
-	for (int i = 0; i < BulletPool * Bullet_FileCnt; i++)
-		bullets_vec[i]->Render();
+	for (int i = 0; i < BulletPool; i++)
+		m[i]->Render();
 }
 
 void Bullet_Manager::Update()
 {
-	for (int i = 0; i < BulletPool * Bullet_FileCnt; i++)
-		bullets_vec[i]->Update();
+	for (int i = 0; i < BulletPool; i++)
+		m[i]->Update();
 }
 
 void Bullet_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	for (int i = 0; i < BulletPool * Bullet_FileCnt; i++)
-		bullets_vec[i]->ViewProjection(V, P);
+	for (int i = 0; i < BulletPool; i++)
+		m[i]->ViewProjection(V, P);
 }
 
 /*
 *  Effect_Class
 */
-
-//
-//map<wstring, queue <shared_ptr<Animation>>> Effect_Manager::m;
-//shared_ptr<Animation> Effect_Manager::level_up;
-
-
-/// <summary>
-/// 리팩토링 
-/// </summary>
-
 vector<Sprite_Info> effectfile
 {	// 이펙트 루트 지정
 	{
@@ -549,27 +500,18 @@ vector<Sprite_Info> effectfile
 	},
 };
 vector<Shader*> Effect_Manager::shader_vec;
-//vector<vector<ID3D11ShaderResourceView*>> Effect_Manager::srv_vec;
-
 vector<ID3D11ShaderResourceView*> Effect_Manager::srv_vec;
-
 vector<vector<ID3D11Buffer*>> Effect_Manager::buffer_vec;
 
 vector<shared_ptr<Animation>> Effect_Manager::animations;
 int Effect_Manager::shader_idx = 0;
-/// /////////////////
 
+/// /////////////////
+// 이펙트가 추가될 경우 effectfile 파일에 정보를 추가할 것
+/// /////////////////
 void Effect_Manager::Create(int idx)
 {
-	// 애니메이션은 5개로 고정하고
-	// shader는 Poolsize 만큼 가진다.
-	// 그러면 buffer와 srv는 리소스당 5개를 갖게되고
-	// shader는 effectfile의 변경에따라 buffer와 srv를 갱신하고 플레이한다.
-
-
 	float start_w, start_h, width, height;
-
-
 	int effect_Size = effectfile.size();
 
 	srv_vec.resize(effect_Size);
@@ -578,9 +520,6 @@ void Effect_Manager::Create(int idx)
 
 	for (int k = 0; k < effect_Size; k++)
 	{
-		//push_back과 속도 비교해보기
-		//shader_vec.push_back(new Shader(Effect_Shader));
-
 		start_w = 0;
 		start_h = 0;
 		width = effectfile[k].Width;
@@ -604,6 +543,7 @@ void Effect_Manager::Create(int idx)
 	}
 	shader_vec.reserve(Poolsize);
 	animations.reserve(Poolsize);
+
 	// shader 당 animation하다 담당
 	for (int i = 0; i < Poolsize; i++)
 	{
@@ -657,18 +597,7 @@ void Effect_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 		shader->AsMatrix("Projection")->SetMatrix(P);
 	}
 
-	/*for (auto iter = m.begin(); iter != m.end(); iter++)
-	{
-		queue<shared_ptr<class Animation>> temp = iter->second;
-		for (int i = 0; i < temp.size(); i++)
-		{
-			auto front = temp.front();
-			temp.pop();
-			temp.push(front);
-			front->ViewProjection(V, P);
-		}
-	}
-	level_up->ViewProjection(V, P);*/
+	//level_up->ViewProjection(V, P);
 }
 
 void Effect_Manager::Level_Up(D3DXVECTOR3 pos)
