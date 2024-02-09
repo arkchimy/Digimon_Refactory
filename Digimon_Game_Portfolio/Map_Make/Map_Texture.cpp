@@ -9,8 +9,8 @@ Map_Texture::Map_Texture(wstring imgFile, wstring shaderFile)
 
 	Map_Pos = { 0,0,0 };
 
-	Map->Scale({ Width,Height,1 });
-	Swap_Map->Scale({ Width,Height,1 });
+	//Map->Scale({ Width,Height,1 });
+	//Swap_Map->Scale({ Width,Height,1 });
 }
 
 Map_Texture::~Map_Texture()
@@ -29,43 +29,43 @@ void Map_Texture::Render()
 
 void Map_Texture::Position(D3DXVECTOR3 val)
 {
-	Map->Position(val);
-	Swap_Map->Position(val);
+	/*Map->Position(val);
+	Swap_Map->Position(val);*/
 	UpdateWorld();
 }
 
 void Map_Texture::Scale(D3DXVECTOR3 val)
 {
-	Map->Scale(val);
-	Swap_Map->Scale(val);
+	/*Map->Scale(val);
+	Swap_Map->Scale(val);*/
 	UpdateWorld();
 }
 
 void Map_Texture::Animation(D3DXVECTOR3 speed)
 {
-	Map_Pos = Map->Position();
+	/*Map_Pos = Map->Position();
 	Map->Position(Map_Pos.x + speed.x * ImGui::GetIO().DeltaTime, Map_Pos.y + speed.y * ImGui::GetIO().DeltaTime, Map_Pos.z + speed.z * ImGui::GetIO().DeltaTime);
 
 	Map_Pos = Map->Position();
 	Move_BackPosition(Map_Pos);
 
 	
-	Swap_Map->Position(Swap_Map_Pos);
+	Swap_Map->Position(Swap_Map_Pos);*/
 
-	ScreenRange_OutChk();
+	//ScreenRange_OutChk();
 
 }
 
 void Map_Texture::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	Map->ViewProjection(V,P);
-	Swap_Map->ViewProjection(V, P);
+	//Map->ViewProjection(V,P);
+	//Swap_Map->ViewProjection(V, P);
 }
 
 void Map_Texture::UpdateWorld()
 {
-	Map->UpdateWorld();
-	Swap_Map->UpdateWorld();
+	//Map->UpdateWorld();
+	//Swap_Map->UpdateWorld();
 }
 
 void Map_Texture::Move_BackPosition(D3DXVECTOR3 val)
@@ -78,6 +78,6 @@ void Map_Texture::Move_BackPosition(D3DXVECTOR3 val)
 
 void Map_Texture::ScreenRange_OutChk()
 {
-	if (Map_Pos.x + Map->Scale().x / 2.f <=  (-Width) / 2.f)
-		Map->Position(0, Map_Pos.y, Map_Pos.z);
+	//if (Map_Pos.x + Map->Scale().x / 2.f <=  (-Width) / 2.f)
+	//	Map->Position(0, Map_Pos.y, Map_Pos.z);
 }

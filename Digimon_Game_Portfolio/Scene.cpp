@@ -30,21 +30,31 @@ class Bottom_UI* bottom_UI;
 
 void InitScene()
 {
+	Digimon_Manager::CreatePooling(DigimonPoolsize);
+
 	player = make_shared<Player>();
 	Scene_Manager::Player = player;
 	stage = new Scene_Manager();
 
 	ViewProjection_Init();
 
+
+
+
 	stage->ViewProjection(V, P);
 
-	Bullet_Manager::Create(BulletPool);
-	Effect_Manager::Create(Poolsize);
-	CutManager::Create();
 
+
+	Bullet_Manager::Create(BulletPool);
 	Bullet_Manager::ViewProjection(V, P);
+
+	Effect_Manager::Create(Poolsize);
 	Effect_Manager::ViewProjection(V, P);
+
+	CutManager::Create();
 	CutManager::ViewProjection(V, P);
+
+	
 	Skill_Cut = new CutScean();
 	Skill_Cut->ViewProjection(V, P); // CutScene BG
 	
@@ -61,11 +71,12 @@ void DestroyScene()
 bool chk = false;
 void Update()
 {
+	
 	if (!bStop)
 	{
 		stage->Update();
-		//stage->ViewProjection(V, P);
-
+		stage->ViewProjection(V, P);
+		//Digimon_Manager::ViewProjection(V, P);
 		//modack->Update();
 		Bullet_Manager::Update();
 		Effect_Manager::Update();

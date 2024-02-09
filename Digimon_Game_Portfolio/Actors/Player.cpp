@@ -8,16 +8,10 @@
 extern Sprites_Info Guilmon;
 Player::Player( wstring shaderFile)
 {
-	My_Digimon.reserve(3);
-	My_Digimon.push_back(make_shared<Digimon>(Digimon_Folder + L"길몬.png", 40, 40,
-		Guilmon,
-		성장기));
-	//My_Digimon.push_back(make_unique<Digimon>(Digimon_Folder + L"레나몬.png", Renamon_UV,
-	//	Renamon,
-	//	성장기));
-	//My_Digimon.push_back(make_unique<Digimon>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
-	//	Terriermon,
-	//	성장기));
+
+	My_Digimon.reserve(10);
+	My_Digimon.push_back(Digimon_Manager::Load(Digimon_Folder + L"길몬.png"));
+
 	
 
 	cards.push_back(Card_Folder + L"테리어몬_카드.png");

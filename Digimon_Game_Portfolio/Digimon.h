@@ -40,10 +40,19 @@ private:
 
 	shared_ptr<Enemy> target = nullptr;
 
-
-
-
-
 };
 
+
+class Digimon_Manager
+{
+public:
+	static void CreatePooling(int pool);
+	static void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+	static shared_ptr<Digimon> Load(wstring imgfile);
+
+
+	static vector<shared_ptr<Digimon>> m;
+	static int idx;
+
+};
 

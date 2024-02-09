@@ -259,16 +259,23 @@ void Bullet::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 void Bullet::Scale(D3DXVECTOR3 val)
 {
 	m_Scale = val;
+	UpdateWorld();
 }
 
 void Bullet::Position(D3DXVECTOR3 val)
 {
 	m_Position = val;
+	UpdateWorld();
 }
 
 void Bullet::Rotator(D3DXVECTOR3 val)
 {
+	val.x = D3DXToRadian(val.x);
+	val.y = D3DXToRadian(val.y);
+	val.z = D3DXToRadian(val.z);
+
 	m_Rotator = val;
+	UpdateWorld();
 }
 
 

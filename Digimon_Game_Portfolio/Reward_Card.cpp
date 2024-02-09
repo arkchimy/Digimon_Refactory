@@ -28,22 +28,25 @@ Reward_Card::Reward_Card(wstring Cardfile, const wstring ShaderFile)
 	{
 		if (Cardfile.compare(Card_Folder + L"테리어몬_카드.png") == 0)
 		{
-			digimon = make_shared<Digimon>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
+			digimon = Digimon_Manager::Load(Digimon_Folder + L"테리어몬.png");
+			/*digimon = make_shared<Digimon>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
 				Terriermon,
-				성장기);
+				성장기);*/
 			
 		}
 		else if (Cardfile.compare(Card_Folder + L"레나몬_카드.png") == 0)
 		{
-			digimon = make_shared<Digimon>(Digimon_Folder + L"레나몬.png", Renamon_UV,
+			digimon = Digimon_Manager::Load(Digimon_Folder + L"레나몬.png");
+		/*	digimon = make_shared<Digimon>(Digimon_Folder + L"레나몬.png", Renamon_UV,
 				Renamon,
-				성장기);
+				성장기);*/
 		}
 		else if (Cardfile.compare(Card_Folder + L"가르고몬_카드.png") == 0)
 		{
-			digimon = make_shared<Digimon>(Digimon_Folder + L"가르고몬.png", Galgomon_UV,
+			digimon = Digimon_Manager::Load(Digimon_Folder + L"가르고몬.png");
+		/*	digimon = make_shared<Digimon>(Digimon_Folder + L"가르고몬.png", Galgomon_UV,
 				Galgomon,
-				성장기);
+				성장기);*/
 		}
 		CheckNull(digimon); 
 		q.push(digimon);
@@ -137,6 +140,7 @@ void Reward_Card::Use_Card()
 	
 	CheckNull(digimon);
 	digimon->Position({0,0,0});
+	
 	digimon = nullptr;
 	
 }

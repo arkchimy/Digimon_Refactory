@@ -30,11 +30,11 @@ public:
 	void CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level);
 
 	void CreateAnimation(); // Animation°´Ã¼ 
-	void UpdateSrvAndBuffer();
+	void UpdateSrvAndBuffer(wstring imgfile);
 
 
 	virtual void FindLookAtTarget() = 0;
-	virtual void Take_Damage(class Bullet* causer, D3DXVECTOR3 dir);
+	virtual void Take_Damage(class Bullet* causer, D3DXVECTOR3 dir) = 0;
 
 	virtual void Update();
 	virtual void Render();
