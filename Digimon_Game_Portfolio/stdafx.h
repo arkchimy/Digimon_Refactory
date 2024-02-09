@@ -66,7 +66,7 @@ using namespace std;
 #define SAFE_DELETE_ARRAY(p){ if(p){ delete [] (p); (p) = NULL; } }
 
 
-
+#define DigimonPoolsize 10
 #define Poolsize 35 // queue_size of Objectpool
 #define BulletPool 12
 #define Bullet_FileCnt 7

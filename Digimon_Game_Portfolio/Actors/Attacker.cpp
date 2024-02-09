@@ -140,38 +140,15 @@ void Attacker::CreateAnimation()
 	Set_Mode(Walk);
 }
 
-void Attacker::UpdateSrvAndBuffer()
+void Attacker::UpdateSrvAndBuffer(wstring imgfile)
 {
+	m_srv = Sprite_Manager::Load(imgfile);
+	// Store에 없는 경우를 주의해야함. Pooling 시에 미리 하나씩은 생성해두게 구현하자.
+	buffer_vec = Sprite_Manager::LoadBufferVector(imgfile);
+
+	CreateAnimation();
 }
 
-
-
-
-
-
-void Attacker::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
-{
-	UINT type = causer->Bullet_Type();
-	Move_dir = dir;
-	hp -= causer->Power();
-	if (type & UINT(Bullet_Type::Normal))
-	{
-		knock_back = causer->Knock_Back();
-	}
-	if (type & UINT(Bullet_Type::explosion))
-	{
-		Move_dir = dir * 5.f;
-	}
-	if (hp <= 0)
-	{
-		buff_state = Buff_State::Dead;
-		Set_Mode(Death);
-	}
-	else
-	{
-		Set_Mode(Hit);
-	}
-}
 
 void Attacker::Update()
 {

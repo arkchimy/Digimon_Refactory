@@ -18,7 +18,7 @@ Digimon::Digimon(wstring imgfile, float width, float height, Sprites_Info info, 
 {
 	next_digimon = info.Next_digimon;
 	team_id = 아군;
-	
+
 }
 
 Digimon::Digimon(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level)
@@ -51,7 +51,7 @@ void Digimon::Update()
 	}
 	if (bMove)
 	{
-		Set_Mode(Walk);
+		
 		D3DXVECTOR3 current = Position();
 		D3DXVECTOR3 vec = goal_pos - current;
 		D3DXVECTOR3 dir = goal_pos - current;
@@ -66,12 +66,12 @@ void Digimon::Update()
 			return;
 		}
 		Position({ current.x + dir.x * move_speed * ImGui::GetIO().DeltaTime, current.y + dir.y * move_speed * ImGui::GetIO().DeltaTime, 0 });
-		animations[State]->Update();
+		
 		return;
 	}
 	decal->Update();
 
-	FindLookAtTarget(); 
+	FindLookAtTarget();
 
 	if (State == IDLE)
 	{
@@ -79,7 +79,7 @@ void Digimon::Update()
 		if (Fire_time >= Inter_Second)
 		{
 			Fire_time = 0.f;
-			
+
 			if (bBattle == 배틀시작)
 			{
 				Set_Mode(Action);
@@ -102,19 +102,14 @@ void Digimon::Update()
 
 void Digimon::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
 {
-	Attacker::Take_Damage(causer, dir);
+	//Attacker::Take_Damage(causer, dir);
+	cout << "아군 디지몬 타격" << endl; //아직 기획안함
 }
 
 void Digimon::FindLookAtTarget()
 {
-	// 타겟이 이미 정해졌고, 살아있다면 target 안바꾸기
-	if (target != nullptr)
-	{
-		if (target->IsDeathMode())
-			target = SearchTarget();
-	}
-	else
-		target = SearchTarget();
+	// 매 프레임마다 가장 가까운적 찾기
+	target = SearchTarget();
 
 	if (target == nullptr)
 	{   // 적이 없을 때  전투 중일떄와 클리어할떄를 구분지어야 할듯. Victory 와 Idle 결정 요소
@@ -125,9 +120,8 @@ void Digimon::FindLookAtTarget()
 	else
 	{
 		D3DXVECTOR3 direction = target->Position() - Position();
-		bullet_Degree = D3DXToDegree(atan(direction.y, direction.x));
-		// 중복 계산 제거를 위해 총알은 디지몬의 회전적용
-		Rotator({ 0, 0, bullet_Degree });
+		// Rotation에서 다시 라디안으로 바꿈
+		bullet_Degree = D3DXToDegree(atan2(direction.y, direction.x));
 
 		bullet_Dir = direction;
 	}
@@ -138,7 +132,7 @@ shared_ptr<Enemy> Digimon::SearchTarget()
 {
 	shared_ptr<Enemy> Target = nullptr;
 	D3DXVECTOR3 Pos = Position();
-	D3DXVECTOR3 Target_Pos = {0,0,0};
+	D3DXVECTOR3 Target_Pos = { 0,0,0 };
 	float distance = 750.f;
 
 	vector<shared_ptr<Enemy>> enemies = Scene_Manager::Get_Enemies();
@@ -158,7 +152,7 @@ shared_ptr<Enemy> Digimon::SearchTarget()
 			distance = distance_temp;
 			Target = front;
 		}
-		
+
 	}
 	return Target;
 }
@@ -168,6 +162,7 @@ void Digimon::Battle(bool val)
 {
 	bBattle = val;
 	CheckFalse(val);
+	CheckTrue(bMove); // 움직이는 중이라면 idle로 안바꿈
 	Set_Mode(IDLE);
 }
 
@@ -189,11 +184,11 @@ void Digimon::Fire()
 	int Bullet_Cnt = Normal_Bullet_Cnt;
 	wstring Attack_Sprite_File;
 
-	if (Skill_Type == 분산형타입) 
+	if (Skill_Type == 분산형타입)
 	{
 		Bullet_Cnt = State == Action ? Normal_Bullet_Cnt : Skill_Bullet_Cnt; // Skill_Bullet_Cnt을 유닛마다 변경할 수 있게
 	}
-	
+
 	Attack_Sprite_File = State == Action ? Normal_Sprite_File : Skill_Sprite_File;
 
 	if (Skill_Type == 연사형타입)
@@ -204,8 +199,6 @@ void Digimon::Fire()
 			//Spread Type   => Double Shot   Triple Shot
 			{
 				bullets->Team_ID(아군);
-				//bullets->Position(sprites_vec[0][0]->Position());
-
 				int dir = 0;
 
 				if (State == Skill)
@@ -215,12 +208,14 @@ void Digimon::Fire()
 
 					bullets->Fire({ target_pos.x, target_pos.y + dir });
 				}
-				
+
 			}
 		}
 	}
-	else 
+	else
 	{
+		// 샷건형 총알의 발사간격
+		float bullet_distance = 0.f;
 		for (int i = 0; i < Bullet_Cnt; i++)
 		{
 			shared_ptr<Bullet> bullets = Bullet_Manager::Load(Attack_Sprite_File);
@@ -231,7 +226,9 @@ void Digimon::Fire()
 
 				int dir = 0;
 				if (i != 0)
-					dir = 30 * i * (pow(-1, i));
+					dir = bullet_distance * (pow(-1, i));
+				if (i % 2 == 0)
+					bullet_distance += 30.f;
 				if (State == Skill)
 				{
 					target_pos.x = Skill_Target_Pos.x - Width / 2.f;
@@ -239,10 +236,10 @@ void Digimon::Fire()
 
 					bullets->Fire({ target_pos.x, target_pos.y + dir });
 				}
-				
+
 				D3DXVec3Normalize(&bullet_Dir, &bullet_Dir);
 				bullets->Set_Dir({ bullet_Dir.x,bullet_Dir.y + 0.1f * dir / 30.f ,bullet_Dir.z });
-				bullets->Rotator(Rotator());
+				bullets->Rotator({ 0,0, bullet_Degree });
 
 			}
 		}
@@ -254,7 +251,7 @@ void Digimon::Animation_Start(int idx)
 {
 	Set_Mode(Skill);
 	Skill_Cut->Cut_Start(cut_SceanFile);
-	
+
 }
 
 void Digimon::MoveTo(D3DXVECTOR3 goal)
@@ -291,10 +288,10 @@ bool Digimon::ClickEvent(D3DXVECTOR2 mouse, shared_ptr<class Digimon> drag_digim
 	bool y_chk = pos.y - scale.y <= mouse.y && pos.y + scale.y >= mouse.y;
 
 	//같은 레벨인지도 체크하기
-	if (x_chk && y_chk) 
+	if (x_chk && y_chk)
 	{
 		//animations[Action]->PlaySpeed(4.0f);
-		if(Inter_Second > 0.5f)
+		if (Inter_Second > 0.5f)
 			Inter_Second -= 0.5f;
 		//animations[Skill]->PlaySpeed(4.0f);
 		Effect_Manager::Level_Up(pos);
@@ -309,7 +306,7 @@ bool Digimon::ClickEvent(D3DXVECTOR2 mouse, shared_ptr<class Digimon> drag_digim
 
 void Digimon::Drag(bool val)
 {
-	bDrag = val; 
+	bDrag = val;
 	Position(before_pos);
 }
 
@@ -321,4 +318,70 @@ shared_ptr<class Digimon> Digimon::Evolution()
 		return Card_Manager::FindDigimon(next_digimon);
 	}
 	return nullptr;
+}
+
+
+/// <summary>
+/// Digimon_Manager class
+/// </summary>
+
+#define Digimon_Type 4 // 길몬, 레나몬 , 테리어몬 , 가르고몬
+
+vector<shared_ptr<Digimon>> Digimon_Manager::m;
+int Digimon_Manager::idx = -1;
+void Digimon_Manager::CreatePooling(int pool)
+{
+	// 풀링 만큼 Digimon을 만들었다는데 의의가 있음.
+	// 나중에 Load하면서 srv와 buffer는 새로 업데이트가능.
+	// m에서 순차적으로
+	for (int i = 0; i < pool; i++)
+	{
+		int ID = i % Digimon_Type;
+		switch (ID)
+		{
+		case 0:
+			m.push_back(
+				make_shared<Digimon>(Digimon_Folder + L"길몬.png", 40.f, 40.f, Guilmon, 성장기)
+			);
+			break;
+		case 1:
+			m.emplace_back(
+				make_shared<Digimon>(Digimon_Folder + L"레나몬.png", Renamon_UV,
+					Renamon,
+					성장기));
+			break;
+		case 2:
+			m.emplace_back(
+				make_shared<Digimon>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
+					Terriermon,
+					성장기));
+			break;
+		case 3:
+			m.emplace_back(
+				make_shared<Digimon>(Digimon_Folder + L"가르고몬.png", Galgomon_UV,
+					Galgomon,
+					성장기));
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+
+void Digimon_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
+{
+	for (auto digimon : m)
+		digimon->ViewProjection(V, P);
+}
+
+
+shared_ptr<Digimon> Digimon_Manager::Load(wstring imgfile)
+{
+	idx++;
+	idx %= m.size();
+
+	m[idx]->UpdateSrvAndBuffer(imgfile);
+
+	return m[idx];
 }
