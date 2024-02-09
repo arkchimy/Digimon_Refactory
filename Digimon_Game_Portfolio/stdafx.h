@@ -99,6 +99,11 @@ using namespace std;
 
 #define Sprite_Type  8 //   Idle /Walk / Action / Skill / Hit / Victory /Death
 
+// Decal
+extern float Decal_radius;
+extern float Decal_alpha;
+
+
 
 extern bool State_Clear;
 

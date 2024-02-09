@@ -140,6 +140,9 @@ void ImGui_Event()
 	
 
 	ImGui::SliderFloat("TileSample_Lv", &TileSample_Lv.r, 1, 10);
+	ImGui::SliderFloat("Decal_radius", &Decal_radius, 0, 10);
+	ImGui::SliderFloat("Decal_alpha", &Decal_alpha, 0, 1);
+
 
 	if (ImGui::Button("Standby_Stage"))
 	{

@@ -141,14 +141,6 @@ void Stage_01::Update()
 	{
 		reward[i]->Update();
 	}
-	//if (reward[0] != nullptr)
-	//{
-	//	for (auto data : reward) // Card
-	//		data->Update();
-	//	for (auto data : Enemy_vec) // Enemy Actor
-	//		data->Update();
-	//	return;
-	//}
 
 	for (auto data : Enemy_vec)
 	{
@@ -186,16 +178,28 @@ void Stage_01::Update()
 
 }
 
+
+float Decal_radius = 1.5f;
+float Decal_alpha = 1.f;
+
+
 void Stage_01::Render()
 {
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
+	float aspect = (float)Width / Height;
+	D3DXVECTOR4 m_mouse_pos;
+	m_mouse_pos.x = (float)Mouse_Pos.x / Width * aspect;
+	m_mouse_pos.y = (float)Mouse_Pos.y / Height;
+	m_mouse_pos.z = Decal_radius;
+	m_mouse_pos.w = Decal_alpha;
 
 	for (int i = 0; i < shader_vec.size(); i++)
 	{
 		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i]);
 		shader_vec[i]->AsSampler("Sampler")->SetSampler(0, m_samplerState);
 		shader_vec[i]->AsVector("xSplit")->SetFloatVector(TileSample_Lv);
+		shader_vec[i]->AsVector("MousePos")->SetFloatVector(m_mouse_pos);
 
 		DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[i], &stride, &offset);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
