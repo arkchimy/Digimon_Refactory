@@ -50,7 +50,7 @@ public:
 	static void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 	static shared_ptr<Digimon> Load(wstring imgfile);
 
-
+private:
 	static vector<shared_ptr<Digimon>> m;
 	static int idx;
 

@@ -68,7 +68,8 @@ using namespace std;
 
 #define DigimonPoolsize 10
 #define Poolsize 35 // queue_size of Objectpool
-#define BulletPool 12
+#define BulletPool 30 // 총알 Pool Size
+
 #define Bullet_FileCnt 7
 #define CardPoolSize 2 // 카드 선택지에 최대 2개가 나옴.
 
