@@ -66,27 +66,7 @@ void Stage::CreateShaderAndBuffer(vector<wstring> imagefiles, vector<wstring> sh
 	UpdateWorld();
 }
 
-//void Stage::CreateShaderAndBuffer()
-//{
-//
-//	make_unique<Sprite>(srv_vec, buffer_vec,Title_bg0, Texture_Shader);
-//	make_unique<Sprite>(srv_vec,buffer_vec,Title_bg1, Texture_Shader);
-//
-//	make_unique<Sprite>(srv_vec, buffer_vec, Title_bg1, Texture_Shader);
-//
-//	shader_vec.reserve(buffer_vec.size());
-//	position.reserve(buffer_vec.size());
-//	scale.reserve(buffer_vec.size());
-//	rotator.reserve(buffer_vec.size());
-//	for (int i = 0; i < shader_vec.capacity(); i++) 
-//	{
-//		shader_vec.push_back(make_unique<Shader>(Texture_Shader));
-//		position.push_back({ 0,0,0 });
-//		scale.push_back({ Width,Height,1 });
-//		rotator.push_back({ 0,0,0 });
-//	}
-//	UpdateWorld();
-//}
+
 
 void Stage::Battle(bool val)
 {
@@ -102,12 +82,11 @@ void Stage::Stage_Clear()
 }
 
 
-
 void Stage::Render()
 {
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
-
+	
 	for (int i = 0; i < shader_vec.size(); i++) 
 	{
 		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i]);

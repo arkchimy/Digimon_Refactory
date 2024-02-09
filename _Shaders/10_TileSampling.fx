@@ -6,6 +6,7 @@ cbuffer CB_PerFrame
 };
 
 matrix World;
+
 //float4x4 == matrix
 
 //-----------------------------------------------------------------------------
@@ -41,13 +42,18 @@ VertexOutput VS(VertexInput input)
 Texture2D Map;
 SamplerState Sampler;
 float4 xSplit;
+
+float4 MousePos;
+
 //-----------------------------------------------------------------------------
 // Pixel Shader
 //-----------------------------------------------------------------------------
 float4 PS(VertexOutput input) : SV_TARGET0
 {
-   
+    float distance = sqrt(pow(MousePos.x - input.Uv.x * 1.33333, 2) + pow(MousePos.y - input.Uv.y, 2));
     float4 color = Map.Sample(Sampler, input.Uv * xSplit.r);
+    
+    color.a = distance <= MousePos.z ? 1 : MousePos.w;
     //float4 color = Map.Sample(Sampler, input.Uv);
     //color.a = 0.7f; 우연히 발견  어둡기 조절 이거로하면될듯
     return color;
