@@ -30,11 +30,7 @@
 *.exe
 *.out
 *.app
-*.jpg
-*.png
-*.gif
-*.webp
-*.jfif
+
 
 # Visual Studio 디렉토리 무시
 .vs/
