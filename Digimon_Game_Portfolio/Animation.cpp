@@ -29,11 +29,7 @@ Animation::Animation(Sprite_Info info, PlayMode type)
 
 }
 
-//Animation::Animation(Shader* shader, vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode)
-//	:m_Shader(shader),m_srv_vec(srv_vec), m_buffer_vec(buffer_vec),mode(mode), play_rate(9.f)
-//{
-//	
-//}
+
 Animation::Animation(Shader* shader, ID3D11ShaderResourceView* srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode)
 	: m_Shader(shader), m_srv(srv_vec), m_buffer_vec(buffer_vec), mode(mode), play_rate(9.f)
 {
@@ -46,12 +42,6 @@ void Animation::UpdateSrvAndBuffer(ID3D11ShaderResourceView* srv, vector<ID3D11B
 	m_buffer_vec = buffer_vec;
 }
 
-
-//void Animation::UpdateSrvAndBuffer(vector<ID3D11ShaderResourceView*> srv_vec, vector<ID3D11Buffer*> buffer_vec)
-//{
-//	m_srv_vec = srv_vec;
-//	m_buffer_vec = buffer_vec;
-//}
 
 void Animation::Update()
 {

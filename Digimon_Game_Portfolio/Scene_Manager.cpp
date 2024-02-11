@@ -77,3 +77,8 @@ void Scene_Manager::ClickEvent()
 	Current_Scene->ClickEvent();
 }
 
+void Scene_Manager::ReturnSlot(D3DXVECTOR3 slotpos)
+{
+	Current_Scene->ReturnSlot(slotpos);
+}
+

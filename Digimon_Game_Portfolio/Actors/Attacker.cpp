@@ -218,7 +218,7 @@ void Attacker::Set_IdleMode()
 void Attacker::Set_StunMode()
 {
 	buff_state = Buff_State::Stun;
-	Stun_Time = 1.f;
+	Stun_Time = 0.3f;
 }
 
 void Attacker::Decal_Visible(bool val)

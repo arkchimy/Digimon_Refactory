@@ -85,7 +85,7 @@ bool ABoss::IsDeathMode()
 
 void ABoss::Update()
 {
-	//animations[State]->Update();
+	animations[State]->Update();
 	CheckTrue(buff_state >> Death); // 죽음
 
 	D3DXVECTOR3 current_Pos = Position();
@@ -119,50 +119,17 @@ void ABoss::Update()
 	if (State == Action)
 	{
 		State = Action;
-		/*if (animations[State]->Current_Idx() == Fire_idx)
-			Fire();*/
+	
 	}
-	//animations[State]->Update();
-	//CheckTrue(buff_state >> Death); // 죽음
-
-	//D3DXVECTOR3 current_Pos = Position();
-	//D3DXVECTOR3 dir;
-	//Move_dir = { -1,0,0 };
-	//dir = { current_Pos.x + speed.x * ImGui::GetIO().DeltaTime * Move_dir.x , 0, 0.f };
-
-	//if (bBattle && current_Pos.x >= 100 && State == Walk ) // 일정거리 이상 안 가까워짐
-	//	Position(dir);
-
-	//if (State == Walk)
-	//{
-	//	Fire_time += ImGui::GetIO().DeltaTime;
-	//	if (Fire_time >= Inter_Second && current_Pos.x <= 100)
-	//	{
-	//		Fire_time = 0.f;
-	//		index = 0; //  상태 전환으로 인한 인덱스 초기화
-	//		if (bBattle == 배틀시작)
-	//		{
-	//			State = Action;
-	//			animations[State]->Start();
-	//		}
-	//	}
-	//}
-	//else if (State == Action)
-	//{
-	//	if (animations[State]->Current_Idx() == Fire_idx)
-	//		Fire();
-	//}
-	//else if (State == Skill)
-	//{
-	//	if (animations[State]->Current_Idx() == Skill_idx)
-	//		Fire();
-	//}
+	
 }
 
 void ABoss::Respawn()
 {
 	hp = 50.f;
-	State = Walk;
+
+	Set_Mode(Walk);
+
 	bTurn = false;
 	bBattle = true;
 	buff_state = Buff_State::None;

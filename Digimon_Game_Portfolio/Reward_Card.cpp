@@ -19,7 +19,7 @@ Reward_Card::Reward_Card(wstring Cardfile, const wstring ShaderFile)
 
 
 	/* 리팩토링 */
-	
+
 
 	///
 	sprites->Scale(NormalScale);
@@ -27,28 +27,16 @@ Reward_Card::Reward_Card(wstring Cardfile, const wstring ShaderFile)
 	for (int i = 0; i < CardPool; i++)
 	{
 		if (Cardfile.compare(Card_Folder + L"테리어몬_카드.png") == 0)
-		{
 			digimon = Digimon_Manager::Load(Digimon_Folder + L"테리어몬.png");
-			/*digimon = make_shared<Digimon>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
-				Terriermon,
-				성장기);*/
-			
-		}
+
 		else if (Cardfile.compare(Card_Folder + L"레나몬_카드.png") == 0)
-		{
 			digimon = Digimon_Manager::Load(Digimon_Folder + L"레나몬.png");
-		/*	digimon = make_shared<Digimon>(Digimon_Folder + L"레나몬.png", Renamon_UV,
-				Renamon,
-				성장기);*/
-		}
+
 		else if (Cardfile.compare(Card_Folder + L"가르고몬_카드.png") == 0)
-		{
 			digimon = Digimon_Manager::Load(Digimon_Folder + L"가르고몬.png");
-		/*	digimon = make_shared<Digimon>(Digimon_Folder + L"가르고몬.png", Galgomon_UV,
-				Galgomon,
-				성장기);*/
-		}
-		CheckNull(digimon); 
+
+
+		CheckNull(digimon);
 		q.push(digimon);
 	}
 
@@ -76,14 +64,14 @@ void Reward_Card::Update()
 
 	bool x_chk = current_pos.x <= m_position.x + m_scale.x / 2.f && current_pos.x >= m_position.x - m_scale.x / 2.f;
 	bool y_chk = current_pos.y <= m_position.y + m_scale.y / 2.f && current_pos.y >= m_position.y - m_scale.y / 2.f;
-	
-	if (x_chk && y_chk) 
+
+	if (x_chk && y_chk)
 	{
 		m_scale = OverScale;
 		m_animation->Scale(m_scale);
 		bOver = true;
 	}
-	else 
+	else
 	{
 		m_scale = NormalScale;
 		m_animation->Scale(NormalScale);
@@ -91,18 +79,7 @@ void Reward_Card::Update()
 	}
 }
 
-void Reward_Card::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
-{
-	/*sprites->ViewProjection(V, P);
-	CheckTrue(q.empty());
-	for (int i = 0; i < CardPool; i++)
-	{
-		auto front = q.front();
-		q.pop();
-		q.push(front);
-		front->ViewProjection(V, P);
-	}*/
-}
+
 
 void Reward_Card::Render()
 {
@@ -137,12 +114,12 @@ void Reward_Card::Visible(bool val)
 
 void Reward_Card::Use_Card()
 {
-	
+
 	CheckNull(digimon);
-	digimon->Position({0,0,0});
-	
+	digimon->Position({ 0,0,0 });
+
 	digimon = nullptr;
-	
+
 }
 
 shared_ptr<class Digimon> Reward_Card::ReplaceDigimon()
@@ -154,7 +131,7 @@ shared_ptr<class Digimon> Reward_Card::ReplaceDigimon()
 	digimon = q.front();
 	q.pop();
 	q.push(digimon);
-	
+
 	return digimon;
 }
 
@@ -162,7 +139,7 @@ void Reward_Card::Load()
 {
 	int DigimonID;
 	m_animation = Card_Manager::Load(DigimonID);
-	
+
 	if (DigimonID == 0)
 	{
 		digimon = make_shared<Digimon>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
@@ -215,7 +192,7 @@ void Card_Manager::Create(vector<wstring> data)
 	for (int k = 0; k < cardTypeCnt; k++)
 	{
 		srv_vec[k] = Sprite_Manager::Load(data[k]);
-		vector<vector<ID3D11Buffer*>> temp  = Sprite_Manager::LoadBufferVector(data[k]);
+		vector<vector<ID3D11Buffer*>> temp = Sprite_Manager::LoadBufferVector(data[k]);
 		if (temp.size() == 0)
 		{
 			make_shared<Sprite>(buffer_vec[k], data[k], Card_Shader);
@@ -231,10 +208,10 @@ void Card_Manager::Create(vector<wstring> data)
 	for (int i = 0; i < CardPoolSize; i++)
 	{
 		shader_vec.emplace_back(new Shader(Card_Shader));
-		animations.emplace_back(make_shared<Animation>(shader_vec[i],srv_vec[i],buffer_vec[i]));
+		animations.emplace_back(make_shared<Animation>(shader_vec[i], srv_vec[i], buffer_vec[i]));
 	}
-	
-	
+
+
 }
 
 shared_ptr<class Animation> Card_Manager::Load(int& cardID)
@@ -252,30 +229,14 @@ shared_ptr<class Animation> Card_Manager::Load(int& cardID)
 	shader_idx++;
 	shader_idx %= shader_vec.size();
 	animations[shader_idx]->UpdateSrvAndBuffer(srv_vec[cardID], buffer_vec[cardID]);
-	
+
 	return animations[shader_idx];
 }
 
 
-shared_ptr<Digimon> Card_Manager::FindDigimon(wstring target)
-{
-	queue<shared_ptr<Reward_Card>> temp = q;
-	shared_ptr<Reward_Card> front;
-	while (!temp.empty())
-	{
-		front = temp.front();
-		temp.pop();
-		if (front->cardname.compare(target) == 0)
-		{
-			return front->ReplaceDigimon();
-		}
-	}
-	return front->ReplaceDigimon();
-}
-
 void Card_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	for (auto shader : shader_vec) 
+	for (auto shader : shader_vec)
 	{
 		shader->AsMatrix("View")->SetMatrix(V);
 		shader->AsMatrix("Projection")->SetMatrix(P);

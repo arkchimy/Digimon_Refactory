@@ -9,6 +9,8 @@
 #include "CutManager.h"
 #include "Reward_Card.h"
 
+#include <random>
+
 extern float Sprite_Speed;
 extern bool NumKey_1;
 float move_speed = 200.f;
@@ -82,7 +84,15 @@ void Digimon::Update()
 
 			if (bBattle == 배틀시작)
 			{
-				Set_Mode(Action);
+				// 랜덤 주의!  rand() % 3 라고 작성했다가 계속 2만 나오는 현상나와서 바꿈
+				int temp;
+				std::random_device rd;
+				std::mt19937 gen(rd());
+
+				// 1부터 6까지의 균일 분포에서 정수를 생성합니다.
+				std::uniform_int_distribution<> dis(0, 100);
+				temp = dis(gen);
+				temp < Skill_Percent ? Set_Mode(Skill) : Set_Mode(Action);
 			}
 		}
 	}
@@ -94,6 +104,7 @@ void Digimon::Update()
 	}
 	else if (State == Skill)
 	{
+		idx = animations[State]->Current_Idx();
 		if (idx == Skill_idx)
 			Fire();
 	}
@@ -110,7 +121,7 @@ void Digimon::FindLookAtTarget()
 {
 	// 매 프레임마다 가장 가까운적 찾기
 	target = SearchTarget();
-
+	
 	if (target == nullptr)
 	{   // 적이 없을 때  전투 중일떄와 클리어할떄를 구분지어야 할듯. Victory 와 Idle 결정 요소
 		Rotator({ 0,0,0 });
@@ -119,7 +130,12 @@ void Digimon::FindLookAtTarget()
 	}
 	else
 	{
-		D3DXVECTOR3 direction = target->Position() - Position();
+		D3DXVECTOR3 TargetPos = target->Position();
+		Skill_Target_Pos.x = TargetPos.x;
+		Skill_Target_Pos.y = TargetPos.y;
+
+
+		D3DXVECTOR3 direction = TargetPos - Position();
 		// Rotation에서 다시 라디안으로 바꿈
 		bullet_Degree = D3DXToDegree(atan2(direction.y, direction.x));
 
@@ -203,10 +219,7 @@ void Digimon::Fire()
 
 				if (State == Skill)
 				{
-					target_pos.x = Skill_Target_Pos.x - Width / 2.f;
-					target_pos.y = -(Skill_Target_Pos.y + Height / -2.f);
-
-					bullets->Fire({ target_pos.x, target_pos.y + dir });
+					bullets->Fire({ Skill_Target_Pos.x, Skill_Target_Pos.y + dir });
 				}
 
 			}
@@ -231,10 +244,7 @@ void Digimon::Fire()
 					bullet_distance += 30.f;
 				if (State == Skill)
 				{
-					target_pos.x = Skill_Target_Pos.x - Width / 2.f;
-					target_pos.y = -(Skill_Target_Pos.y + Height / -2.f);
-
-					bullets->Fire({ target_pos.x, target_pos.y + dir });
+					bullets->Fire({ Skill_Target_Pos.x, Skill_Target_Pos.y + dir });
 				}
 
 				D3DXVec3Normalize(&bullet_Dir, &bullet_Dir);
@@ -265,7 +275,7 @@ bool Digimon::ClickEvent(D3DXVECTOR2 mouse)
 {
 	D3DXVECTOR3 pos = Position();
 	before_pos = pos;
-	D3DXVECTOR3 scale = Scale();
+	D3DXVECTOR3 scale = { 30,30,0 };
 	bool x_chk = pos.x - scale.x <= mouse.x && pos.x + scale.x >= mouse.x;
 	bool y_chk = pos.y - scale.y <= mouse.y && pos.y + scale.y >= mouse.y;
 	if (x_chk && y_chk)
@@ -280,20 +290,21 @@ bool Digimon::ClickEvent(D3DXVECTOR2 mouse, shared_ptr<class Digimon> drag_digim
 {
 	if (bDrag) return false; // 드래그 중 인 대상 PASS
 
+
+	//같은 유닛인지 체크
 	if (drag_digimon->cut_SceanFile.compare(cut_SceanFile) != 0)
 		return false;
 	D3DXVECTOR3 pos = Position();
-	D3DXVECTOR3 scale = Scale();
+	D3DXVECTOR3 scale = { 30,30,0 };
 	bool x_chk = pos.x - scale.x <= mouse.x && pos.x + scale.x >= mouse.x;
 	bool y_chk = pos.y - scale.y <= mouse.y && pos.y + scale.y >= mouse.y;
 
-	//같은 레벨인지도 체크하기
+	
 	if (x_chk && y_chk)
 	{
-		//animations[Action]->PlaySpeed(4.0f);
 		if (Inter_Second > 0.5f)
 			Inter_Second -= 0.5f;
-		//animations[Skill]->PlaySpeed(4.0f);
+		
 		Effect_Manager::Level_Up(pos);
 		Set_Mode(PowerUP);
 
@@ -315,7 +326,8 @@ shared_ptr<class Digimon> Digimon::Evolution()
 	if (combine_cnt >= 2) // 2번쨰 합침이면
 	{
 		combine_cnt = 0;
-		return Card_Manager::FindDigimon(next_digimon);
+		return Digimon_Manager::Load(next_digimon);
+		//return Card_Manager::FindDigimon(next_digimon);
 	}
 	return nullptr;
 }
@@ -378,9 +390,20 @@ void Digimon_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 
 shared_ptr<Digimon> Digimon_Manager::Load(wstring imgfile)
 {
+	Sprites_Info info;
+	if (imgfile.compare(Digimon_Folder + L"가르고몬.png") == 0)
+		info = Galgomon;
+	else if (imgfile.compare(Digimon_Folder + L"레나몬.png") == 0)
+		info = Renamon;
+	else if (imgfile.compare(Digimon_Folder + L"길몬.png") == 0)
+		info = Guilmon;
+	else if (imgfile.compare(Digimon_Folder + L"테리어몬.png") == 0)
+		info = Terriermon;
+
 	idx++;
 	idx %= m.size();
 
+	m[idx]->Init_info(info);
 	m[idx]->UpdateSrvAndBuffer(imgfile);
 
 	return m[idx];

@@ -17,10 +17,11 @@ public:
 	virtual bool IsDeathMode();
 
 
-	vector<D3DXVECTOR3> Slot_Position();
+	D3DXVECTOR3 Slot_Position();
+	void ReturnSlot(D3DXVECTOR3 slotpos); //½½·Ô ¹ÝÈ¯
 protected:
 	vector<D3DXVECTOR3> slot_position;
-
+	vector<bool> slot_use;
 
 	D3DXVECTOR3 position;
 	D3DXVECTOR3 scale;

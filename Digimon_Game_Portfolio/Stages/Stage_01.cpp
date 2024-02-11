@@ -25,7 +25,7 @@ int wave_info[Wave_SIZE] =
 	20,
 };
 
-D3DXCOLOR TileSample_Lv = {1,0,0,0};
+D3DXCOLOR TileSample_Lv = { 1,0,0,0 };
 
 vector<wstring> imagegefiles = {
 	Layer_Folder + L"Dungeon_01" + L"/" + Layer + to_wstring(0) + L".png"
@@ -39,12 +39,12 @@ Stage_01::Stage_01()
 	Gate = new CastleGate();
 
 	reward.reserve(CardPoolSize);
-	for (int i = 0; i < CardPoolSize; i++) 
+	for (int i = 0; i < CardPoolSize; i++)
 	{
 		reward.push_back(make_unique<Reward_Card>());
-		
+
 	}
-	
+
 	CreateSamplerState();
 }
 
@@ -55,18 +55,15 @@ Stage_01::~Stage_01()
 
 void Stage_01::Init_Stage(shared_ptr<class Player> player)
 {
-	
+
 	Player = player;
-	
 	init_Wave();
+
 	Player->Slot_Set(Gate->Slot_Position());
 	Player->Ready();
 
 	boss_que.push(make_shared<ABoss>(Digimon_Folder + L"길몬.png", 40, 40, Guilmon, 보스));
 
-	//reward.resize(CardPoolSize);
-	//for(int i =0; i < CardPoolSize;i++)
-	//	reward[i] = nullptr;
 	Card_Manager::Create(Player->Player_Cards());
 
 }
@@ -87,19 +84,15 @@ void Stage_01::init_Wave()
 		std::mt19937 gen(rd());
 
 		// 0부터 2까지의 균일 분포에서 정수를 생성합니다.
-		std::uniform_int_distribution<> dis(0, 2);
+		std::uniform_int_distribution<> dis(0, 1);
 
 		id = dis(gen);
 		shared_ptr<Enemy> temp;
 		if (id == 0)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
-		else if(id == 1)
-			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
-		else 
-		{
-			cout << id << "출력\n";
+		else if (id == 1)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"레나몬.png");
-		}
+
 		Enemy_vec.push_back(temp);
 	}
 	float result = 0;
@@ -111,7 +104,7 @@ void Stage_01::init_Wave()
 		result += interver;
 		data->Position({ Width / 2.f + result + data->Scale().x * 0.5f ,float(rand() % 300) * dir + data->Scale().y * 0.5f , 0.f });
 		data->Rotator(D3DXVECTOR3{ 0.f,180.f,0.f });
-		
+
 	}
 	for (auto data : Enemy_vec)
 		data->Battle(배틀종료);
@@ -123,8 +116,9 @@ void Stage_01::Boss_Appear()
 		boss = boss_que.front();
 		boss_que.pop();
 		boss->Respawn();
+		boss->Scale({150,150,1});
 	}
-	
+
 }
 void Stage_01::ClickEvent()
 {
@@ -134,8 +128,8 @@ void Stage_01::ClickEvent()
 		{
 			Add_Digimon(reward[i]->CardDigimon());
 			reward[i]->Use_Card();
-			
-			for(int k =0; k < CardPoolSize; k++)
+
+			for (int k = 0; k < CardPoolSize; k++)
 				reward[k]->Visible(false);
 			break;
 		}
@@ -143,11 +137,11 @@ void Stage_01::ClickEvent()
 }
 void Stage_01::Update()
 {
-	
+
 	Gate->Update();
 	Player->Update();
 
-	for (int i =0; i < reward.size(); i++)
+	for (int i = 0; i < reward.size(); i++)
 	{
 		reward[i]->Update();
 	}
@@ -171,7 +165,7 @@ void Stage_01::Update()
 			Stage_Clear();
 			Bottom_UI::GameClear(true);
 		}
-		else 
+		else
 		{
 			if (boss != nullptr)
 			{
@@ -189,8 +183,8 @@ void Stage_01::Update()
 }
 
 
-float Decal_radius = 1.5f;
-float Decal_alpha = 0.3f;
+float Decal_radius = 0.244f;
+float Decal_alpha = 0.512f;
 
 
 void Stage_01::Render()
@@ -219,7 +213,7 @@ void Stage_01::Render()
 
 	Gate->Render();
 	Player->Render();
-	
+
 	for (auto data : Enemy_vec)
 	{
 		data->Render();
@@ -238,7 +232,7 @@ void Stage_01::Render()
 
 void Stage_01::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 {
-	
+
 	for (int i = 0; i < shader_vec.size(); i++)
 	{
 		shader_vec[i]->AsMatrix("View")->SetMatrix(V);
@@ -248,16 +242,16 @@ void Stage_01::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 	Gate->ViewProjection(V, P);
 	Player->ViewProjection(V, P);
 
-	
+
 	Enemy_Manager::ViewProjection(V, P);
-	
+
 
 	Card_Manager::ViewProjection(V, P);
 	CheckTrue(boss_que.empty());
 
 	for (int i = 0; i < BossQue_SIZE; i++)
 	{
-		auto front  = boss_que.front();
+		auto front = boss_que.front();
 		boss_que.pop();
 		boss_que.push(front);
 		front->ViewProjection(V, P);
@@ -272,7 +266,7 @@ D3DXVECTOR3 reward_pos[2] =
 };
 void Stage_01::Wave_Reward()
 {
-	for (int i = 0; i < reward.size(); i++) 
+	for (int i = 0; i < reward.size(); i++)
 	{
 		reward[i]->Load();
 		reward[i]->Position(reward_pos[i]);
@@ -280,20 +274,20 @@ void Stage_01::Wave_Reward()
 	Player->Battle(배틀종료);
 	for (auto data : Enemy_vec)
 		data->Battle(배틀종료);
-	
+
 }
 
 void Stage_01::Wave_Clear()
 {
-	
+
 	wave++;
 	for (int i = 0; i < reward.size(); i++)
 	{
 		reward[i]->Visible(false);
-		reward[i]->Position({2000,2000,0});
-		
+		reward[i]->Position({ 2000,2000,0 });
+
 	}
-	
+
 	int cnt = wave_info[wave] - wave_info[wave - 1];
 
 	for (int i = 0; i < cnt; i++)
@@ -302,26 +296,27 @@ void Stage_01::Wave_Clear()
 		std::random_device rd;
 		std::mt19937 gen(rd());
 
-		// 0부터 2까지의 균일 분포에서 정수를 생성합니다.
-		std::uniform_int_distribution<> dis(0, 2);
+		// 0부터 3까지의 균일 분포에서 정수를 생성합니다.
+		std::uniform_int_distribution<> dis(0, 3);
 
 		id = dis(gen);
 		shared_ptr<Enemy> temp;
 		if (id == 0)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
 		else if (id == 1)
-			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
-		else
-		{
-			cout << id << "출력\n";
 			temp = Enemy_Manager::Load(Digimon_Folder + L"레나몬.png");
-		}
+		else if (id == 2)
+			temp = Enemy_Manager::Load(Digimon_Folder + L"테리어몬.png");
+		else if (id == 3)
+			temp = Enemy_Manager::Load(Digimon_Folder + L"가르고몬.png");
+
 		Enemy_vec.push_back(temp);
 	}
+
 	if (wave == Wave_SIZE) //마지막 스테이지
 	{
 		Boss_Appear();
-		if (boss != nullptr) 
+		if (boss != nullptr)
 		{
 			Enemy_vec.push_back(boss);
 			boss->Position({ 0, 0, 0 });
@@ -334,7 +329,7 @@ void Stage_01::Wave_Clear()
 		int dir = pow(-1, i);
 		float interver = rand() % 100;
 		result += interver;
-		data->Position({ Width / 2.f + result + data->Scale().x * 0.5f ,float(rand() % 350) * dir + data->Scale().y *0.5f , 0.f });
+		data->Position({ Width / 2.f + result + data->Scale().x * 0.5f ,float(rand() % 350) * dir + data->Scale().y * 0.5f , 0.f });
 		data->Rotator(D3DXVECTOR3{ 0.f,180.f,0.f });
 		data->Respawn();
 		D3DXVECTOR3 pos;
@@ -342,23 +337,27 @@ void Stage_01::Wave_Clear()
 		{
 			if (data == boss)
 			{
-				 pos = data->Position();
+				pos = data->Position();
 			}
 		}
 	}
-	
+
 
 }
 void Stage_01::Add_Digimon(shared_ptr<Digimon> data)
 {
-	int idx = Player->DigimonCnt();
 	Player->Add_Digimon(data);
 
-	data->MoveTo(Gate->Slot_Position()[idx]);
+	data->MoveTo(Gate->Slot_Position());
 	data->Rotator({ 0, 180, 0 });
+
 	Player->Battle(배틀시작);
 	Wave_Clear();
 
+}
+void Stage_01::ReturnSlot(D3DXVECTOR3 slotpos)
+{
+	Gate->ReturnSlot(slotpos);
 }
 void Stage_01::CreateSamplerState()
 {

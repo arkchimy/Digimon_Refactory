@@ -9,11 +9,12 @@ public:
 	static void StandBy_Stage(int stage_num);
 	static void Stage_Complete(bool val);
 	static void ClickEvent();
-
+	static void ReturnSlot(D3DXVECTOR3 slotpos);
 
 	void Update();
 	void Render();
 	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+	
 
 	static void Take_Damage(class Bullet* causer);
 	static vector<shared_ptr<class Enemy>> Get_Enemies();

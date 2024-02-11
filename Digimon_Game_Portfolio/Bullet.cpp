@@ -34,7 +34,7 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File
 
 	Effect_File = effect_File;
 
-
+	buffer_vec.reserve(m_SpriteSize);
 	float start_w = 0, start_h = 0;
 	int unit_w = info.Width;
 	int unit_h = info.Height;
@@ -66,6 +66,8 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, vector<D3DXVECTOR4>
 
 	Effect_File = effect_File;
 
+
+	buffer_vec.reserve(m_SpriteSize);
 	m_srv = Sprite_Manager::Load(info.ImgFile);
 
 	vector<ID3D11Buffer*> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
@@ -128,7 +130,6 @@ void Bullet::Update()
 		bvisible = false;
 		return;
 	}
-	//Position({ current_Pos.x + speed *  ImGui::GetIO().DeltaTime , current_Pos.y,0 });
 	m_Position = { current_Pos.x + m_Dir.x * m_Speed * ImGui::GetIO().DeltaTime, current_Pos.y + m_Dir.y * m_Speed * ImGui::GetIO().DeltaTime, 0 };
 	UpdateWorld();
 }
@@ -140,7 +141,7 @@ void Bullet::Render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
-	m_localTime += ImGui::GetIO().DeltaTime;
+	m_localTime += ImGui::GetIO().DeltaTime * 9.f;
 	current_idx = m_localTime;
 	current_idx %= m_SpriteSize;
 
@@ -378,7 +379,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 					0,									// Width
 					0									// Height
 			},
-			35.f,  //Speed	
+			5.f,  //Speed	
 			{
 			D3DXVECTOR4{0,0,7,6},
 			},
@@ -410,7 +411,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 			Effect_Folder + L"Hit_0.png"
 			);
 		m[idx]->Scale({ 20,20,1.f });
-		m[idx]->Init_BulletType(UINT(Bullet_Type::through));
+		m[idx]->Init_BulletType(UINT(Bullet_Type::Normal));
 	}
 	if (imgfile.compare(Digimon_Folder + L"테리어몬_스킬브레스.png") == 0)
 	{
@@ -422,7 +423,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 					0,									// Width
 					0									// Height
 			},
-			35.f,		//Speed	
+			15.f,		//Speed	
 			{
 			D3DXVECTOR4{0,0,19,22},
 			D3DXVECTOR4{24,0,46,22},
@@ -432,7 +433,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 			},
 			Effect_Folder + L"Hit_0.png"
 			);
-		m[idx]->Scale({ 80,80,1.f });
+		m[idx]->Scale({ 50,50,1.f });
 		m[idx]->Init_BulletType(UINT(Bullet_Type::through));
 	}
 	if (imgfile.compare(Digimon_Folder + L"가르고몬_브레스.png") == 0)
@@ -452,7 +453,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 		m[idx]->Init_BulletType(UINT(Bullet_Type::Normal));
 		m[idx]->Scale({ 8,8,1.f });
 	}
-
+	
 	return m[idx];
 }
 
@@ -557,6 +558,7 @@ void Effect_Manager::Create(int idx)
 
 shared_ptr<Animation> Effect_Manager::Load(wstring imgfile)
 {
+
 	for (int i = 0; i < effectfile.size(); i++)
 	{
 		if (effectfile[i].ImgFile.compare(imgfile) == 0)

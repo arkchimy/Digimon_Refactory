@@ -25,7 +25,7 @@ public:
 	virtual void Wave_Clear() override;
 
 	virtual void Add_Digimon(shared_ptr<class Digimon> data) override;
-
+	virtual void ReturnSlot(D3DXVECTOR3 slotpos);
 
 private:
 	//vector<shared_ptr<class Reward_Card>> reward;

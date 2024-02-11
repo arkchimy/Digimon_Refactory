@@ -7,7 +7,7 @@ public:
 	~Reward_Card();
 public:
 	void Update();
-	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+	//void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P) {};
 	void Render();
 	void Scale(D3DXVECTOR3 val);
 	void Position(D3DXVECTOR3 val);
@@ -47,7 +47,7 @@ class Card_Manager
 
 public:
 	static void Create(vector<wstring> data);
-	static shared_ptr<class Digimon> FindDigimon(wstring target);
+	//static shared_ptr<class Digimon> FindDigimon(wstring target);
 	static void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 	static void Use_Card();
 	static void Init_Visible();
