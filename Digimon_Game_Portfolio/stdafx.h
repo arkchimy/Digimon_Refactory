@@ -204,7 +204,7 @@ public:
 
 	unsigned int Skill_Timing_Idx : 4; // 몇번째 Fire idx에서 Bullet이 발사되는지
 	unsigned int Skill_Type : 2;		  // 총알의 타입
-	
+
 	float Fire_interval;   // 공격 텀
 	float Skill_percentage; // 스킬 발동확률
 
@@ -229,19 +229,19 @@ static Sprites_Info Guilmon
 					 0,  // Fire Type
 					 1,
 					 1,
-					
+
 					 5,  // Skill Timing
 					 0,  //Skill_Type
-					 
+
 
 					 0.3f, // Fire_interval
-					 30.f,  // Skill_Percent
+					 10.f,  // Skill_Percent
 
 					 Digimon_Folder + L"길몬_브레스.png",
 					 Digimon_Folder + L"길몬_스킬브레스.png",
 					 L"Guilmon_Cut.png",
-					 L"가르고몬_카드.png",
-					 
+				     Digimon_Folder + L"가르고몬.png",
+
 };
 static Sprites_Info Renamon
 {
@@ -257,18 +257,18 @@ static Sprites_Info Renamon
 					 1,  // Fire Type
 					 1,
 					 5,  // Bullet_Cnt
-					 
+
 					 5,  // Skill Timing
 					 1,  //Skill_Type
-					 
+
 
 					 0.3f, // Fire_interval
-					 30.f,  // Skill_Percent
+					 10.f,  // Skill_Percent
 
 					 Digimon_Folder + L"레나몬_브레스.png",
 					 Digimon_Folder + L"레나몬_스킬브레스.png",
 					 L"Renamon_Cut.png",
-					 L"가르고몬_카드.png",
+					 Digimon_Folder + L"가르고몬.png",
 };
 
 static vector<D3DXVECTOR4> Renamon_UV
@@ -281,7 +281,7 @@ static vector<D3DXVECTOR4> Renamon_UV
 
 	//Action
 	{0,80,60,114},
-	
+
 	//Skill
 	{0,120,50,167},
 	//Hit
@@ -313,12 +313,12 @@ static Sprites_Info Terriermon
 
 
 					 0.3f, // Fire_interval
-					 30.f,  // Skill_Percent
+					 100.f,  // Skill_Percent
 
 					 Digimon_Folder + L"테리어몬_브레스.png",
 					 Digimon_Folder + L"테리어몬_스킬브레스.png",
 					 L"Terriermon_Cut.png",
-					 Card_Folder + L"가르고몬_카드.png",
+					 Digimon_Folder + L"가르고몬.png",
 };
 static vector<D3DXVECTOR4> Terriermon_UV
 {
@@ -362,12 +362,12 @@ static Sprites_Info Galgomon
 
 
 					 0.3f, // Fire_interval
-					 30.f,  // Skill_Percent
+					 0.f,  // Skill_Percent
 
 					 Digimon_Folder + L"가르고몬_브레스.png",
 					 Digimon_Folder + L"테리어몬_스킬브레스.png",
 					 L"Terriermon_Cut.png",
-					 L"가르고몬_카드.png",
+					 Digimon_Folder + L"가르고몬.png",
 };
 static vector<D3DXVECTOR4> Galgomon_UV
 {

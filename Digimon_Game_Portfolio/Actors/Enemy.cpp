@@ -6,7 +6,7 @@
 extern float Sprite_Speed;
 
 D3DXVECTOR3 Edit_Pos = { 30,30,0 };
-D3DXVECTOR3 Edit_Pos2 = { 100,30,0 };
+D3DXVECTOR3 Edit_Pos2 = { 80,30,0 };
 D3DXVECTOR3 Edit_Scale = { 10,10,1.f };
 
 

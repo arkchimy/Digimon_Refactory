@@ -32,6 +32,7 @@ public:
 
 	// ∏Æ∆—≈‰∏µ
 	virtual void ClickEvent() {};
+	virtual void ReturnSlot(D3DXVECTOR3 slotpos) {};
 protected:
 	class CastleGate* Gate;
 

@@ -3,7 +3,7 @@
 
 #include "Sprite.h"
 #include "Digimon.h"
-
+#include "Scene_Manager.h"
 
 extern Sprites_Info Guilmon;
 Player::Player( wstring shaderFile)
@@ -80,14 +80,11 @@ void Player::Stage_Clear()
 	}
 }
 
-void Player::Slot_Set(vector<D3DXVECTOR3> slot_pos)
+void Player::Slot_Set(D3DXVECTOR3 slot_pos)
 {
-	for (int i = 0; i < slot_pos.size(); i++) 
-	{
-		if (My_Digimon.size() <= i)
-			break;
-		My_Digimon[i]->Position(slot_pos[i]);
-	}
+	
+	My_Digimon[0]->Position(slot_pos);
+	
 }
 
 void Player::Use_Skill(int idx,D3DXVECTOR2 MousePos)
@@ -135,8 +132,7 @@ void Player::ClickUp_Event()
 		if (My_Digimon[i]->ClickEvent(hit_point, drag_digimon))
 		{
 			drag_digimon->Drag(false);
-			auto iter = find(My_Digimon.begin(), My_Digimon.end(), drag_digimon);
-			My_Digimon.erase(iter);
+			
 			shared_ptr<Digimon> chk = My_Digimon[i]->Evolution(); //진화 확인
 			if (chk != nullptr)
 			{
@@ -146,7 +142,11 @@ void Player::ClickUp_Event()
 				My_Digimon[i]->Set_IdleMode();
 				My_Digimon[i]->Battle(배틀시작);
 			}
+			auto iter = find(My_Digimon.begin(), My_Digimon.end(), drag_digimon);
+			Scene_Manager::ReturnSlot(drag_digimon->Position());
+			My_Digimon.erase(iter);
 			break;
+
 		}
 
 	}

@@ -32,6 +32,8 @@ CastleGate::CastleGate()
 	slot_position[2] = D3DXVECTOR3(Castle_Pos.x - 10.f, Castle_Pos.y + Castle_interver, Castle_Pos.z);
 	slot_position[3] = D3DXVECTOR3(Castle_Pos.x - 10.f, Castle_Pos.y - Castle_interver * 2, Castle_Pos.z);
 	slot_position[4] = D3DXVECTOR3(Castle_Pos.x - 10.f, Castle_Pos.y + Castle_interver * 2, Castle_Pos.z);
+
+	slot_use.resize(5);
 }
 
 CastleGate::~CastleGate()
@@ -96,7 +98,29 @@ bool CastleGate::IsDeathMode()
 	return false;
 }
 
-vector<D3DXVECTOR3> CastleGate::Slot_Position()
+D3DXVECTOR3 CastleGate::Slot_Position()
 {
-	return slot_position;
+	for (int i = 0; i < slot_position.size(); i++)
+	{
+		//슬롯이 미사용중이면
+		if (!slot_use[i])
+		{
+			slot_use[i] = true;
+			return slot_position[i];
+		}
+	}
+	return {0,0,0};
 }
+
+void CastleGate::ReturnSlot(D3DXVECTOR3 slotpos)
+{
+	for (int i = 0; i < slot_position.size(); i++)
+	{
+		if (slot_position[i] == slotpos) 
+		{
+			slot_use[i] = false;
+			break;
+		}
+	}
+}
+

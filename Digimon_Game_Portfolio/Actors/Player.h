@@ -16,7 +16,7 @@ public:
 	void Battle(bool val);
 	void Stage_Clear();
 
-	void Slot_Set(vector<D3DXVECTOR3> slot_pos);
+	void Slot_Set(D3DXVECTOR3 slot_pos);
 
 	void Use_Skill(int num, D3DXVECTOR2 MousePos);
 	void Decal_Visible(int idx ,bool val);
