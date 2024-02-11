@@ -1,5 +1,12 @@
 #pragma once
 
+#define _CRT_RAND_S
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <limits.h>
+
+
 #include <directxmath.h>
 #include <windows.h>
 #include <memory>

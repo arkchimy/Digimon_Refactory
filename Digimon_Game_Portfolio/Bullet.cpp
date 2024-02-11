@@ -379,7 +379,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 					0,									// Width
 					0									// Height
 			},
-			5.f,  //Speed	
+			15.f,  //Speed	
 			{
 			D3DXVECTOR4{0,0,7,6},
 			},

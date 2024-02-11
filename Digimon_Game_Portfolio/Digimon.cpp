@@ -9,7 +9,6 @@
 #include "CutManager.h"
 #include "Reward_Card.h"
 
-#include <random>
 
 extern float Sprite_Speed;
 extern bool NumKey_1;
@@ -84,15 +83,13 @@ void Digimon::Update()
 
 			if (bBattle == 배틀시작)
 			{
-				// 랜덤 주의!  rand() % 3 라고 작성했다가 계속 2만 나오는 현상나와서 바꿈
-				int temp;
-				std::random_device rd;
-				std::mt19937 gen(rd());
+				
+				unsigned int    number;
 
-				// 1부터 6까지의 균일 분포에서 정수를 생성합니다.
-				std::uniform_int_distribution<> dis(0, 100);
-				temp = dis(gen);
-				temp < Skill_Percent ? Set_Mode(Skill) : Set_Mode(Action);
+				rand_s(&number);
+				number = (unsigned int)((double)number /
+					((double)UINT_MAX + 1) * 100.0);
+				number < Skill_Percent ? Set_Mode(Skill) : Set_Mode(Action);
 			}
 		}
 	}
