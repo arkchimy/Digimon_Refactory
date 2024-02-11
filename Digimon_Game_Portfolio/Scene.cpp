@@ -4,6 +4,8 @@
 #include "Actors/Player.h"
 #include "Stages/Stage.h"
 #include "Digimon.h"
+#include "Actors/Enemy.h"
+
 #include "Bullet.h"
 #include "Scene_Manager.h"
 #include "CastleGate.h"
@@ -31,6 +33,7 @@ class Bottom_UI* bottom_UI;
 void InitScene()
 {
 	Digimon_Manager::CreatePooling(DigimonPoolsize);
+	Enemy_Manager::CreatePooling(Enemy_PoolSize);
 
 	player = make_shared<Player>();
 	Scene_Manager::Player = player;
@@ -76,8 +79,7 @@ void Update()
 	{
 		stage->Update();
 		stage->ViewProjection(V, P);
-		//Digimon_Manager::ViewProjection(V, P);
-		//modack->Update();
+
 		Bullet_Manager::Update();
 		Effect_Manager::Update();
 	}

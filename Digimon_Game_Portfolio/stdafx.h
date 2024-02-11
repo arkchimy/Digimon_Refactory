@@ -66,12 +66,14 @@ using namespace std;
 #define SAFE_DELETE_ARRAY(p){ if(p){ delete [] (p); (p) = NULL; } }
 
 
+// PoolSize  정의
 #define DigimonPoolsize 10
+#define Enemy_PoolSize 20
 #define Poolsize 35 // queue_size of Objectpool
 #define BulletPool 30 // 총알 Pool Size
+#define CardPoolSize 2 // 카드 선택지에 최대 2개가 나옴.
 
 #define Bullet_FileCnt 7
-#define CardPoolSize 2 // 카드 선택지에 최대 2개가 나옴.
 
 #define 기본SpritPos 700
 #define 스킬SpritPos 800

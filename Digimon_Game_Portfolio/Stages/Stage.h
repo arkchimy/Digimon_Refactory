@@ -28,7 +28,7 @@ public:
 	void SetPlayer(shared_ptr<class Player> input) { Player = input; }
 
 	vector<shared_ptr<class Enemy>> Enemy_vec;
-	queue<shared_ptr<class Enemy>> Enemy_pool;
+	//queue<shared_ptr<class Enemy>> Enemy_pool;
 
 	// ∏Æ∆—≈‰∏µ
 	virtual void ClickEvent() {};

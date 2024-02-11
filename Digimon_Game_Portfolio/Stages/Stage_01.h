@@ -2,7 +2,7 @@
 #include "Stages/Stage.h"
 #define Enemy_Cnt 5
 #define Wave_SIZE 7
-#define Enemy_PoolSize 20
+
 
 
 class Stage_01 :public Stage

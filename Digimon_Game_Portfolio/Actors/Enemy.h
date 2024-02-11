@@ -30,3 +30,18 @@ public:
 	void Init_info();
 
 };
+
+
+class Enemy_Manager
+{
+public:
+	static void CreatePooling(int pool);
+	static void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
+	static shared_ptr<Enemy> Load(wstring imgfile);
+
+private:
+	static vector<shared_ptr<Enemy>> m;
+	static int idx;
+
+};
+
