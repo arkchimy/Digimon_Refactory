@@ -213,3 +213,63 @@ void Enemy::Fire()
 }
 
 
+#define Digimon_Type 4 // 길몬, 레나몬 , 테리어몬 , 가르고몬
+
+vector<shared_ptr<Enemy>> Enemy_Manager::m;
+int Enemy_Manager::idx = -1;
+void Enemy_Manager::CreatePooling(int pool)
+{
+	// 풀링 만큼 Digimon을 만들었다는데 의의가 있음.
+	// 나중에 Load하면서 srv와 buffer는 새로 업데이트가능.
+	// m에서 순차적으로
+	for (int i = 0; i < pool; i++)
+	{
+		int ID = i % Digimon_Type;
+		switch (ID)
+		{
+		case 0:
+			m.push_back(
+				make_shared<Enemy>(Digimon_Folder + L"길몬.png", 40.f, 40.f, Guilmon, 성장기)
+			);
+			break;
+		case 1:
+			m.emplace_back(
+				make_shared<Enemy>(Digimon_Folder + L"레나몬.png", Renamon_UV,
+					Renamon,
+					성장기));
+			break;
+		case 2:
+			m.emplace_back(
+				make_shared<Enemy>(Digimon_Folder + L"테리어몬.png", Terriermon_UV,
+					Terriermon,
+					성장기));
+			break;
+		case 3:
+			m.emplace_back(
+				make_shared<Enemy>(Digimon_Folder + L"가르고몬.png", Galgomon_UV,
+					Galgomon,
+					성장기));
+			break;
+		default:
+			break;
+		}
+
+	}
+}
+
+void Enemy_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
+{
+	for (auto digimon : m)
+		digimon->ViewProjection(V, P);
+}
+
+
+shared_ptr<Enemy> Enemy_Manager::Load(wstring imgfile)
+{
+	idx++;
+	idx %= m.size();
+
+	m[idx]->UpdateSrvAndBuffer(imgfile);
+
+	return m[idx];
+}

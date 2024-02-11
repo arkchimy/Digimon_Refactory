@@ -12,6 +12,8 @@
 #include "Reward_Card.h"
 #include "UI/Bottom_UI.h"
 
+#include <random>
+
 int wave_info[Wave_SIZE] =
 {
 	3,
@@ -53,14 +55,7 @@ Stage_01::~Stage_01()
 
 void Stage_01::Init_Stage(shared_ptr<class Player> player)
 {
-	for (int i = 0; i < Enemy_PoolSize; i++)
-	{
-		int id = rand() % 2;
-		if (id == 0)
-			Enemy_pool.push(make_shared<Enemy>(Digimon_Folder + L"길몬.png", 40, 40, Guilmon, 성장기));
-		if (id == 1)
-			Enemy_pool.push(make_shared<Enemy>(Digimon_Folder + L"레나몬.png", Renamon_UV, Renamon, 성장기));
-	}
+	
 	Player = player;
 	
 	init_Wave();
@@ -86,11 +81,26 @@ void Stage_01::init_Wave()
 	int cnt = wave_info[wave];
 	for (int i = 0; i < cnt; i++)
 	{
-		shared_ptr<Enemy> front = Enemy_pool.front();
-		Enemy_pool.pop();
-		Enemy_pool.push(front);
+		// 랜덤 주의!  rand() % 3 라고 작성했다가 계속 2만 나오는 현상나와서 바꿈
+		int id;
+		std::random_device rd;
+		std::mt19937 gen(rd());
 
-		Enemy_vec.emplace_back(front);
+		// 0부터 2까지의 균일 분포에서 정수를 생성합니다.
+		std::uniform_int_distribution<> dis(0, 2);
+
+		id = dis(gen);
+		shared_ptr<Enemy> temp;
+		if (id == 0)
+			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
+		else if(id == 1)
+			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
+		else 
+		{
+			cout << id << "출력\n";
+			temp = Enemy_Manager::Load(Digimon_Folder + L"레나몬.png");
+		}
+		Enemy_vec.push_back(temp);
 	}
 	float result = 0;
 	for (auto data : Enemy_vec)
@@ -180,7 +190,7 @@ void Stage_01::Update()
 
 
 float Decal_radius = 1.5f;
-float Decal_alpha = 1.f;
+float Decal_alpha = 0.3f;
 
 
 void Stage_01::Render()
@@ -238,13 +248,9 @@ void Stage_01::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 	Gate->ViewProjection(V, P);
 	Player->ViewProjection(V, P);
 
-	for (int i = 0; i < Enemy_PoolSize; i++)
-	{
-		auto front = Enemy_pool.front();
-		Enemy_pool.pop();
-		Enemy_pool.push(front);
-		front->ViewProjection(V,P);
-	}
+	
+	Enemy_Manager::ViewProjection(V, P);
+	
 
 	Card_Manager::ViewProjection(V, P);
 	CheckTrue(boss_que.empty());
@@ -292,11 +298,25 @@ void Stage_01::Wave_Clear()
 
 	for (int i = 0; i < cnt; i++)
 	{
-		shared_ptr<Enemy> front = Enemy_pool.front();
-		Enemy_pool.pop();
-		Enemy_pool.push(front);
+		int id;
+		std::random_device rd;
+		std::mt19937 gen(rd());
 
-		Enemy_vec.emplace_back(front);
+		// 0부터 2까지의 균일 분포에서 정수를 생성합니다.
+		std::uniform_int_distribution<> dis(0, 2);
+
+		id = dis(gen);
+		shared_ptr<Enemy> temp;
+		if (id == 0)
+			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
+		else if (id == 1)
+			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
+		else
+		{
+			cout << id << "출력\n";
+			temp = Enemy_Manager::Load(Digimon_Folder + L"레나몬.png");
+		}
+		Enemy_vec.push_back(temp);
 	}
 	if (wave == Wave_SIZE) //마지막 스테이지
 	{
