@@ -78,19 +78,16 @@ void Stage_01::init_Wave()
 	int cnt = wave_info[wave];
 	for (int i = 0; i < cnt; i++)
 	{
-		// 랜덤 주의!  rand() % 3 라고 작성했다가 계속 2만 나오는 현상나와서 바꿈
-		int id;
-		std::random_device rd;
-		std::mt19937 gen(rd());
+		unsigned int    number;
 
-		// 0부터 2까지의 균일 분포에서 정수를 생성합니다.
-		std::uniform_int_distribution<> dis(0, 1);
+		rand_s(&number);
+		number = (unsigned int)((double)number /
+			((double)UINT_MAX + 1) * 2.f);
 
-		id = dis(gen);
 		shared_ptr<Enemy> temp;
-		if (id == 0)
+		if (number == 0)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
-		else if (id == 1)
+		else if (number == 1)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"레나몬.png");
 
 		Enemy_vec.push_back(temp);
@@ -292,22 +289,20 @@ void Stage_01::Wave_Clear()
 
 	for (int i = 0; i < cnt; i++)
 	{
-		int id;
-		std::random_device rd;
-		std::mt19937 gen(rd());
+		unsigned int    number;
 
-		// 0부터 3까지의 균일 분포에서 정수를 생성합니다.
-		std::uniform_int_distribution<> dis(0, 3);
+		rand_s(&number);
+		number = (unsigned int)((double)number /
+			((double)UINT_MAX + 1) * 4.f);
 
-		id = dis(gen);
 		shared_ptr<Enemy> temp;
-		if (id == 0)
+		if (number == 0)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"길몬.png");
-		else if (id == 1)
+		else if (number == 1)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"레나몬.png");
-		else if (id == 2)
+		else if (number == 2)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"테리어몬.png");
-		else if (id == 3)
+		else if (number == 3)
 			temp = Enemy_Manager::Load(Digimon_Folder + L"가르고몬.png");
 
 		Enemy_vec.push_back(temp);

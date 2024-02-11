@@ -217,14 +217,12 @@ void Card_Manager::Create(vector<wstring> data)
 shared_ptr<class Animation> Card_Manager::Load(int& cardID)
 {
 
-	// 랜덤 주의!  rand() % 3 라고 작성했다가 계속 2만 나오는 현상나와서 바꿈
-	std::random_device rd;
-	std::mt19937 gen(rd());
+	unsigned int    number;
 
-	// 1부터 6까지의 균일 분포에서 정수를 생성합니다.
-	std::uniform_int_distribution<> dis(0, 2);
+	rand_s(&number);
+	cardID = (unsigned int)((double)number /
+		((double)UINT_MAX + 1) * 3.0);
 
-	cardID = dis(gen);
 
 	shader_idx++;
 	shader_idx %= shader_vec.size();
