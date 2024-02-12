@@ -3,11 +3,10 @@
 #include "Sprite.h"
 #include "Bullet.h"
 #include "Scene_Manager.h"
-#include "Actors/Enemy.h"
-#include "Animation.h"
-#include "Decal.h"
-#include "CutManager.h"
-#include "Reward_Card.h"
+
+#include "Actors/Enemy.h" // 의존성 제거하기
+
+//#include "Reward_Card.h"
 
 
 extern float Sprite_Speed;
@@ -70,10 +69,10 @@ void Digimon::Update()
 		
 		return;
 	}
-	decal->Update();
 
 	FindLookAtTarget();
-
+	// 타겟이없으면 공격 x
+	CheckNull(target);
 	if (State == IDLE)
 	{
 		Fire_time += ImGui::GetIO().DeltaTime;
@@ -110,7 +109,6 @@ void Digimon::Update()
 
 void Digimon::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
 {
-	//Attacker::Take_Damage(causer, dir);
 	cout << "아군 디지몬 타격" << endl; //아직 기획안함
 }
 
@@ -257,7 +255,6 @@ void Digimon::Fire()
 void Digimon::Animation_Start(int idx)
 {
 	Set_Mode(Skill);
-	Skill_Cut->Cut_Start(cut_SceanFile);
 
 }
 

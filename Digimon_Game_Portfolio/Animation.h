@@ -1,4 +1,6 @@
 #pragma once
+#include "Sprite_info.h"
+
 enum class PlayMode
 {
 	Loop = 0,End,Reverse,End_Stop,
@@ -19,7 +21,6 @@ public:
 
 
 	void Start() { bvisible = true; index = 0; playtime = 0.f; }
-
 	void Set_Owner(class Attacker* owner) { Owner = owner; }
 
 	void Position(D3DXVECTOR3 val);
@@ -34,6 +35,7 @@ public:
 private:
 	PlayMode mode;
 	vector<shared_ptr<class Sprite>> sprites_vec;
+
 	float playtime;
 	int index;
 	float play_rate = 1.f;
@@ -41,24 +43,16 @@ private:
 
 	class Attacker* Owner = nullptr;
 
-	//  ∏Æ∆—≈‰∏µ
 private:
-
-
 	class Shader* m_Shader =  nullptr;
-	
 	vector<ID3D11Buffer*> m_buffer_vec;
-protected:
-	vector<unique_ptr<class Animation>> animations;
+	ID3D11ShaderResourceView* m_srv;
 
+	vector<unique_ptr<class Animation>> animations;
 
 	D3DXVECTOR3 m_position = { 0,0,0 };
 	D3DXVECTOR3 m_rotator = { 0,0,0 };
 	D3DXVECTOR3 m_scale = { 1,1,1 };
 
-
-	//∏Æ∆—≈‰∏µ
-	
-	ID3D11ShaderResourceView* m_srv;
 };
 

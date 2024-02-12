@@ -1,4 +1,5 @@
 #pragma once
+#include "Sprite_info.h"
 #define 아군 0
 #define 적군 1
 

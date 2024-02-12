@@ -1,12 +1,12 @@
 #pragma once
 #include "Actors/ICombat.h"
 #include "Animation.h"
+#include "Sprite_info.h"
+
 #define 분산형타입 1
 #define 연사형타입 2
 #define 관통형타입 3
 #define 레이저타입 4
-
-
 
 enum Buff_State
 {
@@ -17,6 +17,7 @@ enum Buff_State
 	Stun = 1 << 4,
 	Dead = 1 << Death
 };
+
 class Attacker : public ICombat
 {
 public:
@@ -51,15 +52,15 @@ public:
 	FORCEINLINE D3DXVECTOR3 Scale() { return scale; }
 	FORCEINLINE D3DXVECTOR3 Rotator() { return rotator; }
 
+	FORCEINLINE void Set_Mode(UINT mode) { State = mode; animations[State]->Start(); } // 자동으로 애니메이션 호출
+	FORCEINLINE void Set_Mode(Buff_State val) { buff_state = val; }
+
 	virtual bool IsDeathMode() override;
+
 	virtual Buff_State Buff() { return buff_state; }
+	
 
-	void Set_IdleMode();
-	void Set_WalkMode() { State = Walk; }
-	void Set_StunMode();
-	void Set_SkillMode() { State = Skill; }
 
-	void Decal_Visible(bool val);
 public:
 	bool bBattle = false;
 	wstring cut_SceanFile;
@@ -67,9 +68,6 @@ protected:
 
 	UINT State;
 	Buff_State buff_state = Buff_State::None;
-
-	unique_ptr<class Decal> decal;
-
 
 	// =========== Sprite Info ============
 
@@ -100,12 +98,11 @@ protected:
 	float knock_back = 1.f;
 	float Stun_Time = 0.f;
 	D3DXVECTOR3 Move_dir;
-	// ===============Shader  테스트 성공 ===========
-	Shader* shader;
-	ID3D11Buffer* vertexBuffer;
 
 	Vertex vertices[6];
-	//vector<vector<ID3D11ShaderResourceView*>> srv_vec;
+
+	Shader* shader;
+	ID3D11Buffer* vertexBuffer;
 	ID3D11ShaderResourceView* m_srv;
 	vector<vector<ID3D11Buffer*>> buffer_vec;
 
@@ -123,7 +120,7 @@ protected:
 	//=============== Animation 살리기 ===============
 	protected:
 		vector<unique_ptr<class Animation>> animations;
-		FORCEINLINE void Set_Mode(UINT mode) { State = mode; animations[State]->Start(); } // 자동으로 애니메이션 호출
+		
 
 
 	

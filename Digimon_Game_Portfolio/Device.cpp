@@ -314,27 +314,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			DestroyWindow(hwnd);
 		}
-		if (wParam == 0x31)
-		{
-			NumKey_1 = true;
-			NumKey_2 = false;
-			NumKey_3 = false;
-			player->Decal_Visible(1, true);
-		}
-		if (wParam == 0x32)
-		{
-			NumKey_1 = false;
-			NumKey_2 = true;
-			NumKey_3 = false;
-			player->Decal_Visible(2, true);
-		}
-		if (wParam == 0x33)
-		{
-			NumKey_1 = false;
-			NumKey_2 = false;
-			NumKey_3 = true;
-			player->Decal_Visible(3, true);
-		}
+		
 		return 0;
 	case WM_KEYUP:
 		/*if (wParam == 0x31)
@@ -350,24 +330,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 	case WM_LBUTTONDOWN:
-		if (NumKey_1) 
-		{
-			player->Use_Skill(1, Mouse_Pos);
-			player->Decal_Visible(1, false);
-			NumKey_1 = false;
-		}
-		if (NumKey_2)
-		{
-			player->Use_Skill(2, Mouse_Pos);
-			player->Decal_Visible(2, false);
-			NumKey_2 = false;
-		}
-		if (NumKey_3)
-		{
-			player->Use_Skill(3, Mouse_Pos);
-			player->Decal_Visible(3, false);
-			NumKey_3 = false;
-		}
 		//Card_Manager::Use_Card();
 		Scene_Manager::ClickEvent();
 		player->ClickEvent();

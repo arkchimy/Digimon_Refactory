@@ -1,12 +1,6 @@
 #include "stdafx.h"
 #include "CastleGate.h"
-#include "Digimon.h"
-#include "Map_Make/Map_Texture.h"
-#include "Bullet.h"
-
-
 #include "Sprite.h"
-#include "Renders/Shader.h"
 
 D3DXVECTOR3 Castle_Pos = D3DXVECTOR3(-440, 65, 0);
 float Castle_interver = 100.f;
@@ -20,9 +14,9 @@ CastleGate::CastleGate()
 	make_unique<Sprite>(buffer, Layer_Folder + L"Dungeon_01" + L"/" + Ground + to_wstring(0) + L".png");
 	// Ground
 	{
-		scale = D3DXVECTOR3(850, 800, 1);
-		position = D3DXVECTOR3(-340, 65, 0);
-		rotator = { 0,0,0 };
+		m_scale = D3DXVECTOR3(850, 800, 1);
+		m_position = D3DXVECTOR3(-340, 65, 0);
+		m_rotator = { 0,0,0 };
 	}
 	UpdateWorld();
 
@@ -55,24 +49,14 @@ void CastleGate::Render()
 	
 }
 
-void CastleGate::Update()
-{
-	//Castle->Update();
-
-}
-
-void CastleGate::Animation()
-{
-	
-}
 
 void CastleGate::UpdateWorld()
 {
 	D3DXMATRIX W, S, R, T;
 
-	D3DXMatrixScaling(&S, scale.x, scale.y, scale.z);
-	D3DXMatrixRotationYawPitchRoll(&R,rotator.y,rotator.x,rotator.z);
-	D3DXMatrixTranslation(&T, position.x, position.y, position.z);
+	D3DXMatrixScaling(&S, m_scale.x, m_scale.y, m_scale.z);
+	D3DXMatrixRotationYawPitchRoll(&R, m_rotator.y, m_rotator.x, m_rotator.z);
+	D3DXMatrixTranslation(&T, m_position.x, m_position.y, m_position.z);
 	
 
 	W = S * R * T;
@@ -88,15 +72,6 @@ void CastleGate::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 
 }
 
-void CastleGate::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
-{
-	hp -= causer->Power();
-}
-
-bool CastleGate::IsDeathMode()
-{
-	return false;
-}
 
 D3DXVECTOR3 CastleGate::Slot_Position()
 {

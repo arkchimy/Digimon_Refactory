@@ -2,8 +2,11 @@
 #include "Bullet.h"
 #include "Sprite.h"
 #include "Scene_Manager.h"
-#include "Actors/Enemy.h"
-#include "Animation.h"
+#include "Animation.h"	  
+#include "Actors/Enemy.h" 
+
+
+const wstring Effect_Folder = L"./_Textures/digimon/Effects/";
 
 Bullet::Bullet()
 	:type(1), team_ID(0)
@@ -177,7 +180,7 @@ void Bullet::Render()
 					D3DXVec3Normalize(&dir, &target_vec);
 					if (distance <= radius)
 					{
-						front->Set_StunMode();
+						front->Set_Mode(Stun);
 						front->Take_Damage(this, dir);
 					}
 				}
@@ -379,7 +382,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 					0,									// Width
 					0									// Height
 			},
-			15.f,  //Speed	
+			30.f,  //Speed	
 			{
 			D3DXVECTOR4{0,0,7,6},
 			},
@@ -423,7 +426,7 @@ shared_ptr<Bullet> Bullet_Manager::Load(wstring imgfile)
 					0,									// Width
 					0									// Height
 			},
-			15.f,		//Speed	
+			35.f,		//Speed	
 			{
 			D3DXVECTOR4{0,0,19,22},
 			D3DXVECTOR4{24,0,46,22},

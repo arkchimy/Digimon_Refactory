@@ -5,11 +5,12 @@ VisualStudioVersion = 16.0.34031.81
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Digimon_Game", "Digimon_Game.vcxproj", "{74DDA932-B5B9-4831-A63C-C13663BE207C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{753F6CC6-833D-4466-9281-B7BC5CB0F6E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Shaders", "_Shaders", "{9BDBE3F1-5454-44ED-BF5E-FE59D15F81BC}"
 	ProjectSection(SolutionItems) = preProject
 		..\_Shaders\014_Bounding.fx = ..\_Shaders\014_Bounding.fx
 		..\_Shaders\01_Decal.fx = ..\_Shaders\01_Decal.fx
 		..\_Shaders\02_Card.fx = ..\_Shaders\02_Card.fx
+		..\_Shaders\03_Panel.fx = ..\_Shaders\03_Panel.fx
 		..\_Shaders\04_Effect.fx = ..\_Shaders\04_Effect.fx
 		..\_Shaders\07_Texture.fx = ..\_Shaders\07_Texture.fx
 		..\_Shaders\10_Bound.fx = ..\_Shaders\10_Bound.fx

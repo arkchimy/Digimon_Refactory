@@ -4,7 +4,11 @@
 #define Wave_SIZE 7
 
 
-
+enum StageState
+{
+	Rest,
+	Battle,
+};
 class Stage_01 :public Stage
 {
 public:
@@ -42,8 +46,8 @@ private:
 	bool bclear =false;
 	//∏Æ∆—≈‰∏µ
 	vector<unique_ptr<class Reward_Card>> reward;
-
-
+	StageState m_State;
+	
 
 	//∏Æ∆—≈‰∏µ
 

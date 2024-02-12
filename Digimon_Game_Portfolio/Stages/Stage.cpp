@@ -10,6 +10,7 @@
 
 
 
+
 wstring Title_bg0 = Layer_Folder + L"Stage_00" + L"/" + Layer + to_wstring(0) + L".png";
 wstring Title_bg1 = Layer_Folder + L"Stage_00" + L"/" + Layer + to_wstring(1) + L".png";
 wstring Title_ground0 = Layer_Folder + L"Stage_00" + L"/" + Ground + to_wstring(0) + L".png";

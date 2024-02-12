@@ -9,8 +9,7 @@
 #include "Bullet.h"
 #include "Scene_Manager.h"
 #include "CastleGate.h"
-#include "Decal.h"
-#include "CutManager.h"
+
 #include "UI/Bottom_UI.h"
 
 shared_ptr<Player> player;
@@ -27,8 +26,8 @@ bool bStop = false; //Skill Stop
 
 Scene_Manager* stage;
 
-CutScean* Skill_Cut;
 class Bottom_UI* bottom_UI;
+
 
 void InitScene()
 {
@@ -42,10 +41,7 @@ void InitScene()
 	ViewProjection_Init();
 
 
-
-
 	stage->ViewProjection(V, P);
-
 
 
 	Bullet_Manager::Create(BulletPool);
@@ -54,21 +50,14 @@ void InitScene()
 	Effect_Manager::Create(Poolsize);
 	Effect_Manager::ViewProjection(V, P);
 
-	CutManager::Create();
-	CutManager::ViewProjection(V, P);
-
 	
-	Skill_Cut = new CutScean();
-	Skill_Cut->ViewProjection(V, P); // CutScene BG
-	
-	bottom_UI = new Bottom_UI(Layer_Folder + L"Bottom_UI.png");
+	bottom_UI = new Bottom_UI();
 	bottom_UI->ViewProjection(V, P);
 }
 
 void DestroyScene()
 {
-	//SAFE_DELETE(modack);
-	SAFE_DELETE(Skill_Cut);
+
 }
 
 bool chk = false;
@@ -83,7 +72,6 @@ void Update()
 		Bullet_Manager::Update();
 		Effect_Manager::Update();
 	}
-	Skill_Cut->Update();
 	bottom_UI->Update();
 
 
@@ -104,7 +92,6 @@ void Render()
 	Effect_Manager::Render();
 	bottom_UI->Render();
 
-	Skill_Cut->Render();
 	ImGui::Render();
 	DirectWrite::GetDC()->BeginDraw();
 	{
@@ -178,7 +165,6 @@ void ViewProjection_Init()
 	D3DXMatrixLookAtLH(&V, &eye, &at, &up);
 
 	//Projection
-	//D3DXMatrixOrthoOffCenterLH(&P, 0, (float)Width, 0, (float)Height, -1, 1);
 	D3DXMatrixOrthoOffCenterLH(&P, -(float)Width / 2, (float)Width / 2, -(float)Height / 2, (float)Height / 2, -1, 1);
 
 }

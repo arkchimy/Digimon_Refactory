@@ -37,7 +37,6 @@ Stage_01::Stage_01()
 	:Stage(imagegefiles, shaderfiles)
 {
 	Gate = new CastleGate();
-
 	reward.reserve(CardPoolSize);
 	for (int i = 0; i < CardPoolSize; i++)
 	{
@@ -65,13 +64,16 @@ void Stage_01::Init_Stage(shared_ptr<class Player> player)
 	boss_que.push(make_shared<ABoss>(Digimon_Folder + L"길몬.png", 40, 40, Guilmon, 보스));
 
 	Card_Manager::Create(Player->Player_Cards());
+	m_State = StageState::Rest;
 
 }
 void Stage_01::Battle_Stage()
 {
+	m_State = StageState::Battle;
 	Player->Battle(배틀시작);
 	for (auto data : Enemy_vec)
 		data->Battle(배틀시작);
+
 }
 void Stage_01::init_Wave()
 {
@@ -134,8 +136,8 @@ void Stage_01::ClickEvent()
 }
 void Stage_01::Update()
 {
+	
 
-	Gate->Update();
 	Player->Update();
 
 	for (int i = 0; i < reward.size(); i++)
@@ -147,7 +149,8 @@ void Stage_01::Update()
 	{
 		data->Update();
 	}
-	CheckFalse(Enemy_vec[0]->bBattle);
+	CheckTrue(m_State == StageState::Rest);
+
 	bclear = true;
 	for (auto data : Enemy_vec)
 	{
@@ -263,20 +266,20 @@ D3DXVECTOR3 reward_pos[2] =
 };
 void Stage_01::Wave_Reward()
 {
+	m_State = StageState::Rest;
 	for (int i = 0; i < reward.size(); i++)
 	{
 		reward[i]->Load();
 		reward[i]->Position(reward_pos[i]);
 	}
 	Player->Battle(배틀종료);
-	for (auto data : Enemy_vec)
-		data->Battle(배틀종료);
+
 
 }
 
 void Stage_01::Wave_Clear()
 {
-
+	m_State = StageState::Battle;
 	wave++;
 	for (int i = 0; i < reward.size(); i++)
 	{

@@ -2,13 +2,13 @@
 #include "Actors/Attacker.h"
 #include "Sprite.h"
 #include "Bullet.h"
-#include "Animation.h"
-#include "Decal.h"
+
+
 
 D3DXVECTOR3 Init_Pos = { -275.0,-185,0 };
 D3DXVECTOR3 LV1_Scale = { 100,100,1 };
 D3DXVECTOR3 LV2_Scale = { 200,200,1 };
-D3DXVECTOR3 Decal_Circel_Scale = { 10,10,1.f };
+
 
 Attacker::Attacker(wstring imgfile, float width, float height, Sprites_Info info, int level)
 {
@@ -27,6 +27,8 @@ Attacker::Attacker(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, 
 
 Attacker::~Attacker()
 {
+	SAFE_DELETE(shader);
+
 }
 
 void Attacker::Init_info(const Sprites_Info& info)
@@ -44,7 +46,6 @@ void Attacker::Init_info(const Sprites_Info& info)
 	Normal_Bullet_Cnt = info.Bullet_Cnt;
 	Skill_Bullet_Cnt = info.Skill_Bullet_Cnt;
 
-	decal = make_unique<Decal>();
 	cut_SceanFile = info.Skill_CutScene;
 
 	buffer_vec.resize(Sprite_Type);
@@ -153,8 +154,7 @@ void Attacker::UpdateSrvAndBuffer(wstring imgfile)
 void Attacker::Update()
 {
 	animations[State]->Update();
-	decal->Update();
-	decal->Scale(Decal_Circel_Scale);
+
 }
 
 void Attacker::Render()
@@ -167,7 +167,6 @@ void Attacker::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 	shader->AsMatrix("View")->SetMatrix(V);
 	shader->AsMatrix("Projection")->SetMatrix(P);
 
-	decal->ViewProjection(V, P);
 }
 
 void Attacker::UpdateWorld()
@@ -210,18 +209,3 @@ bool Attacker::IsDeathMode()
 	return State == Death;
 }
 
-void Attacker::Set_IdleMode()
-{
-	Set_Mode(IDLE);
-}
-
-void Attacker::Set_StunMode()
-{
-	buff_state = Buff_State::Stun;
-	Stun_Time = 0.3f;
-}
-
-void Attacker::Decal_Visible(bool val)
-{
-	decal->Visible(val);
-}
