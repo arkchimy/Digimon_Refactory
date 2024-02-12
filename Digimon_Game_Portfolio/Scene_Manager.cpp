@@ -7,8 +7,6 @@
 #include "Stages/Title_Scene.h"
 #include "Stages/Stage_01.h"
 
-#include "Bullet.h"
-
 #define STAGE_CNT 1
 
 class Stage* Scene_Manager::Current_Scene = nullptr;

@@ -1,21 +1,14 @@
 #pragma once
-#include "Actors/ICombat.h"
-class CastleGate :public ICombat
+
+class CastleGate 
 {
 public:
 	CastleGate();
 	~CastleGate();
 	void Render();
-	void Update();
-	void Animation();
 
 	void UpdateWorld();
 	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
-
-	virtual void Take_Damage(class Bullet* causer, D3DXVECTOR3 dir); // 누가 데미지를 줬는지 중요한가?
-	virtual void Fire() {};
-	virtual bool IsDeathMode();
-
 
 	D3DXVECTOR3 Slot_Position();
 	void ReturnSlot(D3DXVECTOR3 slotpos); //슬롯 반환
@@ -23,16 +16,13 @@ protected:
 	vector<D3DXVECTOR3> slot_position;
 	vector<bool> slot_use;
 
-	D3DXVECTOR3 position;
-	D3DXVECTOR3 scale;
-	D3DXVECTOR3 rotator;
+	D3DXVECTOR3 m_position;
+	D3DXVECTOR3 m_scale;
+	D3DXVECTOR3 m_rotator;
 
 	unique_ptr<class Shader> shader;
 	ID3D11ShaderResourceView* srv;
 	vector<ID3D11Buffer*> buffer;
 
-	class unique_ptr<class Sprite> Castle;
-
-	float hp =10;
 };
 

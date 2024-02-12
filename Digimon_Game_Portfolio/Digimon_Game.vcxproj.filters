@@ -51,9 +51,6 @@
     <ClCompile Include="Systems\Keyboard.cpp">
       <Filter>Systems</Filter>
     </ClCompile>
-    <ClCompile Include="Object.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Renders\Shader.cpp">
       <Filter>Renders</Filter>
     </ClCompile>
@@ -102,12 +99,6 @@
     <ClCompile Include="Animation.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="Decal.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="CutManager.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="Reward_Card.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -130,9 +121,6 @@
     </ClInclude>
     <ClInclude Include="Systems\Keyboard.h">
       <Filter>Systems</Filter>
-    </ClInclude>
-    <ClInclude Include="Object.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="Renders\Shader.h">
       <Filter>Renders</Filter>
@@ -185,12 +173,6 @@
     <ClInclude Include="Animation.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Decal.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="CutManager.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Reward_Card.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
@@ -201,6 +183,9 @@
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="DirectWrite.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite_info.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,11 +7,13 @@ public:
 	~Reward_Card();
 public:
 	void Update();
-	//void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P) {};
 	void Render();
 	void Scale(D3DXVECTOR3 val);
 	void Position(D3DXVECTOR3 val);
+
 	void Visible(bool val);
+
+
 	void Use_Card();
 	shared_ptr<class Digimon> ReplaceDigimon();
 
@@ -20,6 +22,7 @@ public:
 	bool MouseOver() { return bOver; }
 	void MouseOver(bool val) { bOver = val; }
 	wstring cardname;
+
 private:
 	unique_ptr<class Animation> sprites;
 	queue<shared_ptr<class Digimon>> q;

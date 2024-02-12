@@ -72,9 +72,9 @@ void Animation::Update()
 				CheckTrue(Owner->Buff() == Buff_State::Stun);
 				Enemy* enemy = dynamic_cast<Enemy*>(Owner);
 				if (enemy == nullptr)
-					Owner->Set_IdleMode();
+					Owner->Set_Mode(IDLE);
 				else
-					Owner->Set_WalkMode();
+					Owner->Set_Mode(Walk);
 			}
 		}
 		break;

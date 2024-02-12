@@ -1,18 +1,17 @@
 #include "stdafx.h"
 #include "Player.h"
 
-#include "Sprite.h"
+//#include "Sprite.h"
 #include "Digimon.h"
 #include "Scene_Manager.h"
 
-extern Sprites_Info Guilmon;
+const wstring Card_Folder = L"./_Textures/Card/";
+
 Player::Player( wstring shaderFile)
 {
 
 	My_Digimon.reserve(10);
 	My_Digimon.push_back(Digimon_Manager::Load(Digimon_Folder + L"길몬.png"));
-
-	
 
 	cards.push_back(Card_Folder + L"테리어몬_카드.png");
 	cards.push_back(Card_Folder + L"레나몬_카드.png");
@@ -60,7 +59,7 @@ void Player::Ready()
 {
 	for (int i = 0; i < My_Digimon.size(); i++)
 	{
-		My_Digimon[i]->Set_IdleMode();
+		My_Digimon[i]->Set_Mode(IDLE);
 	}
 }
 
@@ -87,21 +86,6 @@ void Player::Slot_Set(D3DXVECTOR3 slot_pos)
 	
 }
 
-void Player::Use_Skill(int idx,D3DXVECTOR2 MousePos)
-{
-	idx -=1 ;
-	CheckTrue(My_Digimon.size() <= idx);
-	My_Digimon[idx]->Skill_Target_Pos = MousePos;
-	My_Digimon[idx]->Set_SkillMode();
-	My_Digimon[idx]->Animation_Start(Skill);
-}
-
-void Player::Decal_Visible(int idx,bool val)
-{
-	idx -= 1;
-	CheckTrue(My_Digimon.size() <= idx);
-	My_Digimon[idx]->Decal_Visible(val);
-}
 
 void Player::ClickEvent()
 {
@@ -139,12 +123,14 @@ void Player::ClickUp_Event()
 				D3DXVECTOR3 pos = My_Digimon[i]->Position();
 				chk->Position(pos);
 				My_Digimon[i] = chk;
-				My_Digimon[i]->Set_IdleMode();
 				My_Digimon[i]->Battle(배틀시작);
 			}
 			auto iter = find(My_Digimon.begin(), My_Digimon.end(), drag_digimon);
-			Scene_Manager::ReturnSlot(drag_digimon->Position());
-			My_Digimon.erase(iter);
+			if (iter != My_Digimon.end())
+			{
+				Scene_Manager::ReturnSlot(drag_digimon->goal_pos);
+				My_Digimon.erase(iter);
+			}
 			break;
 
 		}

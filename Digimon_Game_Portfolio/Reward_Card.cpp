@@ -10,6 +10,9 @@
 #define OverScale D3DXVECTOR3{350,350,1}
 
 #define CardPool 5
+
+const wstring Card_Folder = L"./_Textures/Card/";
+
 Reward_Card::Reward_Card(wstring Cardfile, const wstring ShaderFile)
 	:digimon(nullptr)
 {

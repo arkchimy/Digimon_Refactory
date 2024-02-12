@@ -18,8 +18,6 @@ public:
 
 	void Slot_Set(D3DXVECTOR3 slot_pos);
 
-	void Use_Skill(int num, D3DXVECTOR2 MousePos);
-	void Decal_Visible(int idx ,bool val);
 	void ClickEvent();
 	void ClickUp_Event();
 	// 시간 측정
