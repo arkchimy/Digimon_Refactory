@@ -46,7 +46,6 @@ void Animation::UpdateSrvAndBuffer(ComPtr<ID3D11ShaderResourceView> srv, vector<
 void Animation::Update()
 {
 	CheckFalse(bvisible);
-
 	playtime += play_rate * ImGui::GetIO().DeltaTime;
 	index = floor(playtime);
 	Enemy* enemy = dynamic_cast<Enemy*>(Owner);
