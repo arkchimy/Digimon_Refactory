@@ -21,8 +21,8 @@ protected:
 	D3DXVECTOR3 m_rotator;
 
 	unique_ptr<class Shader> shader;
-	ID3D11ShaderResourceView* srv;
-	vector<ID3D11Buffer*> buffer;
+	ComPtr<ID3D11ShaderResourceView> srv;
+	vector<ComPtr<ID3D11Buffer>> buffer;
 
 };
 

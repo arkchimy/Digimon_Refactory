@@ -30,13 +30,13 @@ Animation::Animation(Sprite_Info info, PlayMode type)
 }
 
 
-Animation::Animation(Shader* shader, ID3D11ShaderResourceView* srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode)
+Animation::Animation(Shader* shader, ComPtr<ID3D11ShaderResourceView> srv_vec, vector<ComPtr<ID3D11Buffer>> buffer_vec, PlayMode mode)
 	: m_Shader(shader), m_srv(srv_vec), m_buffer_vec(buffer_vec), mode(mode), play_rate(Sprite_Speed)
 {
 
 }
 
-void Animation::UpdateSrvAndBuffer(ID3D11ShaderResourceView* srv, vector<ID3D11Buffer*> buffer_vec)
+void Animation::UpdateSrvAndBuffer(ComPtr<ID3D11ShaderResourceView> srv, vector<ComPtr<ID3D11Buffer>> buffer_vec)
 {
 	m_srv = srv;
 	m_buffer_vec = buffer_vec;
@@ -108,9 +108,9 @@ void Animation::Render()
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
-	m_Shader->AsShaderResource("Map")->SetResource(m_srv);
+	m_Shader->AsShaderResource("Map")->SetResource(m_srv.Get());
 
-	DeviceContext->IASetVertexBuffers(0, 1, &m_buffer_vec[index], &stride, &offset);
+	DeviceContext->IASetVertexBuffers(0, 1, m_buffer_vec[index].GetAddressOf(), &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_Shader->Draw(0, 0, 6);

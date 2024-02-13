@@ -47,9 +47,9 @@ void Bottom_UI::Render()
 		UINT stride = sizeof(Vertex);
 		UINT offset = 0;
 
-		m_shader[i]->AsShaderResource("Map")->SetResource(m_srv[i]);
+		m_shader[i]->AsShaderResource("Map")->SetResource(m_srv[i].Get());
 
-		DeviceContext->IASetVertexBuffers(0, 1, &m_buffer[i][0], &stride, &offset);
+		DeviceContext->IASetVertexBuffers(0, 1, m_buffer[i][0].GetAddressOf(), &stride, &offset);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		if (i == 1 && !bvictory)

@@ -18,8 +18,8 @@ public:
 	vector<D3DXVECTOR3> m_rotator;
 
 	vector<class Shader*> m_shader;
-	vector<vector<ID3D11Buffer*>> m_buffer;
-	vector<ID3D11ShaderResourceView*> m_srv;
+	vector<vector<ComPtr<ID3D11Buffer>>> m_buffer;
+	vector<ComPtr<ID3D11ShaderResourceView>> m_srv;
 
 
 	static void GameClear(bool val) { bvictory = val; }

@@ -77,8 +77,8 @@ private:
 	D3DXVECTOR3 m_Rotator;
 
 	class Shader* m_Shader;
-	vector<ID3D11Buffer*> buffer_vec;
-	ID3D11ShaderResourceView* m_srv;
+	vector<ComPtr<ID3D11Buffer>> buffer_vec;
+	ComPtr<ID3D11ShaderResourceView> m_srv;
 	
 };
 
@@ -117,8 +117,8 @@ private:
 	static vector<Shader*> shader_vec;
 	static int shader_idx; // 배열로 순차탐색 구현
 
-	static vector<ID3D11ShaderResourceView*> srv_vec;
-	static vector<vector<ID3D11Buffer*>> buffer_vec;
+	static vector<ComPtr<ID3D11ShaderResourceView>> srv_vec;
+	static vector<vector<ComPtr<ID3D11Buffer>>> buffer_vec;
 	static vector<shared_ptr<Animation>> animations;
 
 };
