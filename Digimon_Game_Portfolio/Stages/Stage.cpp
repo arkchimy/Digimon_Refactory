@@ -77,8 +77,6 @@ void Stage::Battle(bool val)
 void Stage::Stage_Clear()
 {
 	Player->Stage_Clear();
-	//for (auto data : Enemy_vec)
-	//	data->Battle(배틀종료);
 
 }
 

@@ -7,13 +7,13 @@
 
 
 Animation::Animation(vector<shared_ptr<class Sprite>> data, PlayMode type)
-	:sprites_vec(data),mode(type),playtime(0.f),index(0),play_rate(9.f)
+	:sprites_vec(data),mode(type),playtime(0.f),index(0),play_rate(Sprite_Speed)
 {
 
 }
 
 Animation::Animation(Sprite_Info info, PlayMode type)
-	: mode(type), playtime(0.f), index(0), play_rate(9.f)
+	: mode(type), playtime(0.f), index(0), play_rate(Sprite_Speed)
 {
 	sprites_vec.resize(info.Sprite_cnt);
 
@@ -31,7 +31,7 @@ Animation::Animation(Sprite_Info info, PlayMode type)
 
 
 Animation::Animation(Shader* shader, ID3D11ShaderResourceView* srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode)
-	: m_Shader(shader), m_srv(srv_vec), m_buffer_vec(buffer_vec), mode(mode), play_rate(9.f)
+	: m_Shader(shader), m_srv(srv_vec), m_buffer_vec(buffer_vec), mode(mode), play_rate(Sprite_Speed)
 {
 
 }
