@@ -602,13 +602,13 @@ void Effect_Manager::ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P)
 		shader->AsMatrix("Projection")->SetMatrix(P);
 	}
 
-	//level_up->ViewProjection(V, P);
 }
 
 void Effect_Manager::Level_Up(D3DXVECTOR3 pos)
 {
-	cout << "아직 미구현" << endl;
-	/*level_up->Position(pos);
-	level_up->Start();*/
+	shared_ptr<Animation> level_up = Load(Effect_Folder + L"Level_Up.png");
+	level_up->Position(pos);
+	level_up->Scale({ 100, 100, 1 });
+	level_up->Start();
 }
 

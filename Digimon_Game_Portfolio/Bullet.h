@@ -119,7 +119,6 @@ private:
 
 	static vector<ID3D11ShaderResourceView*> srv_vec;
 	static vector<vector<ID3D11Buffer*>> buffer_vec;
-
 	static vector<shared_ptr<Animation>> animations;
 
 };

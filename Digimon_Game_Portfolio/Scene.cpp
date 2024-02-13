@@ -17,7 +17,7 @@ D3DXMATRIX V, P;
 D3DXVECTOR3 Edit_Rot = { 0,0,0 };
 
 float Edit_Speed;
-float Sprite_Speed = 9.5f;
+float Sprite_Speed = 7.5f;
 
 bool State_Clear = false;
 bool bDrawBound = false;

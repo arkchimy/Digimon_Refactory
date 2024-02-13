@@ -179,6 +179,7 @@ void Digimon::Battle(bool val)
 
 void Digimon::Stage_Clear()
 {
+	CheckTrue(State == Victory);
 	Set_Mode(Victory);
 }
 

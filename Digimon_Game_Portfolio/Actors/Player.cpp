@@ -128,7 +128,7 @@ void Player::ClickUp_Event()
 			auto iter = find(My_Digimon.begin(), My_Digimon.end(), drag_digimon);
 			if (iter != My_Digimon.end())
 			{
-				Scene_Manager::ReturnSlot(drag_digimon->goal_pos);
+				Scene_Manager::ReturnSlot(drag_digimon->CurrentSlotPos());
 				My_Digimon.erase(iter);
 			}
 			break;
