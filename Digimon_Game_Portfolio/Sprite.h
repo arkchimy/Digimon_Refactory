@@ -37,10 +37,6 @@ private:
 	D3DXMATRIX world;
 	Vertex vertices[6];
 
-	//Bound Shader
-	Shader* BoundShader;
-	ComPtr<ID3D11Buffer> BoundBuffer;
-
 	struct BoundVertex
 	{
 		D3DXVECTOR3 postion;
@@ -50,6 +46,10 @@ private:
 	ComPtr<ID3D11Buffer> vertexBuffer;
 	class Shader* shader;
 	ComPtr<ID3D11ShaderResourceView> srv;
+
+	//Bound Shader
+	class Shader* BoundShader;
+	ComPtr<ID3D11Buffer> BoundBuffer;
 
 };
 
