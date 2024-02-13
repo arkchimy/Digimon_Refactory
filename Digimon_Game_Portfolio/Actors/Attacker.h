@@ -102,9 +102,9 @@ protected:
 	Vertex vertices[6];
 
 	Shader* shader;
-	ID3D11Buffer* vertexBuffer;
-	ID3D11ShaderResourceView* m_srv;
-	vector<vector<ID3D11Buffer*>> buffer_vec;
+	ComPtr<ID3D11Buffer> vertexBuffer;
+	ComPtr<ID3D11ShaderResourceView> m_srv;
+	vector<vector<ComPtr<ID3D11Buffer>>> buffer_vec;
 
 
 	//

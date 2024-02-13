@@ -40,9 +40,9 @@ void CastleGate::Render()
 	UINT offset = 0;
 
 	
-	shader->AsShaderResource("Map")->SetResource(srv);
+	shader->AsShaderResource("Map")->SetResource(srv.Get());
 
-	DeviceContext->IASetVertexBuffers(0, 1, &buffer[0], &stride, &offset);
+	DeviceContext->IASetVertexBuffers(0, 1, buffer[0].GetAddressOf(), &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	shader->Draw(0, 0, 6);

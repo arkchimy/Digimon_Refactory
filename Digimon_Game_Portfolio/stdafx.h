@@ -40,6 +40,7 @@ using namespace std;
 //DirectWrite
 #include <wrl.h>
 
+using namespace Microsoft::WRL;
 #include <d2d1_2.h>
 #include <dwrite.h>
 #pragma comment(lib, "d2d1.lib")
