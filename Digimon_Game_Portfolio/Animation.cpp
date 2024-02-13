@@ -43,6 +43,7 @@ void Animation::UpdateSrvAndBuffer(ComPtr<ID3D11ShaderResourceView> srv, vector<
 }
 
 
+
 void Animation::Update()
 {
 	CheckFalse(bvisible);
