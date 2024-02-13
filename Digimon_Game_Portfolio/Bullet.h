@@ -51,7 +51,7 @@ private:
 	// Hit 관련
 	wstring Effect_File;
 	float power = 1.f;
-	float radius = 300.f; // 폭발 반경에 쓰임.
+	float radius = 150.f; // 폭발 반경에 쓰임.
 	float knock_back;
 
 	// 중복 Hit방지

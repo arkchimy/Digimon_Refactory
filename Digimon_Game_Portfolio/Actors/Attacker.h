@@ -53,7 +53,7 @@ public:
 	FORCEINLINE D3DXVECTOR3 Rotator() { return rotator; }
 
 	FORCEINLINE void Set_Mode(UINT mode) { State = mode; animations[State]->Start(); } // 자동으로 애니메이션 호출
-	FORCEINLINE void Set_Mode(Buff_State val) { buff_state = val; }
+	FORCEINLINE void Set_Mode(Buff_State val) { buff_state = val; Stun_Time = 0.2f;  }
 
 	virtual bool IsDeathMode() override;
 

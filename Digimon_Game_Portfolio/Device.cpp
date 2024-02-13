@@ -40,13 +40,14 @@ ID3D11Device* Device;
 ID3D11DeviceContext* DeviceContext;
 ID3D11RenderTargetView* RTV;
 
-ID3D11VertexShader* VertexShader;
-ID3D11PixelShader* PixelShader;
-ID3D10Blob* VsBlob;
-ID3D10Blob* PsBlob;
 
-Keyboard* Key;
-bool R_Push ;
+// 추후  FX에서 HLSL로 바꾸기
+//ID3D11VertexShader* VertexShader;
+//ID3D11PixelShader* PixelShader;
+//ID3D10Blob* VsBlob;
+//ID3D10Blob* PsBlob;
+
+//Keyboard* Key;
 bool NumKey_1 = false;
 bool NumKey_2 = false;
 bool NumKey_3 = false;
@@ -223,10 +224,10 @@ void InitDirect3D()
 
 void Destroy()
 {
-	SAFE_RELEASE(VertexShader);
-	SAFE_RELEASE(PixelShader);
-	SAFE_RELEASE(VsBlob);
-	SAFE_RELEASE(PsBlob);
+	//SAFE_RELEASE(VertexShader);
+	//SAFE_RELEASE(PixelShader);
+	//SAFE_RELEASE(VsBlob);
+	//SAFE_RELEASE(PsBlob);
 	
 
 	SAFE_RELEASE(SwapChain);
@@ -239,9 +240,6 @@ WPARAM Running()
 {
 	MSG msg;
 	ZeroMemory(&msg, sizeof(MSG));
-
-	Time::Create();
-	Time::Get()->Start();
 
 	ImGui::Create(Hwnd, Device, DeviceContext);
 	ImGui::StyleColorsDark();
@@ -262,17 +260,12 @@ WPARAM Running()
 		}
 		else
 		{
-			Time::Get()->Update();
 			Update();
 			ImGui::Update();
 			Render();
 		}
 	}
 	DestroyScene();
-
-
-	Time::Delete();
-	SAFE_DELETE (Key);
 
 	DirectWrite::Delete();
 	ImGui::Delete();
@@ -317,10 +310,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		
 		return 0;
 	case WM_KEYUP:
-		/*if (wParam == 0x31)
-		{
-			NumKey_1 = false;
-		}*/
 		return 0;
 	case WM_MOUSEMOVE:
 		if (msg == WM_MOUSEMOVE)
@@ -330,7 +319,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 		return 0;
 	case WM_LBUTTONDOWN:
-		//Card_Manager::Use_Card();
+
 		Scene_Manager::ClickEvent();
 		player->ClickEvent();
 		return 0;
@@ -339,11 +328,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		player->ClickUp_Event();
 		return 0;
 	case WM_RBUTTONDOWN:
-		R_Push = true;
+	
 		return 0;
 
 	case WM_RBUTTONUP:
-		R_Push = false;
+
 		return 0;
 	case WM_DESTROY:
 		PostQuitMessage(0);

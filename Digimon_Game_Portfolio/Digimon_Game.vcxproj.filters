@@ -22,9 +22,6 @@
     <Filter Include="Utilities">
       <UniqueIdentifier>{0666935f-2ed3-4354-9b1f-1881e713ec31}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Map_Make">
-      <UniqueIdentifier>{cfaab876-8be8-4a34-a7d3-fd5a26f6b726}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Stages">
       <UniqueIdentifier>{c3001b3f-9ba6-450e-a478-23065d6e2b15}</UniqueIdentifier>
     </Filter>
@@ -56,12 +53,6 @@
     </ClCompile>
     <ClCompile Include="Utilities\String.cpp">
       <Filter>Utilities</Filter>
-    </ClCompile>
-    <ClCompile Include="Map_Make\Map_Texture.cpp">
-      <Filter>Map_Make</Filter>
-    </ClCompile>
-    <ClCompile Include="Systems\Time.cpp">
-      <Filter>Systems</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>소스 파일</Filter>
@@ -127,12 +118,6 @@
     </ClInclude>
     <ClInclude Include="Utilities\String.h">
       <Filter>Utilities</Filter>
-    </ClInclude>
-    <ClInclude Include="Map_Make\Map_Texture.h">
-      <Filter>Map_Make</Filter>
-    </ClInclude>
-    <ClInclude Include="Systems\Time.h">
-      <Filter>Systems</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>헤더 파일</Filter>

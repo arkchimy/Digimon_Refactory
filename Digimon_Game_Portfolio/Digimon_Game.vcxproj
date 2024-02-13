@@ -167,7 +167,6 @@
     <ClCompile Include="Device.cpp" />
     <ClCompile Include="Digimon.cpp" />
     <ClCompile Include="DirectWrite.cpp" />
-    <ClCompile Include="Map_Make\Map_Texture.cpp" />
     <ClCompile Include="Renders\Shader.cpp" />
     <ClCompile Include="Reward_Card.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -180,7 +179,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Systems\Keyboard.cpp" />
-    <ClCompile Include="Systems\Time.cpp" />
     <ClCompile Include="UI\Bottom_UI.cpp" />
     <ClCompile Include="Utilities\String.cpp" />
   </ItemGroup>
@@ -196,7 +194,6 @@
     <ClInclude Include="Device.h" />
     <ClInclude Include="Digimon.h" />
     <ClInclude Include="DirectWrite.h" />
-    <ClInclude Include="Map_Make\Map_Texture.h" />
     <ClInclude Include="Renders\Shader.h" />
     <ClInclude Include="Reward_Card.h" />
     <ClInclude Include="Scene_Manager.h" />
@@ -207,7 +204,6 @@
     <ClInclude Include="Stages\Title_Scene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Systems\Keyboard.h" />
-    <ClInclude Include="Systems\Time.h" />
     <ClInclude Include="UI\Bottom_UI.h" />
     <ClInclude Include="Utilities\String.h" />
   </ItemGroup>
