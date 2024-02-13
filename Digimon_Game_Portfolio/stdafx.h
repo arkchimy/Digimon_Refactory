@@ -2,6 +2,7 @@
 
 #define _CRT_RAND_S
 
+#include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
 #include <limits.h>
@@ -9,7 +10,6 @@
 #include <directxmath.h>
 #include <windows.h>
 #include <memory>
-#include <wrl.h>
 
 #include <assert.h>
 
@@ -22,7 +22,6 @@
 #include <functional>
 #include <chrono>
 
-#include <iostream>
 using namespace std;
 
 #include <d3d11.h>
@@ -39,6 +38,8 @@ using namespace std;
 #pragma comment(lib, "d3dcompiler.lib")
 
 //DirectWrite
+#include <wrl.h>
+
 #include <d2d1_2.h>
 #include <dwrite.h>
 #pragma comment(lib, "d2d1.lib")
@@ -49,16 +50,8 @@ using namespace std;
 #include <imguiDx11.h>
 #pragma comment(lib, "imgui.lib")
 
-#include "Systems/Keyboard.h"
-#include "Systems/Time.h"
 #include "DirectWrite.h"
-
-#include "Utilities/Math.h"
-#include "Utilities/Path.h"
 #include "Utilities/String.h"
-
-#include <glm/glm.hpp>
-#include <glm/gtx/string_cast.hpp>
 
 #include "Renders/Shader.h"
 
@@ -79,48 +72,24 @@ using namespace std;
 #define BulletPool 30 // 총알 Pool Size
 #define CardPoolSize 2 // 카드 선택지에 최대 2개가 나옴.
 
-#define Bullet_FileCnt 7
 
-#define 기본SpritPos 700
-#define 스킬SpritPos 800
 
-#define LayerSize 2
-#define GroundSize 1
-
-#define LayerImage_Size 500
-#define GroundImage_Size 500
-
-#define 성장기 0x0001
-#define 보스 0x0010
-
-#define 배틀종료 false
-#define 배틀시작 true
-
-#define IDLE		 0
-#define Walk		 1
-#define Action		 2
-#define Skill		 3
-#define Hit			 4
-#define Victory      5
-#define Death		 6
-#define PowerUP		 7
-
-#define Sprite_Type  8 //   Idle /Walk / Action / Skill / Hit / Victory /Death
-
-// Decal
+// Decal 관련 변수
 extern float Decal_radius;
 extern float Decal_alpha;
+
+
 extern bool State_Clear;
-extern float Sprite_Speed; // Sprite 애니메이션 속도
 
-
+// Imgui  Edit
 extern D3DXVECTOR3 Edit_Pos;
 extern D3DXVECTOR3 Edit_Scale;
 extern D3DXVECTOR3 Edit_Rot;
 extern D3DXVECTOR3 Castle_Pos;
 
 extern D3DXVECTOR2 Mouse_Pos;
-
+extern D3DXCOLOR TileSample_Lv;
+extern float Sprite_Speed; // Sprite 애니메이션 속도
 
 ///////////////////////////////////////////////////////////////////////////
 // 경로 정리
@@ -130,12 +99,10 @@ const wstring Textures = L"_Textures/";
 const wstring Shaders = L"../_Shaders/";
 const wstring Layer_Folder = L"./_Textures/layers/";
 
-const wstring Map_Texture_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Player_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Texture_Shader = L"../_Shaders/07_Texture.fx";
 const wstring Effect_Shader = L"../_Shaders/04_Effect.fx";
 const wstring Card_Shader = L"../_Shaders/02_Card.fx";
-
 const wstring TileSampling_Shader = L"../_Shaders/10_TileSampling.fx";
 
 const wstring Layer = L"LayerImage_";
@@ -153,21 +120,11 @@ extern ID3D11Device* Device;
 extern ID3D11DeviceContext* DeviceContext;
 extern ID3D11RenderTargetView* RTV;
 
-//vertax
-extern ID3D11VertexShader* VertexShader;
-extern ID3D11PixelShader* PixelShader;
-extern ID3D10Blob* VsBlob;
-extern ID3D10Blob* PsBlob;
-
-
-extern vector<glm::vec4> pixels;
-
-extern Keyboard* Key;
-extern bool R_Push;
-
-//extern shared_ptr<Raytracer> raytracer;
-
-extern float g_Gravity;
+// 추후  FX에서 HLSL로 바꾸기
+//extern ID3D11VertexShader* VertexShader;
+//extern ID3D11PixelShader* PixelShader;
+//extern ID3D10Blob* VsBlob;
+//extern ID3D10Blob* PsBlob;
 
 struct Vertex
 {
@@ -175,6 +132,3 @@ struct Vertex
 	D3DXVECTOR2 Uv;
 };
 
-
-
-extern D3DXCOLOR TileSample_Lv;

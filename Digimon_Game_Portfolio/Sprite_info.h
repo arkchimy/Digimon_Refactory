@@ -1,6 +1,23 @@
 #pragma once
 #include "stdafx.h"
 
+#define 성장기 0x0001
+#define 보스 0x0010
+
+#define 배틀종료 false
+#define 배틀시작 true
+
+#define IDLE		 0
+#define Walk		 1
+#define Action		 2
+#define Skill		 3
+#define Hit			 4
+#define Victory      5
+#define Death		 6
+#define PowerUP		 7
+
+#define Sprite_Type  8 //   Idle /Walk / Action / Skill / Hit / Victory /Death
+
 typedef struct
 {
 	wstring ImgFile;

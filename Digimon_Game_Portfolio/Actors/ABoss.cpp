@@ -35,9 +35,8 @@ void ABoss::Take_Damage(Bullet* causer, D3DXVECTOR3 dir)
 	
 	if (hp <= 0)
 	{
-		State = Death; //아직 Death Sprite를 안넣음
+		Set_Mode(Death);
 		buff_state = Buff_State::Dead;
-		//animations[State]->Start();
 	}
 	
 }
@@ -80,6 +79,7 @@ void ABoss::Fire()
 
 bool ABoss::IsDeathMode()
 {
+
 	return State == Death;
 }
 
@@ -102,7 +102,6 @@ void ABoss::Update()
 	//
 	// 폭발공격
 	//
-	
 	
 	if (distance >= current_Pos.x)
 		bTurn = true;

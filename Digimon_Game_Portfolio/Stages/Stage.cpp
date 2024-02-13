@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Stage.h"
-#include "Map_Make/Map_Texture.h"
+
 #include "Actors/Player.h"
 #include "Digimon.h"
 #include "Actors/Enemy.h"
@@ -77,8 +77,8 @@ void Stage::Battle(bool val)
 void Stage::Stage_Clear()
 {
 	Player->Stage_Clear();
-	for (auto data : Enemy_vec)
-		data->Battle(배틀종료);
+	//for (auto data : Enemy_vec)
+	//	data->Battle(배틀종료);
 
 }
 
