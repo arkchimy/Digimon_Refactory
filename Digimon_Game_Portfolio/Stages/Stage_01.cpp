@@ -200,12 +200,12 @@ void Stage_01::Render()
 
 	for (int i = 0; i < shader_vec.size(); i++)
 	{
-		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i]);
+		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i].Get());
 		shader_vec[i]->AsSampler("Sampler")->SetSampler(0, m_samplerState);
 		shader_vec[i]->AsVector("xSplit")->SetFloatVector(TileSample_Lv);
 		shader_vec[i]->AsVector("MousePos")->SetFloatVector(m_mouse_pos);
 
-		DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[i], &stride, &offset);
+		DeviceContext->IASetVertexBuffers(0, 1, buffer_vec[i].GetAddressOf(), &stride, &offset);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		shader_vec[i]->Draw(0, 0, 6);

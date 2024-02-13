@@ -47,8 +47,8 @@ protected:
 	vector<D3DXVECTOR3> rotator;
 
 
-	vector<ID3D11Buffer*> buffer_vec;
-	vector<ID3D11ShaderResourceView*> srv_vec;
+	vector<ComPtr<ID3D11Buffer>> buffer_vec;
+	vector<ComPtr<ID3D11ShaderResourceView>> srv_vec;
 
 	//map layer objectµé
 };

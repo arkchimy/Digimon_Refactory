@@ -88,9 +88,9 @@ void Stage::Render()
 	
 	for (int i = 0; i < shader_vec.size(); i++) 
 	{
-		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i]);
+		shader_vec[i]->AsShaderResource("Map")->SetResource(srv_vec[i].Get());
 
-		DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[i], &stride, &offset);
+		DeviceContext->IASetVertexBuffers(0, 1, buffer_vec[i].GetAddressOf(), &stride, &offset);
 		DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		shader_vec[i]->Draw(0, 0, 6);

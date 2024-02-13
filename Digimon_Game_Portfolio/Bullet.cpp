@@ -44,7 +44,7 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, wstring effect_File
 
 	m_srv = Sprite_Manager::Load(info.ImgFile);
 
-	vector<ID3D11Buffer*> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
+	vector<ComPtr<ID3D11Buffer>> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
 	if (temp.size() == 0)
 	{
 		for (int i = 0; i < m_SpriteSize; i++)
@@ -73,7 +73,7 @@ void Bullet::Init_Info(Sprite_Info info, float bullet_speed, vector<D3DXVECTOR4>
 	buffer_vec.reserve(m_SpriteSize);
 	m_srv = Sprite_Manager::Load(info.ImgFile);
 
-	vector<ID3D11Buffer*> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
+	vector<ComPtr<ID3D11Buffer>> temp = Sprite_Manager::LoadBuffer(info.ImgFile);
 	if (temp.size() == 0)
 	{
 		for (int i = 0; i < m_SpriteSize; i++)
@@ -148,9 +148,9 @@ void Bullet::Render()
 	current_idx = m_localTime;
 	current_idx %= m_SpriteSize;
 
-	m_Shader->AsShaderResource("Map")->SetResource(m_srv);
+	m_Shader->AsShaderResource("Map")->SetResource(m_srv.Get());
 
-	DeviceContext->IASetVertexBuffers(0, 1, &buffer_vec[current_idx], &stride, &offset);
+	DeviceContext->IASetVertexBuffers(0, 1, buffer_vec[current_idx].GetAddressOf(), &stride, &offset);
 	DeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	m_Shader->Draw(0, 0, 6);
@@ -504,8 +504,8 @@ vector<Sprite_Info> effectfile
 	},
 };
 vector<Shader*> Effect_Manager::shader_vec;
-vector<ID3D11ShaderResourceView*> Effect_Manager::srv_vec;
-vector<vector<ID3D11Buffer*>> Effect_Manager::buffer_vec;
+vector<ComPtr<ID3D11ShaderResourceView>> Effect_Manager::srv_vec;
+vector<vector<ComPtr<ID3D11Buffer>>> Effect_Manager::buffer_vec;
 
 vector<shared_ptr<Animation>> Effect_Manager::animations;
 int Effect_Manager::shader_idx = 0;
