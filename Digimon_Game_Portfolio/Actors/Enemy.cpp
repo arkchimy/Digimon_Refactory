@@ -168,7 +168,7 @@ void Enemy::Stage_Clear()
 
 void Enemy::Respawn()
 {
-	hp = 5.f;
+	hp = 3.f;
 
 	bTurn = false;
 	bBattle = true;

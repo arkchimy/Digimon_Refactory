@@ -173,8 +173,8 @@ queue<shared_ptr<Reward_Card>>Card_Manager::q;
 
 //  ∏Æ∆—≈‰∏µ
 vector<Shader*> Card_Manager::shader_vec;
-vector<ComPtr<ID3D11ShaderResourceView>> Card_Manager::srv_vec;
-vector<vector<ComPtr<ID3D11Buffer>>> Card_Manager::buffer_vec;
+vector<ID3D11ShaderResourceView*> Card_Manager::srv_vec;
+vector<vector<ID3D11Buffer*>> Card_Manager::buffer_vec;
 
 vector<shared_ptr<Animation>> Card_Manager::animations;
 
@@ -195,7 +195,7 @@ void Card_Manager::Create(vector<wstring> data)
 	for (int k = 0; k < cardTypeCnt; k++)
 	{
 		srv_vec[k] = Sprite_Manager::Load(data[k]);
-		vector<vector<ComPtr<ID3D11Buffer>>> temp = Sprite_Manager::LoadBufferVector(data[k]);
+		vector<vector<ID3D11Buffer*>> temp = Sprite_Manager::LoadBufferVector(data[k]);
 		if (temp.size() == 0)
 		{
 			make_shared<Sprite>(buffer_vec[k], data[k], Card_Shader);

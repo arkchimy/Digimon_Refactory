@@ -10,14 +10,14 @@ class Animation
 public:
 	Animation(vector<shared_ptr<class Sprite>> , PlayMode mode = PlayMode::Loop);
 	Animation(Sprite_Info info, PlayMode mode = PlayMode::Loop);
-	Animation(class Shader* shader, ComPtr<ID3D11ShaderResourceView> srv_vec, vector<ComPtr<ID3D11Buffer>> buffer_vec, PlayMode mode = PlayMode::Loop);
+	Animation(class Shader* shader, ID3D11ShaderResourceView* srv_vec, vector<ID3D11Buffer*> buffer_vec, PlayMode mode = PlayMode::Loop);
 
 	void Update();
 	void Render();
 	void ViewProjection(D3DXMATRIX& V, D3DXMATRIX& P);
 
 	void UpdateWorld();
-	void UpdateSrvAndBuffer(ComPtr<ID3D11ShaderResourceView> srv, vector<ComPtr<ID3D11Buffer>> buffer_vec);
+	void UpdateSrvAndBuffer(ID3D11ShaderResourceView* srv, vector<ID3D11Buffer*> buffer_vec);
 
 
 	void Start() { bvisible = true; index = 0; playtime = 0.f; }
@@ -45,8 +45,8 @@ private:
 
 private:
 	class Shader* m_Shader =  nullptr;
-	vector<ComPtr<ID3D11Buffer>> m_buffer_vec;
-	ComPtr<ID3D11ShaderResourceView> m_srv;
+	vector<ID3D11Buffer*> m_buffer_vec;
+	ID3D11ShaderResourceView* m_srv;
 
 	vector<unique_ptr<class Animation>> animations;
 

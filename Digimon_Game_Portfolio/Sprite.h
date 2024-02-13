@@ -7,8 +7,8 @@ public:
 	Sprite(wstring imgFile, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	Sprite(wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 	
-	Sprite(vector<ComPtr<ID3D11Buffer>>& ownerbuffer, wstring imgFile, wstring shaderFile = Texture_Shader);
-	Sprite(vector<ComPtr<ID3D11Buffer>>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
+	Sprite(vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, wstring shaderFile = Texture_Shader);
+	Sprite(vector<ID3D11Buffer*>& ownerbuffer, wstring imgFile, float start_X, float start_Y, float End_X, float End_Y, wstring shaderFile = Texture_Shader);
 
 	virtual void CreateBuffer(wstring imgFile, wstring shaderFile) ;
 
@@ -34,22 +34,23 @@ public:
 	
 
 private:
+	
+
 	D3DXMATRIX world;
 	Vertex vertices[6];
 
 	//Bound Shader
 	Shader* BoundShader;
-	ComPtr<ID3D11Buffer> BoundBuffer;
-
+	ID3D11Buffer* BoundBuffer;
 	struct BoundVertex
 	{
 		D3DXVECTOR3 postion;
 	};
 	virtual void CreateBoundBuffer(wstring shaderFile);
 
-	ComPtr<ID3D11Buffer> vertexBuffer;
+	ID3D11Buffer* vertexBuffer;
 	class Shader* shader;
-	ComPtr<ID3D11ShaderResourceView> srv;
+	ID3D11ShaderResourceView* srv;
 
 };
 
@@ -57,20 +58,23 @@ class Sprite_Manager
 {
 	friend class Sprite;
 public:
-	static ComPtr<ID3D11ShaderResourceView> Load(wstring img);
-	static vector<ComPtr<ID3D11Buffer>> LoadBuffer(wstring img);
-	static vector<vector<ComPtr<ID3D11Buffer>>> LoadBufferVector(wstring img);
+	static ID3D11ShaderResourceView* Load(wstring img);
+	static vector<ID3D11Buffer*> LoadBuffer(wstring img);
+	static vector<vector<ID3D11Buffer*>> LoadBufferVector(wstring img);
 	
-	static void StoreBuffer(wstring imgfile, vector<ComPtr<ID3D11Buffer>> buffer_vec); //총알같이 State가 없을떄
-	static void StoreBufferVector(wstring imgfile, vector<vector<ComPtr<ID3D11Buffer>>> buffer_vec);
+	static void StoreBuffer(wstring imgfile, vector<ID3D11Buffer*> buffer_vec); //총알같이 State가 없을떄
+	static void StoreBufferVector(wstring imgfile, vector<vector<ID3D11Buffer*>> buffer_vec);
+	
+
+	static void ReMove(wstring img);
 	
 	struct Sprite_Desc
 	{
 	public:
 		UINT RefCount = 0;
-		ComPtr<ID3D11ShaderResourceView> srv = nullptr;
+		ID3D11ShaderResourceView* srv = nullptr;
 	};
 	static map<wstring, Sprite_Desc> m;
-	static map<wstring, vector<ComPtr<ID3D11Buffer>>> m_buffer;
-	static map<wstring, vector<vector<ComPtr<ID3D11Buffer>>>> m_buffer_vec;
+	static map<wstring, vector<ID3D11Buffer*>> m_buffer;
+	static map<wstring, vector<vector<ID3D11Buffer*>>> m_buffer_vec;
 };

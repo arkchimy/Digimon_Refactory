@@ -64,7 +64,7 @@ void Attacker::CreateShaderAndBuffer(wstring imgfile, vector<D3DXVECTOR4> uvs, S
 	shader = new Shader(Texture_Shader);
 	m_srv = Sprite_Manager::Load(imgfile);
 
-	vector<vector<ComPtr<ID3D11Buffer>>> temp = Sprite_Manager::LoadBufferVector(imgfile);
+	vector<vector<ID3D11Buffer*>> temp = Sprite_Manager::LoadBufferVector(imgfile);
 	// buffer_vec 초기화에 실패한다면 
 	if(temp.size() == 0 ) // Spirte에서 Buffer 와 Srv 초기화  
 	{
@@ -98,7 +98,7 @@ void Attacker::CreateShaderAndBuffer(wstring imgfile, float width, float height,
 	shader = new Shader(Texture_Shader);
 	m_srv = Sprite_Manager::Load(imgfile);
 
-	vector<vector<ComPtr<ID3D11Buffer>>> temp  = Sprite_Manager::LoadBufferVector(imgfile);
+	vector<vector<ID3D11Buffer*>> temp  = Sprite_Manager::LoadBufferVector(imgfile);
 	if (temp.size() == 0) // Spirte에서 Buffer 와 Srv 초기화  
 	{
 		float start_w = 0.f, start_h = 0.f;
