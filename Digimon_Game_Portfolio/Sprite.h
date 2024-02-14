@@ -30,9 +30,6 @@ public:
 
 	static bool AABB(const D3DXVECTOR3 pos1, const D3DXVECTOR3 pos2);
 
-
-	
-
 private:
 	D3DXMATRIX world;
 	Vertex vertices[6];
@@ -44,7 +41,6 @@ private:
 	virtual void CreateBoundBuffer(wstring shaderFile);
 
 	ComPtr<ID3D11Buffer> vertexBuffer;
-	class Shader* shader;
 	ComPtr<ID3D11ShaderResourceView> srv;
 
 	//Bound Shader
@@ -64,6 +60,7 @@ public:
 	static void StoreBuffer(wstring imgfile, vector<ComPtr<ID3D11Buffer>> buffer_vec); //총알같이 State가 없을떄
 	static void StoreBufferVector(wstring imgfile, vector<vector<ComPtr<ID3D11Buffer>>> buffer_vec);
 	
+	//원래는 이런식이지만 ComPtr을 사용
 	struct Sprite_Desc
 	{
 	public:

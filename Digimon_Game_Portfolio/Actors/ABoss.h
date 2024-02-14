@@ -15,5 +15,5 @@ public:
 	
 	virtual void Update() override;
 	virtual void Respawn();
-	D3DXVECTOR2 speed = {70,0};
+	D3DXVECTOR2 speed = {105,0};
 };

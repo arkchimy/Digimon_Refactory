@@ -59,14 +59,12 @@ public:
 
 	virtual Buff_State Buff() { return buff_state; }
 	
-
-
 public:
 	bool bBattle = false;
 	wstring cut_SceanFile;
 protected:
 
-	UINT State;
+	UINT State = IDLE;
 	Buff_State buff_state = Buff_State::None;
 
 	// =========== Sprite Info ============

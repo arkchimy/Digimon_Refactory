@@ -3,12 +3,9 @@
 #include "Sprite.h"
 #include "Bullet.h"
 
-
-
 D3DXVECTOR3 Init_Pos = { -275.0,-185,0 };
 D3DXVECTOR3 LV1_Scale = { 100,100,1 };
 D3DXVECTOR3 LV2_Scale = { 200,200,1 };
-
 
 Attacker::Attacker(wstring imgfile, float width, float height, Sprites_Info info, int level)
 {
@@ -138,7 +135,7 @@ void Attacker::CreateAnimation()
 	for (int i = 0; i < animations.size(); i++)
 		animations[i]->Set_Owner(this);
 
-	Set_Mode(Walk);
+	Set_Mode(IDLE);
 }
 
 void Attacker::UpdateSrvAndBuffer(wstring imgfile)
