@@ -1,6 +1,4 @@
 #pragma once
-#include "Rectalgle.h"
-
 class Player 
 {
 public:
