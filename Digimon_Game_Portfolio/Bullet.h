@@ -74,7 +74,7 @@ private:
 
 	D3DXVECTOR3 m_Position;
 	D3DXVECTOR3 m_Scale;
-	D3DXVECTOR3 m_Rotator;
+	D3DXVECTOR3 m_Rotator = {0,0,0};
 
 	class Shader* m_Shader;
 	vector<ComPtr<ID3D11Buffer>> buffer_vec;
