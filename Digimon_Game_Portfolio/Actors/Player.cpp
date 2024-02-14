@@ -137,6 +137,7 @@ void Player::ClickUp_Event()
 
 	}
 	drag_digimon->Drag(false);
+	drag_digimon = nullptr;
 }
 
 void Player::Add_Digimon(shared_ptr<Digimon> input)

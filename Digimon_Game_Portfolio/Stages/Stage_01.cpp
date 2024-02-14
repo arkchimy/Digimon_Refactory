@@ -183,8 +183,8 @@ void Stage_01::Update()
 }
 
 
-float Decal_radius = 0.244f;
-float Decal_alpha = 0.512f;
+float Decal_radius = 1.544f;
+float Decal_alpha = 0.712f;
 
 
 void Stage_01::Render()
