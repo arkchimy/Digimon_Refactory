@@ -148,12 +148,12 @@ ComPtr<ID3D11ShaderResourceView> Sprite_Manager::Load(wstring imgFile)
 	UINT cnt = m.count(imgFile);
 	if (cnt == 0)
 	{	// 해당 이미지의 srv가 없다면 생성
-		m[imgFile].RefCount++;
+		//m[imgFile].RefCount++;
 		//Create SRV
 		{
 			HRESULT hr = D3DX11CreateShaderResourceViewFromFile
 			(
-				Device, imgFile.c_str(), NULL, NULL, &m[imgFile].srv, NULL
+				Device, imgFile.c_str(), NULL, NULL, m[imgFile].srv.GetAddressOf(), NULL
 			);
 			assert(SUCCEEDED(hr));
 		}

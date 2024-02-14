@@ -18,7 +18,6 @@ Digimon::Digimon(wstring imgfile, float width, float height, Sprites_Info info, 
 {
 	next_digimon = info.Next_digimon;
 	team_id = 아군;
-
 }
 
 Digimon::Digimon(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, int level)
@@ -26,6 +25,7 @@ Digimon::Digimon(wstring imgfile, vector<D3DXVECTOR4> uvs, Sprites_Info info, in
 {
 	next_digimon = info.Next_digimon;
 	team_id = 아군;
+
 
 }
 
